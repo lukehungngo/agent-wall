@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Read:*",
+      "Write:*",
+      "Edit:*",
+      "Bash:*",
+      "Glob:*",
+      "Grep:*",
+      "Agent:*"
+    ],
+    "deny": [
+      "Read:.env*",
+      "Bash:sudo*",
+      "Bash:rm -rf /*",
+      "Bash:git push --force*",
+      "Bash:hatch publish*"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Run the linter: bash /home/soh/working/agent-wall/.claude/hooks/lint.sh — fix any issues before continuing."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /home/soh/working/agent-wall/.claude/hooks/pre-stop-gate.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

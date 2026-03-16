@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(uv run:*)",
+      "Bash(export PATH=\"/home/soh/.local/bin:$PATH\")",
+      "Bash(pip install:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv --version)",
+      "Bash(/dev/null -type f)",
+      "Bash(grep -v \"^$\")",
+      "Bash(curl:*)"
+    ]
+  }
+}
