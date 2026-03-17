@@ -18,7 +18,29 @@
       "Bash(chmod:*)",
       "Bash(python:*)",
       "Bash(python3:*)",
-      "Bash(agentwall scan:*)"
+      "Bash(agentwall scan:*)",
+      "Bash(grep \"\\\\.py$\")",
+      "Bash(wc -l /home/soh/working/agent-wall/tests/test_*.py)",
+      "Bash(grep -h \"^def test_\\\\|^class Test\" /home/soh/working/agent-wall/tests/test_*.py)",
+      "Bash(wc -l /home/soh/working/agent-wall/src/agentwall/adapters/langchain.py /home/soh/working/agent-wall/src/agentwall/analyzers/*.py)",
+      "Bash(grep -c \"class\\\\|def \" /home/soh/working/agent-wall/src/agentwall/analyzers/*.py)",
+      "Bash(ruff check:*)",
+      "Bash(ruff format:*)",
+      "Bash(pytest -x -v)",
+      "Bash(mypy src/ --strict)",
+      "Bash(pytest tests/test_benchmark.py -v)",
+      "Bash(pytest tests/test_benchmark.py -v --tb=short)",
+      "Bash(pytest --cov=agentwall --cov-report=term-missing)",
+      "Bash(grep -r AW-ATK /home/soh/working/agent-wall --include=*.py --include=*.md)",
+      "Bash(grep -n \"def\\\\|class\" /home/soh/working/agent-wall/src/agentwall/analyzers/*.py)",
+      "Bash(pytest -x -q)",
+      "Bash(pytest tests/test_reporters.py::TestAgentJsonReporter::test_agent_json_tool_finding -v --tb=short)",
+      "Bash(./scripts/benchmark.sh 2>&1)",
+      "Bash(git status:*)",
+      "Bash(git reset:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

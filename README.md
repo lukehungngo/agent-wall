@@ -18,9 +18,10 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/agentwall/"><img src="https://img.shields.io/pypi/v/agentwall?style=flat-square&color=blue" alt="PyPI version"></a>
-  <a href="https://pypi.org/project/agentwall/"><img src="https://img.shields.io/pypi/pyversions/agentwall?style=flat-square" alt="Python versions"></a>
-  <a href="https://github.com/lukehungngo/agentwall/blob/main/LICENSE"><img src="https://img.shields.io/github/license/lukehungngo/agentwall?style=flat-square" alt="License"></a>
+  <!-- TODO: Switch to dynamic PyPI badges after first publish: https://img.shields.io/pypi/v/agentwall -->
+  <img src="https://img.shields.io/badge/pypi-v0.1.0-blue?style=flat-square" alt="PyPI version">
+  <img src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue?style=flat-square" alt="Python versions">
+  <a href="https://github.com/lukehungngo/agentwall/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
   <img src="https://img.shields.io/badge/tests-216%20passing-brightgreen?style=flat-square" alt="Tests">
   <img src="https://img.shields.io/badge/coverage-72%25-yellow?style=flat-square" alt="Coverage">
 </p>

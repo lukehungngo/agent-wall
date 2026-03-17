@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-REPO="lukehungngo/agent-wall"
+REPO="lukehungngo/agentwall"
 
 labels=(
   "triage|fbca04|Needs triage"

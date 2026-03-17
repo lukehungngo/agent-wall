@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-REPO="lukehungngo/agent-wall"
+REPO="lukehungngo/agentwall"
 
 echo "Creating discussion: Share your scan results"
 gh api graphql -f query='
