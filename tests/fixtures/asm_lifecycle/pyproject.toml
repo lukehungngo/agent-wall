@@ -1,0 +1,3 @@
+[project]
+name = "asm-lifecycle"
+dependencies = ["langchain", "fastapi"]
