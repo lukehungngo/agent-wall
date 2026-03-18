@@ -29,6 +29,10 @@ htmlcov/
 *.sarif
 report.json
 
+# Benchmark logs (keep directory, ignore contents)
+logs/*
+!logs/.gitkeep
+
 # OS
 .DS_Store
 prd

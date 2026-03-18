@@ -12,8 +12,22 @@ RESULTS_DIR="${2:-/tmp/agentwall-results}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 BENCHMARK_MD="$PROJECT_ROOT/BENCHMARK.md"
+LOG_DIR="$PROJECT_ROOT/logs"
+RUN_TIMESTAMP="$(date '+%Y%m%d_%H%M%S')"
+RUN_LOG="$LOG_DIR/benchmark_${RUN_TIMESTAMP}.log"
 
-mkdir -p "$TARGETS_DIR" "$RESULTS_DIR"
+mkdir -p "$TARGETS_DIR" "$RESULTS_DIR" "$LOG_DIR"
+
+# Start run log
+{
+  echo "═══════════════════════════════════════════════════════"
+  echo "AgentWall Benchmark Run — $(date '+%Y-%m-%d %H:%M:%S %Z')"
+  echo "═══════════════════════════════════════════════════════"
+  echo "Targets: $TARGETS_DIR"
+  echo "Results: $RESULTS_DIR"
+  echo "AgentWall version: $(agentwall version 2>/dev/null || echo 'unknown')"
+  echo ""
+} > "$RUN_LOG"
 
 # ── Tier 1: Top 20 by stars (LangChain ecosystem) ────────────────────────
 
@@ -136,11 +150,73 @@ for name in "${REPO_NAMES[@]}"; do
   fi
 
   # shellcheck disable=SC2086
+  scan_start="$(date +%s)"
   if agentwall scan "$dir" $fw_flag --fail-on none --confidence medium --output "$out" >/dev/null 2>&1; then
+    scan_exit=0
     echo " done"
   else
-    echo " done (exit $?)"
+    scan_exit=$?
+    echo " done (exit $scan_exit)"
   fi
+  scan_end="$(date +%s)"
+  scan_dur=$((scan_end - scan_start))
+
+  # Write per-project log entry
+  {
+    echo "───────────────────────────────────────────────────────"
+    echo "Project: $name"
+    echo "Path:    $dir"
+    echo "Result:  $out"
+    echo "Exit:    $scan_exit"
+    echo "Duration: ${scan_dur}s"
+    if [ -f "$out" ]; then
+      python3 -c "
+import json, sys
+data = json.loads(open('$out').read())
+findings = data.get('findings', [])
+files = data.get('scanned_files', 0)
+errors = data.get('errors', [])
+framework = data.get('framework', '?')
+print(f'Framework: {framework}')
+print(f'Files scanned: {files}')
+print(f'Findings: {len(findings)}')
+if errors:
+    print(f'Errors: {errors}')
+sev = {}
+for f in findings:
+    s = f.get('severity', '?')
+    sev[s] = sev.get(s, 0) + 1
+if sev:
+    print(f'  Severity: {dict(sorted(sev.items()))}')
+conf = {}
+for f in findings:
+    c = f.get('confidence', '?')
+    conf[c] = conf.get(c, 0) + 1
+if conf:
+    print(f'  Confidence: {dict(sorted(conf.items()))}')
+print()
+for f in findings:
+    loc = f.get('file', '?')
+    line = f.get('line', '?')
+    rule = f.get('rule_id', '?')
+    sev = f.get('severity', '?')
+    conf = f.get('confidence', '?')
+    title = f.get('title', '')
+    desc = f.get('description', '')
+    fix = f.get('fix_suggestion') or f.get('fix', '')
+    print(f'  [{sev.upper():8s}] [{conf:6s}] {rule}')
+    print(f'    {title}')
+    print(f'    {loc}:{line}')
+    if desc and desc != title:
+        print(f'    {desc}')
+    if fix:
+        print(f'    Fix: {fix}')
+    print()
+" 2>/dev/null || echo "  (could not parse result)"
+    else
+      echo "No output file produced"
+    fi
+  } >> "$RUN_LOG"
 done
 
 # ── Generate BENCHMARK.md ────────────────────────────────────────────────
@@ -607,7 +683,41 @@ print(f'  Total findings: {total_findings}')
 print(f'  Attack vectors confirmed in real projects: {len(all_vectors_found)}/{len(DETECTABLE_VECTORS)}')
 "
 
+# ── Write log summary ──────────────────────────────────────────────────
+
+{
+  echo ""
+  echo "═══════════════════════════════════════════════════════"
+  echo "Run Summary — $(date '+%Y-%m-%d %H:%M:%S %Z')"
+  echo "═══════════════════════════════════════════════════════"
+  echo "BENCHMARK.md: $BENCHMARK_MD"
+  echo "JSON reports: $RESULTS_DIR/"
+  echo "Log: $RUN_LOG"
+  # Quick totals from JSON results
+  python3 -c "
+import json
+from pathlib import Path
+results_dir = Path('$RESULTS_DIR')
+total_f = 0; total_files = 0; scanned = 0; with_findings = 0
+for p in sorted(results_dir.glob('*.json')):
+    try:
+        d = json.loads(p.read_text())
+        findings = d.get('findings', [])
+        total_f += len(findings)
+        total_files += d.get('scanned_files', 0)
+        scanned += 1
+        if findings: with_findings += 1
+    except Exception:
+        pass
+print(f'Projects scanned: {scanned}')
+print(f'Projects with findings: {with_findings}')
+print(f'Total files: {total_files}')
+print(f'Total findings: {total_f}')
+" 2>/dev/null
+} >> "$RUN_LOG"
+
 echo ""
 echo "=== Benchmark complete ==="
 echo "JSON reports: $RESULTS_DIR/"
 echo "Report: $BENCHMARK_MD"
+echo "Log: $RUN_LOG"
