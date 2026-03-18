@@ -204,6 +204,8 @@ def scan(
             warnings.warn(f"L6 analysis failed: {exc}", stacklevel=2)
 
     # ── ASM: Application Security Model queries ────────────────────────
+    # Run ASM when the model was built AND at least one layer beyond L0-L2 is
+    # enabled (ASM graph queries need the richer analysis context).
     if spec.asm is not None and not layers.issubset({"L0", "L1", "L2"}):
         try:
             asm_findings = ASMAnalyzer().analyze(spec.asm)

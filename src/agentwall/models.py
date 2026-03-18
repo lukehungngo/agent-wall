@@ -100,6 +100,7 @@ class Provenance:
     line: int
     col: int
     symbol: str  # "ClassName.method" or "function_name"
+    end_line: int | None = None  # end of enclosing scope (for trigger edge scoping)
 
 
 @dataclass(frozen=True)

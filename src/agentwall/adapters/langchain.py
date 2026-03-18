@@ -7,8 +7,10 @@ import warnings
 from pathlib import Path
 
 from agentwall.detector import _SKIP_DIRS
+from agentwall.extractors.context_sinks import _Counter as SinkCounter
 from agentwall.extractors.context_sinks import extract_context_sinks
 from agentwall.extractors.edge_linker import link_edges
+from agentwall.extractors.entry_points import _Counter as EPCounter
 from agentwall.extractors.entry_points import extract_entry_points
 from agentwall.models import (
     AgentSpec,
@@ -562,6 +564,8 @@ class LangChainAdapter:
         all_read_ops: list[ReadOp] = []
         all_entry_points: list[EntryPoint] = []
         all_sinks: list[ContextSink] = []
+        ep_counter = EPCounter("ep")
+        sink_counter = SinkCounter("sink")
         scanned: list[Path] = []
 
         for py_file in py_files:
@@ -591,8 +595,8 @@ class LangChainAdapter:
             all_stores.extend(visitor._asm_stores)
             all_write_ops.extend(visitor._asm_write_ops)
             all_read_ops.extend(visitor._asm_read_ops)
-            all_entry_points.extend(extract_entry_points(tree, py_file))
-            all_sinks.extend(extract_context_sinks(tree, py_file))
+            all_entry_points.extend(extract_entry_points(tree, py_file, counter=ep_counter))
+            all_sinks.extend(extract_context_sinks(tree, py_file, counter=sink_counter))
             scanned.append(py_file)
 
         asm: ApplicationModel | None = None

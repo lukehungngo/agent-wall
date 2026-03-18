@@ -20,36 +20,38 @@ _AUTH_PATTERNS = frozenset({
     "current_user", "authenticated",
 })
 
-_counter = 0
+
+class _Counter:
+    """Per-invocation counter for deterministic IDs."""
+
+    def __init__(self, prefix: str = "ep") -> None:
+        self._prefix = prefix
+        self._value = 0
+
+    def next_id(self) -> str:
+        self._value += 1
+        return f"{self._prefix}-{self._value}"
 
 
-def _next_id() -> str:
-    global _counter
-    _counter += 1
-    return f"ep-{_counter}"
-
-
-def reset_id_counter() -> None:
-    global _counter
-    _counter = 0
-
-
-def extract_entry_points(tree: ast.Module, file: Path) -> list[EntryPoint]:
+def extract_entry_points(
+    tree: ast.Module, file: Path, *, counter: _Counter,
+) -> list[EntryPoint]:
     """Extract entry points from an AST module."""
+    ctr = counter
     results: list[EntryPoint] = []
     for node in ast.walk(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            ep = _check_function(node, file)
+            ep = _check_function(node, file, ctr)
             if ep is not None:
                 results.append(ep)
     return results
 
 
 def _check_function(
-    node: ast.FunctionDef | ast.AsyncFunctionDef, file: Path
+    node: ast.FunctionDef | ast.AsyncFunctionDef, file: Path, ctr: _Counter,
 ) -> EntryPoint | None:
     for dec in node.decorator_list:
-        result = _check_decorator(dec, node, file)
+        result = _check_decorator(dec, node, file, ctr)
         if result is not None:
             return result
     return None
@@ -59,6 +61,7 @@ def _check_decorator(
     dec: ast.expr,
     node: ast.FunctionDef | ast.AsyncFunctionDef,
     file: Path,
+    ctr: _Counter,
 ) -> EntryPoint | None:
     # FastAPI/Flask: @app.get("/path"), @router.post("/path"), @app.route("/path")
     if isinstance(dec, ast.Call) and isinstance(dec.func, ast.Attribute):
@@ -66,11 +69,12 @@ def _check_decorator(
         if method in _HTTP_METHODS or method == "route":
             auth, mechanism, user_source = _detect_auth(node)
             return EntryPoint(
-                id=_next_id(),
+                id=ctr.next_id(),
                 kind="http_route",
                 provenance=Provenance(
                     file=file, line=node.lineno, col=node.col_offset,
                     symbol=node.name,
+                    end_line=getattr(node, "end_lineno", None),
                 ),
                 auth=auth,
                 auth_mechanism=mechanism,
@@ -82,11 +86,12 @@ def _check_decorator(
     dec_name = _get_decorator_name(dec)
     if dec_name in _JOB_DECORATORS:
         return EntryPoint(
-            id=_next_id(),
+            id=ctr.next_id(),
             kind="background_job",
             provenance=Provenance(
                 file=file, line=node.lineno, col=node.col_offset,
                 symbol=node.name,
+                end_line=getattr(node, "end_lineno", None),
             ),
             auth="unauthenticated",
             auth_mechanism=None,

@@ -247,6 +247,40 @@ class TestQ4CrossTenantReachable:
         q4 = [f for f in findings if "Cross-tenant" in f.title and f.layer == "ASM"]
         assert len(q4) == 0
 
+    def test_evidence_path_includes_entry_points_and_sink(self) -> None:
+        """Q4 should include full path: entry_w -> write -> store -> read -> entry_r -> sink."""
+        ep_w = _entry(id="ep-1", auth="unknown")
+        ep_r = _entry(id="ep-2", auth="unknown")
+        write = _write(keys=frozenset({"source"}))
+        read = _read(has_filter=False)
+        store = _store()
+        sink = _sink()
+        model = ApplicationModel(
+            entry_points=[ep_w, ep_r],
+            write_ops=[write],
+            stores=[store],
+            read_ops=[read],
+            sinks=[sink],
+            edges=[
+                _edge("ep-1", "w-1", "triggers"),
+                _edge("ep-2", "r-1", "triggers"),
+                _edge("r-1", "sink-1", "assembles_into"),
+            ],
+        )
+        findings = ASMAnalyzer().analyze(model)
+        q4 = [f for f in findings if "Cross-tenant" in f.title and f.layer == "ASM"]
+        assert len(q4) == 1
+        path = q4[0].evidence_path
+        assert path is not None
+        types = [n["type"] for n in path]
+        # Full chain: EntryPoint, WriteOp, Store, ReadOp, EntryPoint, ContextSink
+        assert "EntryPoint" in types
+        assert "WriteOp" in types
+        assert "Store" in types
+        assert "ReadOp" in types
+        assert "ContextSink" in types
+        assert types.count("EntryPoint") == 2
+
 
 # ── Q5: Unsanitized Context ──────────────────────────────────────────────
 
@@ -279,6 +313,36 @@ class TestQ5UnsanitizedContext:
 
 
 # ── Safe model: no findings ──────────────────────────────────────────────
+
+
+class TestQ3Q4Interaction:
+    """Q3 (static shared collection) and Q4 (cross-tenant reachable) on same model."""
+
+    def test_both_q3_and_q4_fire_on_shared_unscoped_store(self) -> None:
+        store = _store(collection="shared", static=True)
+        ep_a = _entry(id="ep-1", auth="authenticated")
+        ep_b = _entry(id="ep-2", auth="authenticated")
+        # Writes with no tenant keys
+        w1 = _write(id="w-1", keys=frozenset({"source"}))
+        w2 = _write(id="w-2", keys=frozenset({"source"}))
+        read = _read(has_filter=False)
+        model = ApplicationModel(
+            entry_points=[ep_a, ep_b],
+            write_ops=[w1, w2],
+            stores=[store],
+            read_ops=[read],
+            edges=[
+                _edge("ep-1", "w-1", "triggers"),
+                _edge("ep-2", "w-2", "triggers"),
+                _edge("ep-1", "r-1", "triggers"),
+            ],
+        )
+        findings = ASMAnalyzer().analyze(model)
+        rule_ids = {f.rule_id for f in findings}
+        assert "AW-MEM-001" in rule_ids, "Q3 or Q4 should fire AW-MEM-001"
+        # Both Q3 and Q4 emit AW-MEM-001 — expect at least 2
+        mem001 = [f for f in findings if f.rule_id == "AW-MEM-001"]
+        assert len(mem001) >= 2, f"Expected Q3+Q4 both firing, got {len(mem001)}"
 
 
 class TestASMSafe:

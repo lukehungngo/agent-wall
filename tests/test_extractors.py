@@ -5,11 +5,11 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
+from agentwall.extractors.context_sinks import _Counter as SinkCounter
 from agentwall.extractors.context_sinks import extract_context_sinks
-from agentwall.extractors.context_sinks import reset_id_counter as reset_sink_ids
 from agentwall.extractors.edge_linker import link_edges
+from agentwall.extractors.entry_points import _Counter as EPCounter
 from agentwall.extractors.entry_points import extract_entry_points
-from agentwall.extractors.entry_points import reset_id_counter as reset_ep_ids
 from agentwall.models import (
     ApplicationModel,
     ASMConfidence,
@@ -21,9 +21,12 @@ from agentwall.models import (
 )
 
 
-def setup_function() -> None:
-    reset_ep_ids()
-    reset_sink_ids()
+def _ep(tree: ast.Module, file: Path) -> list:
+    return extract_entry_points(tree, file, counter=EPCounter("ep"))
+
+
+def _sinks(tree: ast.Module, file: Path) -> list:
+    return extract_context_sinks(tree, file, counter=SinkCounter("sink"))
 
 
 def _prov(symbol: str = "f", line: int = 1) -> Provenance:
@@ -124,7 +127,7 @@ async def upload(file):
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("api.py"))
+        eps = _ep(tree, Path("api.py"))
         assert len(eps) == 1
         assert eps[0].kind == "http_route"
         assert eps[0].provenance.symbol == "upload"
@@ -136,7 +139,7 @@ def list_items():
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("api.py"))
+        eps = _ep(tree, Path("api.py"))
         assert len(eps) == 1
 
     def test_detects_router_route(self) -> None:
@@ -146,7 +149,7 @@ async def ingest(data: dict):
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("routes.py"))
+        eps = _ep(tree, Path("routes.py"))
         assert len(eps) == 1
 
     def test_detects_auth_dependency(self) -> None:
@@ -156,7 +159,7 @@ async def upload(file, user=Depends(get_current_user)):
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("api.py"))
+        eps = _ep(tree, Path("api.py"))
         assert len(eps) == 1
         assert eps[0].auth == "authenticated"
         assert eps[0].confidence == ASMConfidence.CONFIRMED
@@ -168,7 +171,7 @@ async def upload(file):
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("api.py"))
+        eps = _ep(tree, Path("api.py"))
         assert eps[0].auth == "unknown"
 
     def test_celery_task(self) -> None:
@@ -178,7 +181,7 @@ def nightly_reindex():
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("tasks.py"))
+        eps = _ep(tree, Path("tasks.py"))
         assert len(eps) == 1
         assert eps[0].kind == "background_job"
         assert eps[0].auth == "unauthenticated"
@@ -190,7 +193,7 @@ def upload():
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("views.py"))
+        eps = _ep(tree, Path("views.py"))
         assert len(eps) == 1
         assert eps[0].kind == "http_route"
 
@@ -201,7 +204,7 @@ def search(query: str):
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("tools.py"))
+        eps = _ep(tree, Path("tools.py"))
         assert len(eps) == 0
 
     def test_ignores_plain_functions(self) -> None:
@@ -210,7 +213,7 @@ def helper():
     pass
 '''
         tree = ast.parse(code)
-        eps = extract_entry_points(tree, Path("utils.py"))
+        eps = _ep(tree, Path("utils.py"))
         assert len(eps) == 0
 
 
@@ -225,7 +228,7 @@ context = "\\n".join([d.page_content for d in docs])
 response = llm.invoke(f"Context: {context}\\nQuestion: {query}")
 '''
         tree = ast.parse(code)
-        sinks = extract_context_sinks(tree, Path("app.py"))
+        sinks = _sinks(tree, Path("app.py"))
         assert len(sinks) == 1
         assert sinks[0].kind == "llm_context"
         assert sinks[0].sanitized is False
@@ -235,7 +238,7 @@ response = llm.invoke(f"Context: {context}\\nQuestion: {query}")
 response = llm.invoke("Hello world")
 '''
         tree = ast.parse(code)
-        sinks = extract_context_sinks(tree, Path("app.py"))
+        sinks = _sinks(tree, Path("app.py"))
         assert len(sinks) == 0
 
     def test_sanitized_when_sanitize_called(self) -> None:
@@ -245,7 +248,7 @@ clean = sanitize(docs)
 response = llm.invoke(clean)
 '''
         tree = ast.parse(code)
-        sinks = extract_context_sinks(tree, Path("app.py"))
+        sinks = _sinks(tree, Path("app.py"))
         assert len(sinks) == 1
         assert sinks[0].sanitized is True
 
@@ -309,3 +312,50 @@ class TestEdgeLinker:
         model = ApplicationModel()
         edges = link_edges(model)
         assert len(edges) == 0
+
+    def test_trigger_scoped_by_line_range(self) -> None:
+        """EntryPoint with end_line only triggers ops within its body."""
+        from agentwall.models import EntryPoint
+
+        # ep covers lines 1-5, write at line 3 (inside), write at line 10 (outside)
+        ep = EntryPoint(
+            id="ep-1", kind="http_route",
+            provenance=Provenance(file=Path("app.py"), line=1, col=0, symbol="upload", end_line=5),
+            auth="unknown", auth_mechanism=None, user_id_source=None,
+            confidence=ASMConfidence.CONFIRMED,
+        )
+        write_in = WriteOp(
+            id="w-1", provenance=_prov("add_docs", line=3), store_id="s-1",
+            method="add_documents", metadata_keys=frozenset(),
+            confidence=ASMConfidence.CONFIRMED,
+        )
+        write_out = WriteOp(
+            id="w-2", provenance=_prov("add_docs", line=10), store_id="s-1",
+            method="add_documents", metadata_keys=frozenset(),
+            confidence=ASMConfidence.CONFIRMED,
+        )
+        model = ApplicationModel(entry_points=[ep], write_ops=[write_in, write_out])
+        edges = link_edges(model)
+        triggers = [e for e in edges if e.kind == "triggers"]
+        assert len(triggers) == 1
+        assert triggers[0].target_id == "w-1"
+
+    def test_trigger_fallback_same_file_when_no_end_line(self) -> None:
+        """Without end_line, falls back to same-file linking."""
+        from agentwall.models import EntryPoint
+
+        ep = EntryPoint(
+            id="ep-1", kind="http_route",
+            provenance=Provenance(file=Path("app.py"), line=1, col=0, symbol="upload"),
+            auth="unknown", auth_mechanism=None, user_id_source=None,
+            confidence=ASMConfidence.CONFIRMED,
+        )
+        write = WriteOp(
+            id="w-1", provenance=_prov("add_docs", line=50), store_id="s-1",
+            method="add_documents", metadata_keys=frozenset(),
+            confidence=ASMConfidence.CONFIRMED,
+        )
+        model = ApplicationModel(entry_points=[ep], write_ops=[write])
+        edges = link_edges(model)
+        triggers = [e for e in edges if e.kind == "triggers"]
+        assert len(triggers) == 1

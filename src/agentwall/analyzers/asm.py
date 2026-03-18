@@ -97,9 +97,11 @@ class ASMAnalyzer:
         prov = getattr(node, "provenance", None)
         detail = ""
         if hasattr(node, "metadata_keys"):
-            detail = f"metadata_keys: {set(getattr(node, 'metadata_keys', set()))}"
+            mk: set[str] = set(getattr(node, "metadata_keys", set()))
+            detail = f"metadata_keys: {sorted(mk)}"
         elif hasattr(node, "filter_keys"):
-            detail = f"filter_keys: {set(getattr(node, 'filter_keys', set()))}"
+            fk: set[str] = set(getattr(node, "filter_keys", set()))
+            detail = f"filter_keys: {sorted(fk)}"
         elif hasattr(node, "collection_name") and hasattr(node, "backend"):
             detail = f"{node.backend}, collection='{node.collection_name}'"
         elif hasattr(node, "auth"):
@@ -112,6 +114,30 @@ class ASMAnalyzer:
             "line": prov.line if prov else None,
             "detail": detail,
         }
+
+    def _find_triggering_ep(
+        self, model: ApplicationModel, op_id: str,
+    ) -> object | None:
+        """Find the EntryPoint that triggers a given WriteOp/ReadOp via edges."""
+        ep_map = {ep.id: ep for ep in model.entry_points}
+        for edge in model.edges:
+            if edge.kind == "triggers" and edge.target_id == op_id:
+                ep = ep_map.get(edge.source_id)
+                if ep is not None:
+                    return ep
+        return None
+
+    def _find_sink_for_read(
+        self, model: ApplicationModel, read_id: str,
+    ) -> object | None:
+        """Find the ContextSink connected to a ReadOp via assembles_into edge."""
+        sink_map = {s.id: s for s in model.sinks}
+        for edge in model.edges:
+            if edge.kind == "assembles_into" and edge.source_id == read_id:
+                sink = sink_map.get(edge.target_id)
+                if sink is not None:
+                    return sink
+        return None
 
     # ── Q1: Unauthenticated Write Path ────────────────────────────────────
 
@@ -214,23 +240,34 @@ class ASMAnalyzer:
         for store in model.stores:
             writes = [w for w in model.write_ops if w.store_id == store.id]
             reads = [r for r in model.read_ops if r.store_id == store.id]
-            for w in writes:
-                if not (w.metadata_keys & _TENANT_KEYS):
-                    for r in reads:
-                        if not r.has_filter:
-                            nodes: list[object] = [w, store, r]
-                            findings.append(self._make_finding(
-                                rule_id=AW_MEM_001.rule_id,
-                                title="Cross-tenant data reachable: no user scope at write or read",
-                                desired_severity=Severity.CRITICAL,
-                                description=(
-                                    "Data is written to the vector store without user/tenant metadata "
-                                    "and retrieved without a filter. Any user's query returns any user's data."
-                                ),
-                                fix="Add user_id to metadata at write time AND filter on user_id at read time.",
-                                evidence_nodes=nodes,
-                                evidence_path=[self._serialize_node(n) for n in nodes],
-                            ))
+            # One finding per store — pick first unscoped write + first unfiltered read
+            unscoped_write = next(
+                (w for w in writes if not (w.metadata_keys & _TENANT_KEYS)), None,
+            )
+            unfiltered_read = next(
+                (r for r in reads if not r.has_filter), None,
+            )
+            if unscoped_write and unfiltered_read:
+                # Build full evidence path: entry_w → write → store → read → entry_r → sink
+                entry_w = self._find_triggering_ep(model, unscoped_write.id)
+                entry_r = self._find_triggering_ep(model, unfiltered_read.id)
+                sink = self._find_sink_for_read(model, unfiltered_read.id)
+                nodes: list[object] = [
+                    n for n in [entry_w, unscoped_write, store, unfiltered_read, entry_r, sink]
+                    if n is not None
+                ]
+                findings.append(self._make_finding(
+                    rule_id=AW_MEM_001.rule_id,
+                    title="Cross-tenant data reachable: no user scope at write or read",
+                    desired_severity=Severity.CRITICAL,
+                    description=(
+                        "Data is written to the vector store without user/tenant metadata "
+                        "and retrieved without a filter. Any user's query returns any user's data."
+                    ),
+                    fix="Add user_id to metadata at write time AND filter on user_id at read time.",
+                    evidence_nodes=nodes,
+                    evidence_path=[self._serialize_node(n) for n in nodes],
+                ))
         return findings
 
     # ── Q5: Unsanitized Context Assembly ──────────────────────────────────

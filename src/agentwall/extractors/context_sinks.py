@@ -25,26 +25,28 @@ _SANITIZE_NAMES = frozenset({
     "sanitize_output", "sanitize_content",
 })
 
-_counter = 0
+
+class _Counter:
+    """Per-invocation counter for deterministic IDs."""
+
+    def __init__(self, prefix: str = "sink") -> None:
+        self._prefix = prefix
+        self._value = 0
+
+    def next_id(self) -> str:
+        self._value += 1
+        return f"{self._prefix}-{self._value}"
 
 
-def _next_id() -> str:
-    global _counter
-    _counter += 1
-    return f"sink-{_counter}"
-
-
-def reset_id_counter() -> None:
-    global _counter
-    _counter = 0
-
-
-def extract_context_sinks(tree: ast.Module, file: Path) -> list[ContextSink]:
+def extract_context_sinks(
+    tree: ast.Module, file: Path, *, counter: _Counter,
+) -> list[ContextSink]:
     """Extract context sinks from an AST module.
 
     Tracks variables assigned from retrieval calls, then checks if those
     variables (or derivatives) flow into LLM invocations.
     """
+    ctr = counter
     retrieval_vars: set[str] = set()
     sanitized_vars: set[str] = set()
     derived_vars: set[str] = set()
@@ -101,7 +103,7 @@ def extract_context_sinks(tree: ast.Module, file: Path) -> list[ContextSink]:
         if call_names & tainted:
             is_sanitized = bool(call_names & sanitized_vars)
             sinks.append(ContextSink(
-                id=_next_id(),
+                id=ctr.next_id(),
                 provenance=Provenance(
                     file=file, line=node.lineno, col=node.col_offset,
                     symbol=_get_func_name(func) or "llm",
