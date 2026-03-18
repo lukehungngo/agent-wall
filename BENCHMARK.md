@@ -11,17 +11,17 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | Langchain-Chatchat | ~37k | 239 | 23 | 14 | 5 | 3 | 1 | AW-MEM-001(14), AW-MEM-003(3), AW-MEM-005(3) |
+| 1 | Langchain-Chatchat | ~37k | 239 | 24 | 15 | 5 | 3 | 1 | AW-MEM-001(15), AW-MEM-003(3), AW-MEM-005(3) |
 | 2 | PrivateGPT | ~54k | 65 | 0 | 0 | 0 | 0 | 0 | — |
 | 3 | Quivr | ~36k | 41 | 2 | 2 | 0 | 0 | 0 | AW-MEM-001(2) |
 | 4 | LocalGPT | ~22k | 44 | 0 | 0 | 0 | 0 | 0 | — |
-| 5 | DocsGPT | ~15k | 208 | 8 | 3 | 2 | 2 | 1 | AW-MEM-001(3), AW-MEM-003(1), AW-MEM-002(1) |
+| 5 | DocsGPT | ~15k | 208 | 9 | 4 | 2 | 2 | 1 | AW-MEM-001(4), AW-MEM-003(1), AW-MEM-002(1) |
 | 6 | GPT-Researcher | ~17k | 166 | 3 | 2 | 0 | 0 | 1 | AW-MEM-001(2), AW-TOOL-004(1) |
 | 7 | Onyx/Danswer | ~12k | 1406 | 6 | 1 | 1 | 2 | 2 | AW-TOOL-004(2), AW-MEM-001(1), AW-MEM-003(1) |
 | 8 | DB-GPT | ~17k | 1004 | 6 | 2 | 2 | 2 | 0 | AW-MEM-001(2), AW-TOOL-001(1), AW-MEM-003(1) |
 | 9 | Chat-LangChain | ~6k | 11 | 0 | 0 | 0 | 0 | 0 | — |
 | 10 | RasaGPT | ~2.4k | 11 | 0 | 0 | 0 | 0 | 0 | — |
-| 11 | Langflow | ~48k | 1274 | 59 | 29 | 13 | 13 | 4 | AW-MEM-001(29), AW-MEM-003(11), AW-MEM-005(11) |
+| 11 | Langflow | ~48k | 1274 | 60 | 30 | 13 | 13 | 4 | AW-MEM-001(30), AW-MEM-003(11), AW-MEM-005(11) |
 | 12 | Flowise | ~35k | - | - | - | - | - | - | not scanned |
 | 13 | Open Interpreter | ~58k | - | - | - | - | - | - | not scanned |
 | 14 | Chainlit | ~8k | 121 | 0 | 0 | 0 | 0 | 0 | — |
@@ -32,7 +32,7 @@
 | 19 | AgentGPT | ~32k | 85 | 0 | 0 | 0 | 0 | 0 | — |
 | 20 | AutoGPT | ~172k | - | - | - | - | - | - | not scanned |
 
-**Totals: 116 findings (57 CRITICAL, 25 HIGH) across 5085 files. 8/20 have findings.**
+**Totals: 119 findings (60 CRITICAL, 25 HIGH) across 5085 files. 8/20 have findings.**
 
 ---
 
@@ -46,20 +46,20 @@
 | 4 | chat-with-websites | 260 | 1 | 1 | 1 | 0 | 0 | 0 | AW-MEM-001(1) |
 | 5 | cohere-qdrant-doc-retrieval | 152 | 1 | 4 | 2 | 1 | 1 | 0 | AW-MEM-001(2), AW-MEM-003(1), AW-MEM-005(1) |
 | 6 | RAG-chatbot-langchain | 133 | 1 | 6 | 2 | 3 | 1 | 0 | AW-MEM-001(2), AW-MEM-004(2), AW-MEM-003(1) |
-| 7 | langchain-RAG-chroma | 8 | 1 | 3 | 1 | 1 | 1 | 0 | AW-MEM-001(1), AW-MEM-003(1), AW-MEM-005(1) |
+| 7 | langchain-RAG-chroma | 8 | 1 | 4 | 2 | 1 | 1 | 0 | AW-MEM-001(2), AW-MEM-003(1), AW-MEM-005(1) |
 | 8 | chat-with-pdf | 2 | 1 | 0 | 0 | 0 | 0 | 0 | — |
 | 9 | langchain-multi-agent | 10 | 1 | 4 | 1 | 2 | 1 | 0 | AW-CFG-hardcoded-secret(2), AW-MEM-001(1), AW-TOOL-002(1) |
 | 10 | objectbox-rag | 10 | 3 | 0 | 0 | 0 | 0 | 0 | — |
 
-**Totals: 24 findings (9 CRITICAL, 11 HIGH) across 42 files. 6/10 have findings.**
+**Totals: 25 findings (10 CRITICAL, 11 HIGH) across 42 files. 6/10 have findings.**
 
 ### Tier Comparison
 
 | Metric | Tier 1 (>2k stars) | Tier 2 (<500 stars) |
 |---|---|---|
 | Projects with findings | 8/16 (50%) | 6/10 (60%) |
-| Findings per file | 116 / 5085 = **0.023** | 24 / 42 = **0.571** |
-| CRITICAL rate | 57/116 = **49%** | 9/24 = **37%** |
+| Findings per file | 119 / 5085 = **0.023** | 25 / 42 = **0.595** |
+| CRITICAL rate | 60/119 = **50%** | 10/25 = **40%** |
 
 ---
 
@@ -67,9 +67,9 @@
 
 | Rule | Count | % | Description |
 |---|---|---|---|
-| AW-MEM-001 | 66 | 47% | No tenant isolation in vector store |
-| AW-MEM-003 | 22 | 16% | Memory backend has no access control |
-| AW-MEM-005 | 22 | 16% | No sanitization on retrieved memory |
+| AW-MEM-001 | 70 | 49% | No tenant isolation in vector store |
+| AW-MEM-003 | 22 | 15% | Memory backend has no access control |
+| AW-MEM-005 | 22 | 15% | No sanitization on retrieved memory |
 | AW-TOOL-004 | 10 | 7% | Tool has no description |
 | AW-MEM-004 | 6 | 4% | Injection patterns in retrieval path |
 | AW-MEM-002 | 4 | 3% | Shared collection without retrieval filter |
@@ -102,7 +102,7 @@
 | **AW-ATK-CFG-003** | No TLS / No Auth / Exposed Ports | DocsGPT, Langflow, Onyx/Danswer | 3 | `docker-compose.yaml:59` (AW-CFG-docker-no-auth) |
 | **AW-ATK-CFG-004** | Hardcoded API Keys | langchain-multi-agent | 2 | `.env.sample:1` (AW-CFG-hardcoded-secret) |
 | **AW-ATK-INJ-001** | Stored Prompt Injection | DB-GPT, DocsGPT, Langchain-Chatchat, Langflow, Mem0/Embedchain, Onyx/Danswer, RAG-chatbot-langchain, cohere-qdrant-doc-retrieval, langchain-RAG-chroma | 22 | `chromadb_kb_service.py:67` (AW-MEM-005) |
-| **AW-ATK-MEM-001** | Cross-Tenant Retrieval (No Filter) | DB-GPT, DocsGPT, GPT-Researcher, Langchain-Chatchat, Langflow, Mem0/Embedchain, Onyx/Danswer, Quivr, RAG-chatbot-langchain, chat-with-websites, cohere-qdrant-doc-retrieval, langchain-RAG-chroma, langchain-chatbot, langchain-multi-agent | 66 | `chromadb_kb_service.py:67` (AW-MEM-001) |
+| **AW-ATK-MEM-001** | Cross-Tenant Retrieval (No Filter) | DB-GPT, DocsGPT, GPT-Researcher, Langchain-Chatchat, Langflow, Mem0/Embedchain, Onyx/Danswer, Quivr, RAG-chatbot-langchain, chat-with-websites, cohere-qdrant-doc-retrieval, langchain-RAG-chroma, langchain-chatbot, langchain-multi-agent | 70 | `chromadb_kb_service.py:67` (AW-MEM-001) |
 | **AW-ATK-MEM-002** | Weak Tenant Isolation (Static Filter) | DocsGPT, Langchain-Chatchat, Langflow | 4 | `ensemble.py:27` (AW-MEM-002) |
 | **AW-ATK-MEM-003** | Namespace/Collection Confusion | DB-GPT, DocsGPT, Langchain-Chatchat, Langflow, Mem0/Embedchain, Onyx/Danswer, RAG-chatbot-langchain, cohere-qdrant-doc-retrieval, langchain-RAG-chroma | 22 | `chromadb_kb_service.py:67` (AW-MEM-003) |
 | **AW-ATK-MEM-004** | Partition Bypass via Direct API | RAG-chatbot-langchain, langchain-chatbot | 6 | `2_⭐_context_aware_chatbot.py:21` (AW-MEM-004) |
@@ -144,17 +144,17 @@
 
 | Project | AGT-001 | CFG-001 | CFG-003 | CFG-004 | INJ-001 | MEM-001 | MEM-002 | MEM-003 | MEM-004 | Total |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Langchain-Chatchat | · | · | · | · | **3** | **14** | **2** | **3** | · | 22 |
+| Langchain-Chatchat | · | · | · | · | **3** | **15** | **2** | **3** | · | 23 |
 | PrivateGPT | · | · | · | · | · | · | · | · | · | 0 |
 | Quivr | · | · | · | · | · | **2** | · | · | · | 2 |
 | LocalGPT | · | · | · | · | · | · | · | · | · | 0 |
-| DocsGPT | · | · | **1** | · | **1** | **3** | **1** | **1** | · | 7 |
+| DocsGPT | · | · | **1** | · | **1** | **4** | **1** | **1** | · | 8 |
 | GPT-Researcher | · | · | · | · | · | **2** | · | · | · | 2 |
 | Onyx/Danswer | · | · | **1** | · | **1** | **1** | · | **1** | · | 4 |
 | DB-GPT | **2** | · | · | · | **1** | **2** | · | **1** | · | 6 |
 | Chat-LangChain | · | · | · | · | · | · | · | · | · | 0 |
 | RasaGPT | · | · | · | · | · | · | · | · | · | 0 |
-| Langflow | **2** | · | **1** | · | **11** | **29** | **1** | **11** | · | 55 |
+| Langflow | **2** | · | **1** | · | **11** | **30** | **1** | **11** | · | 56 |
 | Flowise | — | — | — | — | — | — | — | — | — | — |
 | Open Interpreter | — | — | — | — | — | — | — | — | — | — |
 | Chainlit | · | · | · | · | · | · | · | · | · | 0 |
@@ -170,7 +170,7 @@
 | chat-with-websites | · | · | · | · | · | **1** | · | · | · | 1 |
 | cohere-qdrant-doc-retrieval | · | · | · | · | **1** | **2** | · | **1** | · | 4 |
 | RAG-chatbot-langchain | · | · | · | · | **1** | **2** | · | **1** | **2** | 6 |
-| langchain-RAG-chroma | · | · | · | · | **1** | **1** | · | **1** | · | 3 |
+| langchain-RAG-chroma | · | · | · | · | **1** | **2** | · | **1** | · | 4 |
 | chat-with-pdf | · | · | · | · | · | · | · | · | · | 0 |
 | langchain-multi-agent | **1** | · | · | **2** | · | **1** | · | · | · | 4 |
 | objectbox-rag | · | · | · | · | · | · | · | · | · | 0 |

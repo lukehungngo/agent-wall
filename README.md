@@ -11,6 +11,7 @@
     <a href="#quick-start">Quick Start</a> &middot;
     <a href="#what-it-detects">Detection Rules</a> &middot;
     <a href="docs/ANALYSIS_LAYERS.md">Analysis Layers</a> &middot;
+    <a href="docs/APPLICATION_SECURITY_MODEL.md">ASM</a> &middot;
     <a href="#who-is-this-for">Who Is This For</a> &middot;
     <a href="#competitive-landscape">Landscape</a> &middot;
     <a href="#ci-integration">CI Setup</a> &middot;
@@ -198,6 +199,36 @@ agentwall scan . --llm-assist
 ```
 
 **[Full layer-by-layer breakdown with code examples, detection matrix, and cost/precision chart →](docs/ANALYSIS_LAYERS.md)**
+
+### Application Security Model (ASM) — Semantic Analysis
+
+L0–L8 check individual code sites — "does this call have a filter?" The ASM goes further: it builds a **semantic model of the entire application** and queries it for violations that no single-file or cross-file check can find.
+
+```
+Source code  →  Extract nodes  →  Build graph  →  Query for violations
+                (entry points,     (who writes      (can user A's data
+                 write ops,         where? who       reach user B's
+                 stores, reads,     reads it? is     context?)
+                 sinks, auth)       auth enforced?)
+```
+
+**What it catches that L0–L8 cannot:**
+
+| Finding | Why L0–L8 miss it |
+|---|---|
+| Ingestion writes `{"source": "web"}` but retrieval filters on `{"user_id": uid}` — **key mismatch** | L1 only checks the read side. Never sees the write path. |
+| Background re-indexing job has no auth and drops metadata on rebuild — **lifecycle break** | L2 call graph doesn't connect cron jobs to API handlers. |
+| `collection_name="faq"` is shared across all tenants — **false isolation** | L1 sees scoping but can't infer a string literal is shared, not per-user. |
+| Retrieved docs concatenated into LLM prompt with no delimiter — **injection surface** | No layer tracks the full path from retrieval to prompt assembly. |
+
+Every finding includes a **path witness** — the complete chain from entry point through storage to the violation point, with confidence levels at each hop.
+
+```bash
+# Enable ASM semantic analysis
+agentwall scan . --asm
+```
+
+**[Full ASM design spec: IR schema, query definitions, extraction pipeline →](docs/APPLICATION_SECURITY_MODEL.md)**
 
 ---
 

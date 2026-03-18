@@ -628,7 +628,7 @@ w('')
 detected_vec_ids = sorted(DETECTABLE_VECTORS)
 short_labels = [v.replace('AW-ATK-', '') for v in detected_vec_ids]
 header = '| Project | ' + ' | '.join(short_labels) + ' | Total |'
-sep = '|---|' + '|'.join('---|' for _ in detected_vec_ids) + '---|'
+sep = '|---|' + '|'.join(['---'] * len(detected_vec_ids)) + '|---|'
 w(header)
 w(sep)
 
