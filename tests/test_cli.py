@@ -162,6 +162,49 @@ class TestCliScan:
         assert "--format must be one of" in result.output
 
 
+    def test_scan_confidence_filter_high(self) -> None:
+        result = runner.invoke(
+            app,
+            [
+                "scan",
+                str(FIXTURES / "langchain_unsafe"),
+                "--confidence",
+                "high",
+                "--format",
+                "json",
+                "--fail-on",
+                "none",
+            ],
+        )
+        assert result.exit_code == 0
+        data = json.loads(result.output)
+        # All remaining findings should have high confidence
+        for f in data["findings"]:
+            assert f["confidence"] == "high"
+
+    def test_scan_confidence_filter_all(self) -> None:
+        result = runner.invoke(
+            app,
+            [
+                "scan",
+                str(FIXTURES / "langchain_unsafe"),
+                "--confidence",
+                "all",
+                "--fail-on",
+                "none",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_scan_confidence_invalid_exits_2(self) -> None:
+        result = runner.invoke(
+            app,
+            ["scan", str(FIXTURES / "langchain_basic"), "--confidence", "bogus"],
+        )
+        assert result.exit_code == 2
+        assert "--confidence must be one of" in result.output
+
+
 class TestCliVerify:
     def test_verify_finding_present(self) -> None:
         result = runner.invoke(

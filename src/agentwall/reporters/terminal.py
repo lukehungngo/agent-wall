@@ -5,7 +5,7 @@ from __future__ import annotations
 from rich.console import Console
 from rich.text import Text
 
-from agentwall.models import Finding, ScanResult, Severity
+from agentwall.models import ConfidenceLevel, Finding, ScanResult, Severity
 
 _SEVERITY_STYLES: dict[Severity, str] = {
     Severity.CRITICAL: "bold red",
@@ -22,6 +22,14 @@ _SEVERITY_ORDER = [
     Severity.LOW,
     Severity.INFO,
 ]
+
+_CONFIDENCE_STYLES: dict[ConfidenceLevel, str] = {
+    ConfidenceLevel.HIGH: "bold",
+    ConfidenceLevel.MEDIUM: "",
+    ConfidenceLevel.LOW: "dim",
+}
+
+_CONFIDENCE_ORDER = [ConfidenceLevel.HIGH, ConfidenceLevel.MEDIUM, ConfidenceLevel.LOW]
 
 
 class TerminalReporter:
@@ -55,10 +63,39 @@ class TerminalReporter:
 
         if not result.findings:
             c.print("[bold green]No findings.[/bold green]")
+            return
+
+        # Dual-axis summary
+        sev_counts = dict.fromkeys(_SEVERITY_ORDER, 0)
+        conf_counts = dict.fromkeys(_CONFIDENCE_ORDER, 0)
+        for f in result.findings:
+            sev_counts[f.severity] += 1
+            conf_counts[f.confidence] += 1
+
+        sev_parts = "  ".join(
+            f"{s.value.upper()}: {n}" for s, n in sev_counts.items() if n
+        )
+        conf_parts = "  ".join(
+            f"{cl.value.upper()}: {n}" for cl, n in conf_counts.items() if n
+        )
+
+        c.print(f"{len(result.findings)} findings")
+        c.print(f"  by severity:    {sev_parts}")
+        c.print(f"  by confidence:  {conf_parts}")
 
     def _render_finding(self, finding: Finding, style: str) -> None:
         c = self.console
-        c.print(f"  [{style}]{finding.rule_id}[/{style}]  {finding.title}")
+        conf_style = _CONFIDENCE_STYLES[finding.confidence]
+        conf_label = finding.confidence.value.capitalize()
+        if conf_style:
+            conf_text = f"[{conf_style}]Confidence: {conf_label}[/{conf_style}]"
+        else:
+            conf_text = f"Confidence: {conf_label}"
+        ctx_tag = f"  [dim]({finding.file_context})[/dim]" if finding.file_context else ""
+        c.print(
+            f"  [{style}]{finding.rule_id}[/{style}]  {finding.title}"
+            f"  {conf_text}{ctx_tag}"
+        )
         if finding.file is not None:
             loc = f"{finding.file}"
             if finding.line is not None:

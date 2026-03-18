@@ -83,6 +83,8 @@ def _build_result(finding: Finding) -> dict[str, object]:
         properties["agentwall:fix"] = finding.fix
     if finding.layer:
         properties["agentwall:layer"] = finding.layer
+    if finding.file_context:
+        properties["agentwall:file_context"] = finding.file_context
 
     result["properties"] = properties
     return result

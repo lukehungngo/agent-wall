@@ -867,57 +867,95 @@ Detects: authentication pattern, ingestion pipeline, existing filter patterns, t
 
 ---
 
-**Phase 2 — AI Agent Integration & Expansion** 🔲 PLANNED
+**Phase 2 — Detection Expansion** 🔲 NEXT
+
+Expand what AgentWall can detect. More frameworks, more vector stores, new rule categories, community contributions. Make the scanner cover the market before building developer tooling around it.
 
 | Step | Task | Deliverable | Status |
 |---|---|---|---|
-| 2.1 | `agentwall explain` (FR-531) | Agent reasoning support | ❌ Not started |
-| 2.2 | `agentwall prompt-fragment` (FR-522) | Adoption accelerator | ❌ Not started |
-| 2.3 | JSON Schema export (`agentwall schema`) | Agent validation | ❌ Not started |
-| 2.4 | Remediation engine (FR-511, FR-512) | Context-aware fix generation | ❌ Not started |
-| 2.5 | Codebase context enrichment (FR-532) | Convention-matching fixes | ❌ Not started |
-| 2.6 | MCP server (FR-523) | Broadest agent compatibility | ❌ Not started |
-| 2.7 | Claude Code integration template (FR-521) | `.claude/commands/scan.md` | ❌ Not started |
-| 2.8 | GitHub Actions workflow (FR-524) | CI/CD integration | ❌ Not started |
-| 2.9 | L3 taint analysis | Definitive isolation proof | ✅ Done (built ahead of schedule) |
+| 2.1 | CrewAI adapter | Framework detection + retrieval pattern matching for CrewAI | ❌ Not started |
+| 2.2 | AutoGen adapter | Framework detection + retrieval pattern matching for AutoGen | ❌ Not started |
+| 2.3 | LlamaIndex adapter | Framework detection + retrieval pattern matching for LlamaIndex | ❌ Not started |
+| 2.4 | Milvus vector store support | Partition isolation, auth, config checks | ❌ Not started |
+| 2.5 | Pinecone vector store support | Namespace isolation, API key exposure checks | ❌ Not started |
+| 2.6 | PGVector vector store support | RLS policy detection, connection string checks | ❌ Not started |
+| 2.7 | Qdrant vector store support | Payload-based access filtering checks | ❌ Not started |
+| 2.8 | AW-INJ-001 rule: raw context concatenation | Detect retrieved docs concatenated into LLM prompt without delimiter/tagging | ❌ Not started |
+| 2.9 | Community rule registry | Semgrep YAML rules loadable from external dirs, `agentwall.yaml` config | ❌ Not started |
+| 2.10 | `agentwall explain` (FR-531) | Structured attack vector + rule explanations (low effort, high standalone value) | ❌ Not started |
+| 2.11 | `agentwall prompt-fragment` (FR-522) | System prompt fragment for AI agents (trivial, adoption accelerator) | ❌ Not started |
 
-**Progress: 1/9** — L3 taint built early (scope creep). All agent integration work remains.
+**Progress: 0/11** — Next priority after launch.
+
+**Why this order:**
+- Framework + vector store expansion takes market coverage from ~35% (LangChain + ChromaDB only) to ~90%.
+- AW-INJ-001 is the only new rule that passes strict review — AST-detectable, clear signal, maps to OWASP #1 defense.
+- Community rules let others contribute without PRs to core.
+- `explain` and `prompt-fragment` are low-effort, high-value, and don't depend on anything else.
 
 ---
 
-**Phase 3 — If Traction** 🔲 FUTURE
+**Phase 3 — Developer Integration** 🔲 FUTURE
+
+Developer tooling and AI agent integration. These become more valuable AFTER Phase 2 — remediation templates need multi-framework knowledge, MCP for LangChain-only is premature.
 
 | Step | Task | Deliverable | Status |
 |---|---|---|---|
-| 3.1 | Additional frameworks (CrewAI, AutoGen, LlamaIndex) | Broader market coverage | ❌ |
-| 3.2 | Additional vector stores (Milvus, Pinecone, PGVector, Qdrant) | Broader market coverage | ❌ |
-| 3.3 | L6 symbolic interpretation (only if FP > 15%) | Path-sensitive analysis | ✅ Done (built ahead of schedule) |
-| 3.4 | L7 runtime instrumentation refinement | `--dynamic` mode polish | ✅ Done (built ahead of schedule) |
-| 3.5 | Community rule registry | User-contributed rules | ❌ |
-| 3.6 | Conflict detection in remediation plans | Multi-finding fix reliability | ❌ |
-| 3.7 | Remediation plan test case generation | Auto-generated tests | ❌ |
-| 3.8 | Hosted dashboard (if traction justifies) | Trend tracking, team view | ❌ |
+| 3.1 | MCP server (FR-523) | 4 MCP tools: scan, verify, explain, remediation_plan | ❌ Not started |
+| 3.2 | Remediation engine (FR-511, FR-512) | Context-aware fix generation with confidence levels (AUTO/GUIDED/MANUAL) | ❌ Not started |
+| 3.3 | Codebase context enrichment (FR-532) | Detect auth patterns, ingestion pipelines, test frameworks for convention-matching fixes | ❌ Not started |
+| 3.4 | Claude Code integration template (FR-521) | `.claude/commands/scan.md` drop-in template | ❌ Not started |
+| 3.5 | GitHub Actions workflow (FR-524) | SARIF upload + agent-json summary + PR comment | ❌ Not started |
+| 3.6 | JSON Schema export (`agentwall schema`) | Self-documenting schema for agent validation | ❌ Not started |
+| 3.7 | Conflict detection in remediation plans | Detect and merge/sequence conflicting diffs across findings | ❌ Not started |
+| 3.8 | Remediation plan test case generation | Auto-generated pytest/unittest cases per finding | ❌ Not started |
 
-**Progress: 2/8** — L6 and L7 were scope creep. All user-facing expansion work remains.
+**Progress: 0/8**
+
+**Why deferred:**
+- MCP server value scales with framework coverage — Phase 2 first.
+- Remediation engine needs framework-specific fix templates — useless with LangChain-only.
+- GitHub Actions is a 10-minute user-writable YAML — not worth engineering time yet.
+- Context enrichment depends on remediation engine.
+
+---
+
+**Phase 4 — If Traction (>500 stars, >50 weekly installs)** 🔲 FUTURE
+
+| Step | Task | Deliverable | Status |
+|---|---|---|---|
+| 4.1 | L6 symbolic interpretation (only if FP > 15%) | Path-sensitive analysis | ✅ Done (built ahead of schedule) |
+| 4.2 | L7 runtime instrumentation refinement | `--dynamic` mode polish | ✅ Done (built ahead of schedule) |
+| 4.3 | Weaviate vector store support | Multi-tenancy detection | ❌ |
+| 4.4 | OpenAI Agents SDK adapter | Framework support for OpenAI's agent framework | ❌ |
+| 4.5 | VS Code extension | Inline findings in editor | ❌ |
+| 4.6 | Pre-commit hook | `agentwall` as git pre-commit | ❌ |
+| 4.7 | Hosted dashboard | Trend tracking, team view, scan history | ❌ |
+| 4.8 | Enterprise features | Team management, policy engine, SSO | ❌ |
+
+**Progress: 2/8** — L6 and L7 built early.
 
 ---
 
 **Overall Progress Summary:**
 
 ```
-Phase 0 (Foundation):          ████████████████████  9/9   100%  ✅
-Phase 1 (Enhanced Detection):  ████████████████████  9/9   100%  ✅
-Phase 2 (AI Agent Integration): █░░░░░░░░░░░░░░░░░░  1/9    11%  🔲  ← FOCUS HERE
-Phase 3 (If Traction):         ██░░░░░░░░░░░░░░░░░░  2/8    25%  🔲
+Phase 0 (Foundation):           ████████████████████  9/9   100%  ✅
+Phase 1 (Enhanced Detection):   ████████████████████  9/9   100%  ✅
+Phase 2 (Detection Expansion):  ░░░░░░░░░░░░░░░░░░░░  0/11    0%  🔲  ← NEXT
+Phase 3 (Developer Integration):░░░░░░░░░░░░░░░░░░░░  0/8     0%  🔲
+Phase 4 (If Traction):          ██░░░░░░░░░░░░░░░░░░  2/8    25%  🔲
 
-Total:                         21/35 steps complete (60%)
+Total:                          20/45 steps complete (44%)
 
-Detection engine:              ████████████████████  100%  All 8 layers (L0–L8) implemented
-Output formats:                ████████████████████  100%  5 formats (terminal, JSON, SARIF, agent-json, patch)
-AI agent integration:          ██░░░░░░░░░░░░░░░░░░  10%   Phase 2 work remains
+Detection engine:               ████████████████████  100%  L0–L8 implemented, 10 rules
+Framework coverage:             ████░░░░░░░░░░░░░░░░  ~35%  LangChain only → Phase 2 expands to ~90%
+Vector store coverage:          ██░░░░░░░░░░░░░░░░░░  ~15%  ChromaDB only → Phase 2 adds 4 more
+Output formats:                 ████████████████████  100%  5 formats shipped
+AI agent integration:           ░░░░░░░░░░░░░░░░░░░░    0%  Phase 3
 ```
 
-**Key Observation:** Scanner is now launchable. Detection (L0–L8), output formats (5 formats), and quality gates (216 tests, 20-repo benchmark, 100% TP rate, 0% FP rate) are all in place. Phase 2 (AI agent integration: remediation engine, MCP server, explain command) is the next priority if there's traction.
+**Current state:** Scanner is launchable for LangChain + ChromaDB users. Phase 2 widens the net before Phase 3 builds the developer tooling around it.
 
 **Remaining gap before Phase 2:**
 1. ✅ ~~SARIF reporter~~ — Done (SARIF v2.1.0, 9 tests)

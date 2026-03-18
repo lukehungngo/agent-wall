@@ -28,6 +28,13 @@ class ConfidenceLevel(str, Enum):
     LOW = "low"
 
 
+CONFIDENCE_RANK: dict[ConfidenceLevel, int] = {
+    ConfidenceLevel.HIGH: 0,
+    ConfidenceLevel.MEDIUM: 1,
+    ConfidenceLevel.LOW: 2,
+}
+
+
 class Finding(BaseModel):
     rule_id: str
     title: str
@@ -39,6 +46,7 @@ class Finding(BaseModel):
     fix: str | None = None
     confidence: ConfidenceLevel = ConfidenceLevel.HIGH
     layer: str | None = None  # which analysis layer produced this
+    file_context: str | None = None  # e.g. "test file", "example"
 
 
 class ToolSpec(BaseModel):

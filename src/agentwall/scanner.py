@@ -14,7 +14,14 @@ from agentwall.analyzers.symbolic import SymbolicAnalyzer
 from agentwall.analyzers.taint import TaintAnalyzer
 from agentwall.analyzers.tools import ToolAnalyzer
 from agentwall.detector import auto_detect_framework
-from agentwall.models import Finding, ScanConfig, ScanResult, Severity
+from agentwall.models import (
+    CONFIDENCE_RANK,
+    ConfidenceLevel,
+    Finding,
+    ScanConfig,
+    ScanResult,
+    Severity,
+)
 
 _SEVERITY_RANK: dict[Severity, int] = {
     Severity.CRITICAL: 0,
@@ -24,9 +31,55 @@ _SEVERITY_RANK: dict[Severity, int] = {
     Severity.INFO: 4,
 }
 
+# Directory components that indicate test context
+_TEST_DIRS = frozenset({"tests", "test"})
+# Directory components that indicate example/docs context
+_EXAMPLE_DIRS = frozenset({"examples", "example", "docs"})
+
+
+def _classify_file_context(file_path: Path | None) -> str | None:
+    """Classify a file path as test/example context, or None."""
+    if file_path is None:
+        return None
+    name = file_path.name
+    parts = file_path.parts
+
+    # Test file: directory is tests/test, or filename starts with test_ or ends with _test.py
+    if (
+        any(p in _TEST_DIRS for p in parts)
+        or name.startswith("test_")
+        or name.endswith("_test.py")
+    ):
+        return "test file"
+
+    # Example/docs: directory is examples/example/docs, or filename ends with .example
+    if any(p in _EXAMPLE_DIRS for p in parts) or name.endswith(".example"):
+        return "example"
+
+    return None
+
+
+def _apply_file_context(findings: list[Finding]) -> list[Finding]:
+    """Tag findings with file context and cap confidence for test/example files."""
+    result: list[Finding] = []
+    for f in findings:
+        ctx = _classify_file_context(f.file)
+        if ctx is not None:
+            updates: dict[str, object] = {"file_context": ctx}
+            # Cap confidence at LOW for test/example files
+            if f.confidence != ConfidenceLevel.LOW:
+                updates["confidence"] = ConfidenceLevel.LOW
+            result.append(f.model_copy(update=updates))
+        else:
+            result.append(f)
+    return result
+
 
 def _sort_findings(findings: list[Finding]) -> list[Finding]:
-    return sorted(findings, key=lambda f: _SEVERITY_RANK[f.severity])
+    return sorted(
+        findings,
+        key=lambda f: (_SEVERITY_RANK[f.severity], CONFIDENCE_RANK[f.confidence]),
+    )
 
 
 def _dedup_findings(findings: list[Finding]) -> list[Finding]:
@@ -152,6 +205,7 @@ def scan(
 
     # ── Finalize ────────────────────────────────────────────────────────
     all_findings = _dedup_findings(all_findings)
+    all_findings = _apply_file_context(all_findings)
     all_findings = _sort_findings(all_findings)
 
     return ScanResult(

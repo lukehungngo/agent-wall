@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 from agentwall import __version__
@@ -57,6 +57,8 @@ def _flatten_finding(
     }
     if finding.layer:
         flat["detection_layer"] = finding.layer
+    if finding.file_context:
+        flat["file_context"] = finding.file_context
     return flat
 
 
@@ -138,6 +140,10 @@ def build_agent_json(result: ScanResult) -> dict[str, object]:
         "total_findings": len(result.findings),
         "severity_counts": {
             sev.value: len(findings) for sev, findings in result.by_severity.items() if findings
+        },
+        "confidence_counts": {
+            cl.value: count
+            for cl, count in Counter(f.confidence for f in result.findings).items()
         },
         "findings": flat_findings,
         "errors": result.errors,

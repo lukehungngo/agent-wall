@@ -6,7 +6,7 @@ from pathlib import Path
 
 import typer
 
-from agentwall.models import ScanConfig, ScanResult, Severity
+from agentwall.models import CONFIDENCE_RANK, ConfidenceLevel, ScanConfig, ScanResult, Severity
 from agentwall.reporters.terminal import TerminalReporter
 from agentwall.scanner import scan as run_scan
 
@@ -42,6 +42,14 @@ _SEVERITY_RANK: dict[Severity, int] = {
 _STATIC_LAYERS = {"L0", "L1", "L2", "L3", "L4", "L5", "L6"}
 
 _VALID_FORMATS = {"terminal", "json", "sarif", "agent-json", "patch"}
+
+_CONFIDENCE_MAP: dict[str, ConfidenceLevel | None] = {
+    "high": ConfidenceLevel.HIGH,
+    "medium": ConfidenceLevel.MEDIUM,
+    "low": ConfidenceLevel.LOW,
+    "all": None,
+}
+
 
 
 def _print_formatted_output(result: ScanResult, fmt: str) -> None:
@@ -107,6 +115,9 @@ def scan(
         False, "--llm-assist", help="Enable L8 LLM confidence scoring."
     ),  # noqa: B008
     fast: bool = typer.Option(False, "--fast", help="Fast mode: L0-L2 only."),  # noqa: B008
+    confidence: str = typer.Option(
+        "all", "--confidence", help="Minimum confidence: high|medium|low|all"
+    ),  # noqa: B008
 ) -> None:
     """Scan an agent directory for memory and tool security issues."""
     if not path.exists():
@@ -119,6 +130,10 @@ def scan(
 
     if fmt not in _VALID_FORMATS:
         typer.echo(f"Error: --format must be one of {sorted(_VALID_FORMATS)}", err=True)
+        raise typer.Exit(2)
+
+    if confidence not in _CONFIDENCE_MAP:
+        typer.echo(f"Error: --confidence must be one of {list(_CONFIDENCE_MAP)}", err=True)
         raise typer.Exit(2)
 
     # Build scan config
@@ -142,6 +157,14 @@ def scan(
     if result.errors and not result.findings:
         typer.echo(f"Scan error: {result.errors[0]}", err=True)
         raise typer.Exit(2)
+
+    # Filter by confidence threshold
+    conf_threshold = _CONFIDENCE_MAP[confidence]
+    if conf_threshold is not None:
+        threshold_rank = CONFIDENCE_RANK[conf_threshold]
+        result.findings = [
+            f for f in result.findings if CONFIDENCE_RANK[f.confidence] <= threshold_rank
+        ]
 
     # Terminal output or formatted output
     if fmt == "terminal":

@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import io
 import json
 from pathlib import Path
 
 from rich.console import Console
 
-from agentwall.models import Category, Finding, ScanResult, Severity
+from agentwall.models import Category, ConfidenceLevel, Finding, ScanResult, Severity
 from agentwall.reporters.agent_json import AgentJsonReporter, build_agent_json
 from agentwall.reporters.json_reporter import JsonReporter
 from agentwall.reporters.patch import PatchReporter, build_patch
@@ -80,6 +81,45 @@ class TestTerminalReporter:
         )
         result = _make_result([f])
         reporter.render(result)
+
+    def test_render_shows_confidence_inline(self) -> None:
+        buf = io.StringIO()
+        console = Console(file=buf, force_terminal=False, width=200)
+        reporter = TerminalReporter(console=console)
+        f = _make_finding(severity=Severity.HIGH)
+        f = f.model_copy(update={"confidence": ConfidenceLevel.MEDIUM})
+        result = _make_result([f])
+        reporter.render(result)
+        output = buf.getvalue()
+        assert "Confidence: Medium" in output
+
+    def test_render_dual_axis_summary(self) -> None:
+        buf = io.StringIO()
+        console = Console(file=buf, force_terminal=False, width=200)
+        reporter = TerminalReporter(console=console)
+        result = _make_result(
+            [
+                _make_finding(severity=Severity.CRITICAL, file=Path("/fake/a.py"), line=1),
+                _make_finding(
+                    rule_id="AW-TOOL-001", severity=Severity.HIGH, file=Path("/fake/b.py"), line=2
+                ).model_copy(update={"confidence": ConfidenceLevel.MEDIUM}),
+            ]
+        )
+        reporter.render(result)
+        output = buf.getvalue()
+        assert "by severity:" in output
+        assert "by confidence:" in output
+        assert "2 findings" in output
+
+    def test_render_shows_file_context_tag(self) -> None:
+        buf = io.StringIO()
+        console = Console(file=buf, force_terminal=False, width=200)
+        reporter = TerminalReporter(console=console)
+        f = _make_finding().model_copy(update={"file_context": "test file"})
+        result = _make_result([f])
+        reporter.render(result)
+        output = buf.getvalue()
+        assert "test file" in output
 
 
 class TestJsonReporter:
@@ -331,6 +371,33 @@ class TestAgentJsonReporter:
         assert isinstance(counts, dict)
         assert counts["critical"] == 1
         assert counts["high"] == 2
+
+    def test_agent_json_confidence_counts(self) -> None:
+        result = _make_result(
+            [
+                _make_finding(severity=Severity.CRITICAL),
+                _make_finding(rule_id="AW-TOOL-001", severity=Severity.HIGH).model_copy(
+                    update={"confidence": ConfidenceLevel.MEDIUM}
+                ),
+                _make_finding(rule_id="AW-MEM-005", severity=Severity.MEDIUM).model_copy(
+                    update={"confidence": ConfidenceLevel.LOW}
+                ),
+            ]
+        )
+        data = build_agent_json(result)
+        counts = data["confidence_counts"]
+        assert isinstance(counts, dict)
+        assert counts["high"] == 1
+        assert counts["medium"] == 1
+        assert counts["low"] == 1
+
+    def test_agent_json_file_context(self) -> None:
+        f = _make_finding().model_copy(update={"file_context": "test file"})
+        result = _make_result([f])
+        data = build_agent_json(result)
+        entry = data["findings"]
+        assert isinstance(entry, list)
+        assert entry[0]["file_context"] == "test file"
 
     def test_agent_json_unknown_rule_fallback(self) -> None:
         finding = Finding(
