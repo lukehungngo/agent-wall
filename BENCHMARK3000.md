@@ -1,6 +1,6 @@
 # AgentWall Benchmark 3000
 
-**Date:** 2026-03-18
+**Date:** 2026-03-20
 **Version:** 0.1.0
 **Layers enabled:** L0–L6 (default static analysis)
 **Projects:** 107
@@ -317,7 +317,7 @@
 ## 14. Attack Vector Heatmap (Per Project)
 
 | Project | AGT-001 | CFG-001 | CFG-003 | CFG-004 | INJ-001 | MEM-001 | MEM-002 | MEM-003 | MEM-004 | Total |
-|---|---|---|---|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Langchain-Chatchat | · | · | · | · | **3** | **15** | **2** | **3** | · | 23 |
 | PrivateGPT | · | · | · | · | · | · | · | · | · | 0 |
 | Quivr | · | · | · | · | · | **2** | · | · | · | 2 |
