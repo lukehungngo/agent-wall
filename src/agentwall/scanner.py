@@ -124,7 +124,7 @@ def scan(
         return ScanResult(
             target=target,
             framework=detected,
-            errors=[f"Unsupported or undetected framework: {detected!r}"],
+            warnings=[f"Unsupported or undetected framework: {detected!r}. Scan skipped."],
         )
 
     # ── Parse (adapter produces AgentSpec including ASM) ─────────────────

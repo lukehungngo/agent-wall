@@ -205,6 +205,7 @@ class ScanResult(BaseModel):
     findings: list[Finding] = Field(default_factory=list)
     scanned_files: int = 0
     errors: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
 
     @property
     def critical(self) -> list[Finding]:
