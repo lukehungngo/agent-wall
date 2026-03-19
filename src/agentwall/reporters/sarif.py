@@ -96,6 +96,20 @@ def _build_result(finding: Finding) -> dict[str, object]:
 
 def build_sarif(result: ScanResult) -> dict[str, object]:
     """Build the full SARIF v2.1.0 document from a ScanResult."""
+    invocation: dict[str, object] = {
+        "executionSuccessful": True,
+        "commandLine": f"agentwall scan {result.target}",
+    }
+    if result.warnings:
+        invocation["toolConfigurationNotifications"] = [
+            {
+                "message": {"text": w},
+                "level": "note",
+                "descriptor": {"id": "agentwall-warning"},
+            }
+            for w in result.warnings
+        ]
+
     sarif: dict[str, object] = {
         "$schema": _SARIF_SCHEMA,
         "version": _SARIF_VERSION,
@@ -110,12 +124,7 @@ def build_sarif(result: ScanResult) -> dict[str, object]:
                     },
                 },
                 "results": [_build_result(f) for f in result.findings],
-                "invocations": [
-                    {
-                        "executionSuccessful": True,
-                        "commandLine": f"agentwall scan {result.target}",
-                    },
-                ],
+                "invocations": [invocation],
             },
         ],
     }
