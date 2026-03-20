@@ -293,23 +293,30 @@ class TestMEM001FalsePositives:
         from agentwall.engine.models import PropertyExtraction, StoreProfile, ValueKind
         from agentwall.models import MemoryConfig
 
+        agent_file = tmp_path / "agent.py"
         ctx = _make_ctx(tmp_path, "# empty", "agent.py")
         ctx.spec = type(
             "Spec",
             (),
             {
                 "framework": "langchain",
-                "memory_configs": [MemoryConfig(backend="chromadb")],
+                "memory_configs": [
+                    MemoryConfig(
+                        backend="chromadb",
+                        source_file=agent_file,
+                        source_line=1,
+                    )
+                ],
                 "tools": [],
                 "source_files": [],
                 "metadata": {},
                 "asm": None,
             },
         )()
-        profile = StoreProfile(store_id="t", backend="chromadb")
+        profile = StoreProfile(store_id="t", backend="chromadb", file=agent_file, line=1)
         profile.extractions.append(
             PropertyExtraction(
-                file=tmp_path / "agent.py",
+                file=agent_file,
                 line=1,
                 store_id="t",
                 operation="read",

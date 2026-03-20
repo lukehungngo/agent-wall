@@ -62,21 +62,27 @@ class MemoryAnalyzer:
         return findings
 
     @staticmethod
-    def _get_engine_isolation(ctx: AnalysisContext) -> dict[str, str]:
-        """Get isolation strategy per backend from engine store profiles."""
-        result: dict[str, str] = {}
+    def _get_engine_isolation(ctx: AnalysisContext) -> dict[tuple[str, int | None], str]:
+        """Get isolation strategy per store instance from engine store profiles."""
+        result: dict[tuple[str, int | None], str] = {}
         profiles = getattr(ctx, "store_profiles", None)
         if not profiles:
             return result
         try:
             for profile in profiles:
-                result[profile.backend] = profile.isolation_strategy.value
+                if profile.file is not None:
+                    key: tuple[str, int | None] = (str(profile.file), profile.line)
+                    result[key] = profile.isolation_strategy.value
+                # Also store by backend as fallback
+                result[("__backend__", profile.backend)] = profile.isolation_strategy.value
         except Exception:  # noqa: BLE001
             pass
         return result
 
     def _check(
-        self, mc: MemoryConfig, engine_isolation: dict[str, str] | None = None
+        self,
+        mc: MemoryConfig,
+        engine_isolation: dict[tuple[str, int | None], str] | None = None,
     ) -> list[Finding]:
         findings: list[Finding] = []
 
@@ -88,7 +94,10 @@ class MemoryAnalyzer:
         # AW-MEM-001: no isolation AND no retrieval filter (vector stores only)
         # HIGH confidence — direct pattern match (no filter kwarg observed)
         if not is_memory_class and no_isolation and no_filter:
-            iso = (engine_isolation or {}).get(mc.backend, "")
+            _ei = engine_isolation or {}
+            iso = _ei.get((str(mc.source_file), mc.source_line), "")
+            if not iso:
+                iso = _ei.get(("__backend__", mc.backend), "")
             if iso == "filter_on_read":
                 pass  # suppressed — engine confirmed all reads carry tenant filter
             elif iso == "collection_per_tenant":
