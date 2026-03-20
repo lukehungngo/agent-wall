@@ -8,12 +8,16 @@ from agentwall.analyzers.asm import ASMAnalyzer
 from agentwall.analyzers.callgraph import CallGraphAnalyzer
 from agentwall.analyzers.confidence import ConfidenceScorerAnalyzer
 from agentwall.analyzers.config import ConfigAuditor
+from agentwall.analyzers.mcp_security import MCPSecurityAnalyzer
 from agentwall.analyzers.memory import MemoryAnalyzer
 from agentwall.analyzers.runtime import RuntimeAnalyzer
+from agentwall.analyzers.secrets import SecretsAnalyzer
 from agentwall.analyzers.semgrep import SemgrepAnalyzer
+from agentwall.analyzers.serialization import SerializationAnalyzer
 from agentwall.analyzers.symbolic import SymbolicAnalyzer
 from agentwall.analyzers.taint import TaintAnalyzer
 from agentwall.analyzers.tools import ToolAnalyzer
+from agentwall.analyzers.versions import VersionsAnalyzer
 
 if TYPE_CHECKING:
     from agentwall.context import Analyzer
@@ -21,6 +25,10 @@ if TYPE_CHECKING:
 # Order doesn't matter — _resolve_order topologically sorts by depends_on.
 # To add a new analyzer: create the class, add one entry here.
 ANALYZERS: list[type[Analyzer]] = [
+    VersionsAnalyzer,            # L0-versions, depends_on=(), framework_agnostic
+    SecretsAnalyzer,             # L1-secrets, depends_on=("L0-versions",), framework_agnostic
+    SerializationAnalyzer,       # L1-serialization, depends_on=("L0-versions",), framework_agnostic
+    MCPSecurityAnalyzer,         # L1-mcp, depends_on=("L0-versions",), framework_agnostic
     MemoryAnalyzer,              # L1-memory, depends_on=()
     ToolAnalyzer,                # L1-tools,  depends_on=()
     CallGraphAnalyzer,           # L2,        depends_on=("L1-memory", "L1-tools")
