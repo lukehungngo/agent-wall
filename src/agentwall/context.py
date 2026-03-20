@@ -18,6 +18,8 @@ from typing import TYPE_CHECKING, Protocol, runtime_checkable
 from agentwall.models import Finding, ScanConfig
 
 if TYPE_CHECKING:
+    from agentwall.engine.graph import ProjectGraph
+    from agentwall.engine.models import PathCoverage, PropertyVerification, StoreProfile
     from agentwall.models import AgentSpec, CallGraph, Severity, TaintResult, VersionModifier
 
 
@@ -42,6 +44,18 @@ class AnalysisContext:
 
     # Populated by L0-versions analyzer
     version_modifiers: dict[str, VersionModifier] = field(default_factory=dict)
+
+    # Populated by L1 engine
+    store_profiles: list[StoreProfile] | None = None
+
+    # Populated by L2 engine
+    project_graph: ProjectGraph | None = None
+
+    # Populated by L3 engine
+    property_verifications: list[PropertyVerification] | None = None
+
+    # Populated by L6 engine
+    path_coverages: list[PathCoverage] | None = None
 
     # Accumulated findings from all layers
     findings: list[Finding] = field(default_factory=list)

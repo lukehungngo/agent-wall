@@ -316,6 +316,18 @@ class CallGraphAnalyzer:
         if not spec.source_files:
             return l1_findings
 
+        # NEW: Try new engine first (non-breaking — falls back on failure)
+        try:
+            from agentwall.engine.graph import build_project_graph
+            from agentwall.frameworks.langchain import LANGCHAIN_MODEL
+
+            if spec.framework == "langchain":
+                project_graph = build_project_graph(spec.source_files, LANGCHAIN_MODEL, target)
+                ctx.project_graph = project_graph
+        except Exception:
+            pass
+
+        # EXISTING: Build old call graph (keep for backward compat)
         graph = build_call_graph(target, spec.source_files)
         ctx.call_graph = graph
         refined: list[Finding] = []

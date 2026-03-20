@@ -211,6 +211,22 @@ class TaintAnalyzer:
         if spec is None:
             return []
 
+        # NEW: Try new engine (non-breaking — populates ctx for downstream)
+        try:
+            from agentwall.engine.extractor import extract_properties
+            from agentwall.engine.verifier import verify_tenant_isolation
+            from agentwall.frameworks.langchain import LANGCHAIN_MODEL
+
+            if spec.framework == "langchain" and ctx.project_graph is not None:
+                profiles = extract_properties(spec.source_files, LANGCHAIN_MODEL)
+                ctx.store_profiles = profiles
+                verifications = verify_tenant_isolation(
+                    profiles, ctx.project_graph, LANGCHAIN_MODEL
+                )
+                ctx.property_verifications = verifications
+        except Exception:
+            pass
+
         _call_graph = ctx.call_graph  # available for cross-file taint (v1.0)  # noqa: F841
 
         findings: list[Finding] = []

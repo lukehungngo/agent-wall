@@ -184,6 +184,24 @@ class SymbolicAnalyzer:
         if spec is None:
             return []
 
+        # NEW: Try new engine (non-breaking)
+        try:
+            from agentwall.engine.pathcov import compute_path_coverage
+
+            if (
+                ctx.store_profiles is not None
+                and ctx.project_graph is not None
+                and ctx.property_verifications is not None
+            ):
+                coverages = compute_path_coverage(
+                    ctx.store_profiles,
+                    ctx.project_graph,
+                    ctx.property_verifications,
+                )
+                ctx.path_coverages = coverages
+        except Exception:
+            pass
+
         _taint_results = (
             ctx.taint_results
         )  # available for taint-aware path analysis (v1.0)  # noqa: F841
