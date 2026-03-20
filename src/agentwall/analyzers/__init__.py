@@ -4,12 +4,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from agentwall.analyzers.agent_arch import AgentArchAnalyzer
 from agentwall.analyzers.asm import ASMAnalyzer
 from agentwall.analyzers.callgraph import CallGraphAnalyzer
 from agentwall.analyzers.confidence import ConfidenceScorerAnalyzer
 from agentwall.analyzers.config import ConfigAuditor
 from agentwall.analyzers.mcp_security import MCPSecurityAnalyzer
 from agentwall.analyzers.memory import MemoryAnalyzer
+from agentwall.analyzers.rag import RAGAnalyzer
 from agentwall.analyzers.runtime import RuntimeAnalyzer
 from agentwall.analyzers.secrets import SecretsAnalyzer
 from agentwall.analyzers.semgrep import SemgrepAnalyzer
@@ -29,8 +31,10 @@ ANALYZERS: list[type[Analyzer]] = [
     SecretsAnalyzer,             # L1-secrets, depends_on=("L0-versions",), framework_agnostic
     SerializationAnalyzer,       # L1-serialization, depends_on=("L0-versions",), framework_agnostic
     MCPSecurityAnalyzer,         # L1-mcp, depends_on=("L0-versions",), framework_agnostic
+    RAGAnalyzer,                 # L1-rag, depends_on=("L0-versions",)
     MemoryAnalyzer,              # L1-memory, depends_on=()
     ToolAnalyzer,                # L1-tools,  depends_on=()
+    AgentArchAnalyzer,           # L2-agent,  depends_on=("L0-versions",)
     CallGraphAnalyzer,           # L2,        depends_on=("L1-memory", "L1-tools")
     TaintAnalyzer,               # L3,        depends_on=("L2",)
     ConfigAuditor,               # L4,        depends_on=()
