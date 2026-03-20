@@ -208,3 +208,101 @@ def test_framework_model_with_all_pattern_types() -> None:
 def test_framework_model_stores_missing_key() -> None:
     model = FrameworkModel(name="langchain", stores={})
     assert model.stores.get("NonExistent") is None
+
+
+# ── LANGCHAIN_MODEL ────────────────────────────────────────────────────────────
+
+from agentwall.frameworks.langchain import LANGCHAIN_MODEL  # noqa: E402
+
+
+def test_langchain_model_has_chroma() -> None:
+    assert "Chroma" in LANGCHAIN_MODEL.stores
+    chroma = LANGCHAIN_MODEL.stores["Chroma"]
+    assert chroma.backend == "chromadb"
+    assert "collection_name" in chroma.isolation_params
+    assert "similarity_search" in chroma.read_methods
+    assert chroma.read_methods["similarity_search"] == "filter"
+    assert "add_texts" in chroma.write_methods
+
+
+def test_langchain_model_has_pgvector() -> None:
+    assert "PGVector" in LANGCHAIN_MODEL.stores
+    assert LANGCHAIN_MODEL.stores["PGVector"].backend == "pgvector"
+
+
+def test_langchain_model_has_faiss() -> None:
+    faiss = LANGCHAIN_MODEL.stores["FAISS"]
+    assert faiss.backend == "faiss"
+    assert faiss.has_builtin_acl is False
+
+
+def test_langchain_model_has_pipe_pattern() -> None:
+    assert any(p.operator == "|" for p in LANGCHAIN_MODEL.pipe_patterns)
+
+
+def test_langchain_model_has_factory_patterns() -> None:
+    methods = {f.method for f in LANGCHAIN_MODEL.factory_patterns}
+    assert "from_llm" in methods
+    assert "from_chain_type" in methods
+
+
+def test_langchain_model_has_tool_decorator() -> None:
+    decorators = {d.decorator for d in LANGCHAIN_MODEL.decorator_patterns}
+    assert "tool" in decorators
+
+
+def test_langchain_model_covers_all_backends() -> None:
+    expected = {
+        "Chroma",
+        "PGVector",
+        "Pinecone",
+        "Qdrant",
+        "FAISS",
+        "Weaviate",
+        "Neo4jVector",
+        "Milvus",
+        "Redis",
+        "ElasticsearchStore",
+        "LanceDB",
+        "MongoDBAtlasVectorSearch",
+    }
+    assert expected.issubset(LANGCHAIN_MODEL.stores.keys())
+
+
+def test_langchain_model_memory_classes() -> None:
+    expected = {
+        "ConversationBufferMemory",
+        "ConversationBufferWindowMemory",
+        "ConversationSummaryMemory",
+        "ConversationSummaryBufferMemory",
+        "VectorStoreRetrieverMemory",
+        "ConversationEntityMemory",
+        "ConversationKGMemory",
+    }
+    assert expected.issubset(set(LANGCHAIN_MODEL.memory_classes))
+
+
+def test_langchain_model_faiss_empty_isolation() -> None:
+    faiss = LANGCHAIN_MODEL.stores["FAISS"]
+    assert faiss.isolation_params == []
+
+
+def test_langchain_model_weaviate_uses_where_filter() -> None:
+    weaviate = LANGCHAIN_MODEL.stores["Weaviate"]
+    assert weaviate.read_methods.get("similarity_search") == "where_filter"
+
+
+def test_langchain_model_milvus_uses_expr() -> None:
+    milvus = LANGCHAIN_MODEL.stores["Milvus"]
+    assert milvus.read_methods.get("similarity_search") == "expr"
+
+
+def test_langchain_model_all_stores_have_retriever_factory() -> None:
+    for name, store in LANGCHAIN_MODEL.stores.items():
+        assert store.retriever_factory == "as_retriever", (
+            f"{name}: expected retriever_factory='as_retriever', got {store.retriever_factory!r}"
+        )
+        assert store.retriever_filter_path == "search_kwargs.filter", (
+            f"{name}: expected retriever_filter_path='search_kwargs.filter', "
+            f"got {store.retriever_filter_path!r}"
+        )
