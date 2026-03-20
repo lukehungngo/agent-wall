@@ -1,0 +1,14 @@
+library: pinecone
+pypi_name: pinecone
+import_names: [pinecone]
+
+versions:
+  - range: "<4.0.0"
+    facts:
+      has_namespace_isolation: false
+  - range: ">=4.0.0"
+    facts:
+      has_namespace_isolation: true
+
+cves: []
+modifiers: []

@@ -44,6 +44,7 @@ class ASMAnalyzer:
     depends_on: Sequence[str] = ("L2",)
     replace: bool = False
     opt_in: bool = False
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         model = ctx.spec.asm if ctx.spec else None
@@ -126,7 +127,9 @@ class ASMAnalyzer:
         }
 
     def _find_triggering_ep(
-        self, model: ApplicationModel, op_id: str,
+        self,
+        model: ApplicationModel,
+        op_id: str,
     ) -> object | None:
         """Find the EntryPoint that triggers a given WriteOp/ReadOp via edges."""
         ep_map = {ep.id: ep for ep in model.entry_points}
@@ -138,7 +141,9 @@ class ASMAnalyzer:
         return None
 
     def _find_sink_for_read(
-        self, model: ApplicationModel, read_id: str,
+        self,
+        model: ApplicationModel,
+        read_id: str,
     ) -> object | None:
         """Find the ContextSink connected to a ReadOp via assembles_into edge."""
         sink_map = {s.id: s for s in model.sinks}
@@ -164,19 +169,19 @@ class ASMAnalyzer:
             for ep_id in trigger_map.get(write.id, []):
                 ep = ep_map.get(ep_id)
                 if ep and ep.auth == "unauthenticated":
-                    store = next(
-                        (s for s in model.stores if s.id == write.store_id), None
-                    )
+                    store = next((s for s in model.stores if s.id == write.store_id), None)
                     nodes = [n for n in [ep, write, store] if n is not None]
-                    findings.append(self._make_finding(
-                        rule_id=AW_MEM_003.rule_id,
-                        title="Unauthenticated entry point writes to vector store",
-                        desired_severity=Severity.HIGH,
-                        description=AW_MEM_003.description,
-                        fix=AW_MEM_003.fix,
-                        evidence_nodes=nodes,
-                        evidence_path=[self._serialize_node(n) for n in nodes],
-                    ))
+                    findings.append(
+                        self._make_finding(
+                            rule_id=AW_MEM_003.rule_id,
+                            title="Unauthenticated entry point writes to vector store",
+                            desired_severity=Severity.HIGH,
+                            description=AW_MEM_003.description,
+                            fix=AW_MEM_003.fix,
+                            evidence_nodes=nodes,
+                            evidence_path=[self._serialize_node(n) for n in nodes],
+                        )
+                    )
         return findings
 
     # ── Q2: Write-Read Metadata Key Mismatch ──────────────────────────────
@@ -195,15 +200,17 @@ class ASMAnalyzer:
                     missing = r.filter_keys - frozenset(write_keys)
                     if missing:
                         nodes: list[object] = list(store_writes) + [store, r]
-                        findings.append(self._make_finding(
-                            rule_id=AW_MEM_002.rule_id,
-                            title=f"Filter key(s) {missing} never written at ingestion",
-                            desired_severity=Severity.HIGH,
-                            description=AW_MEM_002.description,
-                            fix=AW_MEM_002.fix,
-                            evidence_nodes=nodes,
-                            evidence_path=[self._serialize_node(n) for n in nodes],
-                        ))
+                        findings.append(
+                            self._make_finding(
+                                rule_id=AW_MEM_002.rule_id,
+                                title=f"Filter key(s) {missing} never written at ingestion",
+                                desired_severity=Severity.HIGH,
+                                description=AW_MEM_002.description,
+                                fix=AW_MEM_002.fix,
+                                evidence_nodes=nodes,
+                                evidence_path=[self._serialize_node(n) for n in nodes],
+                            )
+                        )
         return findings
 
     # ── Q3: Static Shared Collection ──────────────────────────────────────
@@ -227,20 +234,21 @@ class ASMAnalyzer:
                         writer_eps.add(ep_id)
             if len(writer_eps) <= 1:
                 continue
-            unfiltered = [r for r in model.read_ops
-                         if r.store_id == store.id and not r.has_filter]
+            unfiltered = [r for r in model.read_ops if r.store_id == store.id and not r.has_filter]
             if unfiltered:
                 nodes: list[object] = [ep_map[eid] for eid in writer_eps if eid in ep_map]
                 nodes.extend([store, *unfiltered])
-                findings.append(self._make_finding(
-                    rule_id=AW_MEM_001.rule_id,
-                    title=f"Static collection '{store.collection_name}' shared across {len(writer_eps)} entry points without filter",
-                    desired_severity=Severity.CRITICAL,
-                    description=AW_MEM_001.description,
-                    fix=AW_MEM_001.fix,
-                    evidence_nodes=nodes,
-                    evidence_path=[self._serialize_node(n) for n in nodes],
-                ))
+                findings.append(
+                    self._make_finding(
+                        rule_id=AW_MEM_001.rule_id,
+                        title=f"Static collection '{store.collection_name}' shared across {len(writer_eps)} entry points without filter",
+                        desired_severity=Severity.CRITICAL,
+                        description=AW_MEM_001.description,
+                        fix=AW_MEM_001.fix,
+                        evidence_nodes=nodes,
+                        evidence_path=[self._serialize_node(n) for n in nodes],
+                    )
+                )
         return findings
 
     # ── Q4: Cross-Tenant Reachable Path ───────────────────────────────────
@@ -260,26 +268,30 @@ class ASMAnalyzer:
                 entry_r = self._find_triggering_ep(model, first_read.id)
                 sink = self._find_sink_for_read(model, first_read.id)
                 evidence_nodes: list[object] = [
-                    n for n in [entry_w, first_write, store, first_read, entry_r, sink]
+                    n
+                    for n in [entry_w, first_write, store, first_read, entry_r, sink]
                     if n is not None
                 ]
                 # evidence_path: all unscoped writes and all unfiltered reads
                 path_nodes: list[object] = [
-                    n for n in [entry_w, *unscoped_writes, store, *unfiltered_reads, entry_r, sink]
+                    n
+                    for n in [entry_w, *unscoped_writes, store, *unfiltered_reads, entry_r, sink]
                     if n is not None
                 ]
-                findings.append(self._make_finding(
-                    rule_id=AW_MEM_001.rule_id,
-                    title="Cross-tenant data reachable: no user scope at write or read",
-                    desired_severity=Severity.CRITICAL,
-                    description=(
-                        "Data is written to the vector store without user/tenant metadata "
-                        "and retrieved without a filter. Any user's query returns any user's data."
-                    ),
-                    fix="Add user_id to metadata at write time AND filter on user_id at read time.",
-                    evidence_nodes=evidence_nodes,
-                    evidence_path=[self._serialize_node(n) for n in path_nodes],
-                ))
+                findings.append(
+                    self._make_finding(
+                        rule_id=AW_MEM_001.rule_id,
+                        title="Cross-tenant data reachable: no user scope at write or read",
+                        desired_severity=Severity.CRITICAL,
+                        description=(
+                            "Data is written to the vector store without user/tenant metadata "
+                            "and retrieved without a filter. Any user's query returns any user's data."
+                        ),
+                        fix="Add user_id to metadata at write time AND filter on user_id at read time.",
+                        evidence_nodes=evidence_nodes,
+                        evidence_path=[self._serialize_node(n) for n in path_nodes],
+                    )
+                )
         return findings
 
     # ── Q5: Unsanitized Context Assembly ──────────────────────────────────
@@ -293,17 +305,17 @@ class ASMAnalyzer:
                 continue
             sink = sink_map.get(edge.target_id)
             if sink and not sink.sanitized:
-                read = next(
-                    (r for r in model.read_ops if r.id == edge.source_id), None
-                )
+                read = next((r for r in model.read_ops if r.id == edge.source_id), None)
                 nodes: list[object] = [n for n in [read, sink] if n is not None]
-                findings.append(self._make_finding(
-                    rule_id=AW_MEM_005.rule_id,
-                    title="Retrieved memory injected into LLM context without sanitization",
-                    desired_severity=Severity.MEDIUM,
-                    description=AW_MEM_005.description,
-                    fix=AW_MEM_005.fix,
-                    evidence_nodes=nodes,
-                    evidence_path=[self._serialize_node(n) for n in nodes],
-                ))
+                findings.append(
+                    self._make_finding(
+                        rule_id=AW_MEM_005.rule_id,
+                        title="Retrieved memory injected into LLM context without sanitization",
+                        desired_severity=Severity.MEDIUM,
+                        description=AW_MEM_005.description,
+                        fix=AW_MEM_005.fix,
+                        evidence_nodes=nodes,
+                        evidence_path=[self._serialize_node(n) for n in nodes],
+                    )
+                )
         return findings

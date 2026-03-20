@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 from agentwall.adapters.langchain import LangChainAdapter
 from agentwall.analyzers import ANALYZERS
 from agentwall.context import AnalysisContext
-from agentwall.detector import auto_detect_framework
+from agentwall.detector import _source_files, auto_detect_framework
 from agentwall.models import Finding, ScanConfig, ScanResult
 from agentwall.postprocess import apply_file_context, dedup, sort
 
@@ -119,26 +119,33 @@ def scan(
 
     # ── L0: Framework detection ──────────────────────────────────────────
     detected = framework or auto_detect_framework(target)
+    scan_warnings: list[str] = []
 
-    if detected != "langchain":
-        return ScanResult(
-            target=target,
-            framework=detected,
-            warnings=[f"Unsupported or undetected framework: {detected!r}. Scan skipped."],
+    # ── Collect source files (always, regardless of framework) ───────────
+    source_files = _source_files(target)
+
+    # ── Parse adapter (langchain only for now) ───────────────────────────
+    spec = None
+    if detected == "langchain":
+        adapter = LangChainAdapter()
+        spec = adapter.parse(target)
+    else:
+        scan_warnings.append(
+            f"Unsupported or undetected framework: {detected!r}. "
+            "Only framework-agnostic analyzers will run."
         )
 
-    # ── Parse (adapter produces AgentSpec including ASM) ─────────────────
-    adapter = LangChainAdapter()
-    spec = adapter.parse(target)
-
-    ctx = AnalysisContext(target=target, config=config, spec=spec)
+    ctx = AnalysisContext(target=target, config=config, spec=spec, source_files=source_files)
 
     # ── Run analyzers in dependency order ─────────────────────────────────
     ordered = _resolve_order(ANALYZERS, layers)
-
     shadow = config.shadow_layers | ({"ASM"} if config.asm_shadow else set())
 
     for analyzer_cls in ordered:
+        # Skip non-framework-agnostic analyzers when no adapter was run
+        if ctx.spec is None and not getattr(analyzer_cls, "framework_agnostic", False):
+            continue
+
         group = _layer_group(analyzer_cls.name)
 
         # Shadow mode: run but suppress output
@@ -179,12 +186,15 @@ def scan(
     all_findings = apply_file_context(all_findings)
     all_findings = sort(all_findings)
 
+    scanned = len(spec.source_files) if spec else len(source_files)
+
     return ScanResult(
         target=target,
         framework=detected,
         findings=all_findings,
-        scanned_files=len(spec.source_files),
+        scanned_files=scanned,
         errors=ctx.errors,
+        warnings=scan_warnings,
     )
 
 

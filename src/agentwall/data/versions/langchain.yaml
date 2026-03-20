@@ -1,0 +1,14 @@
+library: langchain
+pypi_name: langchain
+import_names: [langchain]
+
+versions:
+  - range: "<0.2.0"
+    facts:
+      has_safe_tools_api: false
+  - range: ">=0.2.0"
+    facts:
+      has_safe_tools_api: true
+
+cves: []
+modifiers: []

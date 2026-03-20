@@ -300,6 +300,7 @@ class CallGraphAnalyzer:
     depends_on: Sequence[str] = ("L1-memory", "L1-tools")
     replace: bool = True
     opt_in: bool = False
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         """Refine L1 findings using call graph analysis.

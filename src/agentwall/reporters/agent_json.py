@@ -146,8 +146,7 @@ def build_agent_json(result: ScanResult) -> dict[str, object]:
             sev.value: len(findings) for sev, findings in result.by_severity.items() if findings
         },
         "confidence_counts": {
-            cl.value: count
-            for cl, count in Counter(f.confidence for f in result.findings).items()
+            cl.value: count for cl, count in Counter(f.confidence for f in result.findings).items()
         },
         "findings": flat_findings,
         "errors": result.errors,

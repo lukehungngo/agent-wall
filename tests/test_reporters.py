@@ -695,8 +695,18 @@ class TestASMReporterFields:
             description="Test",
             layer="ASM",
             evidence_path=[
-                {"type": "WriteOp", "file": "ingest.py", "line": 15, "detail": "metadata_keys: {source}"},
-                {"type": "Store", "file": "config.py", "line": 8, "detail": "chroma, collection='docs'"},
+                {
+                    "type": "WriteOp",
+                    "file": "ingest.py",
+                    "line": 15,
+                    "detail": "metadata_keys: {source}",
+                },
+                {
+                    "type": "Store",
+                    "file": "config.py",
+                    "line": 8,
+                    "detail": "chroma, collection='docs'",
+                },
             ],
             proof_strength="confirmed",
         )

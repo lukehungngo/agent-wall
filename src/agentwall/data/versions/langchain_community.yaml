@@ -1,0 +1,11 @@
+library: langchain-community
+pypi_name: langchain-community
+import_names: [langchain_community]
+
+versions:
+  - range: ">=0.0.1"
+    facts:
+      has_vector_store_wrappers: true
+
+cves: []
+modifiers: []

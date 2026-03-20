@@ -1,0 +1,19 @@
+library: PyYAML
+pypi_name: pyyaml
+import_names: [yaml]
+
+versions:
+  - range: "<6.0"
+    facts:
+      yaml_load_unsafe_by_default: true
+  - range: ">=6.0"
+    facts:
+      yaml_load_unsafe_by_default: false
+
+cves: []
+
+modifiers:
+  - range: "<6.0"
+    upgrade:
+      AW-SER-001: HIGH
+    condition: "yaml.load() without Loader is unsafe"

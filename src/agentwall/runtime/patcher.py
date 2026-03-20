@@ -49,7 +49,6 @@ _PATCH_TARGETS: dict[str, list[str]] = {
 }
 
 
-
 @dataclass
 class RuntimeViolation:
     """A detected unfiltered retrieval call at runtime."""

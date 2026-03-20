@@ -1,4 +1,5 @@
 """Fixture: Static collection written by multiple endpoints, read without filter."""
+
 from fastapi import FastAPI
 from langchain_community.vectorstores import Chroma
 

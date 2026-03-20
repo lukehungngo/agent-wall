@@ -14,11 +14,18 @@ _HTTP_METHODS = frozenset({"get", "post", "put", "patch", "delete", "head", "opt
 _JOB_DECORATORS = frozenset({"task", "shared_task"})
 
 # Auth dependency patterns (FastAPI Depends)
-_AUTH_PATTERNS = frozenset({
-    "get_current_user", "get_current_active_user", "get_user",
-    "require_auth", "require_login", "auth_required",
-    "current_user", "authenticated",
-})
+_AUTH_PATTERNS = frozenset(
+    {
+        "get_current_user",
+        "get_current_active_user",
+        "get_user",
+        "require_auth",
+        "require_login",
+        "auth_required",
+        "current_user",
+        "authenticated",
+    }
+)
 
 
 class _Counter:
@@ -34,7 +41,10 @@ class _Counter:
 
 
 def extract_entry_points(
-    tree: ast.Module, file: Path, *, counter: _Counter,
+    tree: ast.Module,
+    file: Path,
+    *,
+    counter: _Counter,
 ) -> list[EntryPoint]:
     """Extract entry points from an AST module."""
     ctr = counter
@@ -48,7 +58,9 @@ def extract_entry_points(
 
 
 def _check_function(
-    node: ast.FunctionDef | ast.AsyncFunctionDef, file: Path, ctr: _Counter,
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+    file: Path,
+    ctr: _Counter,
 ) -> EntryPoint | None:
     for dec in node.decorator_list:
         result = _check_decorator(dec, node, file, ctr)
@@ -72,7 +84,9 @@ def _check_decorator(
                 id=ctr.next_id(),
                 kind="http_route",
                 provenance=Provenance(
-                    file=file, line=node.lineno, col=node.col_offset,
+                    file=file,
+                    line=node.lineno,
+                    col=node.col_offset,
                     symbol=node.name,
                     end_line=getattr(node, "end_lineno", None),
                 ),
@@ -89,7 +103,9 @@ def _check_decorator(
             id=ctr.next_id(),
             kind="background_job",
             provenance=Provenance(
-                file=file, line=node.lineno, col=node.col_offset,
+                file=file,
+                line=node.lineno,
+                col=node.col_offset,
                 symbol=node.name,
                 end_line=getattr(node, "end_lineno", None),
             ),

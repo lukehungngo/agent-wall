@@ -399,6 +399,7 @@ class ConfidenceScorerAnalyzer:
     depends_on: Sequence[str] = ()
     replace: bool = True  # transforms all existing findings
     opt_in: bool = True
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         scorer = ConfidenceScorer(allow_local_llm=True, allow_api=False)

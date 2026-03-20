@@ -1,4 +1,5 @@
 """Verify that L2→L3→L6 share data through AnalysisContext."""
+
 from pathlib import Path
 
 from agentwall.analyzers.callgraph import CallGraphAnalyzer

@@ -8,11 +8,20 @@ from pathlib import Path
 from agentwall.models import ASMConfidence, ContextSink, Provenance
 from agentwall.patterns import RETRIEVAL_METHODS, SANITIZE_NAMES
 
-_LLM_METHODS = frozenset({
-    "invoke", "ainvoke", "predict", "apredict",
-    "call", "__call__", "run", "arun",
-    "generate", "agenerate",
-})
+_LLM_METHODS = frozenset(
+    {
+        "invoke",
+        "ainvoke",
+        "predict",
+        "apredict",
+        "call",
+        "__call__",
+        "run",
+        "arun",
+        "generate",
+        "agenerate",
+    }
+)
 
 
 class _Counter:
@@ -28,7 +37,10 @@ class _Counter:
 
 
 def extract_context_sinks(
-    tree: ast.Module, file: Path, *, counter: _Counter,
+    tree: ast.Module,
+    file: Path,
+    *,
+    counter: _Counter,
 ) -> list[ContextSink]:
     """Extract context sinks from an AST module.
 
@@ -91,16 +103,20 @@ def extract_context_sinks(
 
         if call_names & tainted:
             is_sanitized = bool(call_names & sanitized_vars)
-            sinks.append(ContextSink(
-                id=ctr.next_id(),
-                provenance=Provenance(
-                    file=file, line=node.lineno, col=node.col_offset,
-                    symbol=_get_func_name(func) or "llm",
-                ),
-                kind="llm_context",
-                sanitized=is_sanitized,
-                confidence=ASMConfidence.INFERRED,
-            ))
+            sinks.append(
+                ContextSink(
+                    id=ctr.next_id(),
+                    provenance=Provenance(
+                        file=file,
+                        line=node.lineno,
+                        col=node.col_offset,
+                        symbol=_get_func_name(func) or "llm",
+                    ),
+                    kind="llm_context",
+                    sanitized=is_sanitized,
+                    confidence=ASMConfidence.INFERRED,
+                )
+            )
 
     return sinks
 

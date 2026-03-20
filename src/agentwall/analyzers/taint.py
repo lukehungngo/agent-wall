@@ -203,6 +203,7 @@ class TaintAnalyzer:
     depends_on: Sequence[str] = ("L2",)
     replace: bool = False
     opt_in: bool = False
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         """Run taint analysis across all source files."""

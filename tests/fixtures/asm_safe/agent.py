@@ -1,5 +1,6 @@
 # ruff: noqa: B008
 """Fixture: Properly isolated — auth on routes, user_id in metadata and filter."""
+
 from fastapi import Depends, FastAPI
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI

@@ -1,0 +1,11 @@
+library: qdrant-client
+pypi_name: qdrant-client
+import_names: [qdrant_client]
+
+versions:
+  - range: ">=0.0.1"
+    facts:
+      has_payload_filtering: true
+
+cves: []
+modifiers: []

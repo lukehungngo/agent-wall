@@ -40,37 +40,28 @@ class MCPSecurityAnalyzer:
             if isinstance(node, ast.Import):
                 for alias in node.names:
                     if any(
-                        alias.name == imp or alias.name.startswith(imp + ".")
-                        for imp in MCP_IMPORTS
+                        alias.name == imp or alias.name.startswith(imp + ".") for imp in MCP_IMPORTS
                     ):
                         return True
             if (
                 isinstance(node, ast.ImportFrom)
                 and node.module
                 and any(
-                    node.module == imp or node.module.startswith(imp + ".")
-                    for imp in MCP_IMPORTS
+                    node.module == imp or node.module.startswith(imp + ".") for imp in MCP_IMPORTS
                 )
             ):
                 return True
         return False
 
-    def _check_file(
-        self, ctx: AnalysisContext, tree: ast.Module, path: Path
-    ) -> list[Finding]:
+    def _check_file(self, ctx: AnalysisContext, tree: ast.Module, path: Path) -> list[Finding]:
         findings: list[Finding] = []
 
         for node in ast.walk(tree):
             # Detect Server() instantiation (AW-MCP-001)
             if isinstance(node, ast.Call):
                 call_name = self._get_call_name(node)
-                if call_name == "Server" and not ctx.should_suppress(
-                    AW_MCP_001.rule_id
-                ):
-                    sev = (
-                        ctx.severity_override(AW_MCP_001.rule_id)
-                        or AW_MCP_001.severity
-                    )
+                if call_name == "Server" and not ctx.should_suppress(AW_MCP_001.rule_id):
+                    sev = ctx.severity_override(AW_MCP_001.rule_id) or AW_MCP_001.severity
                     findings.append(
                         Finding(
                             rule_id=AW_MCP_001.rule_id,
@@ -93,10 +84,7 @@ class MCPSecurityAnalyzer:
                         and len(node.value) > len(prefix) + 4
                         and not ctx.should_suppress(AW_MCP_002.rule_id)
                     ):
-                        sev = (
-                            ctx.severity_override(AW_MCP_002.rule_id)
-                            or AW_MCP_002.severity
-                        )
+                        sev = ctx.severity_override(AW_MCP_002.rule_id) or AW_MCP_002.severity
                         findings.append(
                             Finding(
                                 rule_id=AW_MCP_002.rule_id,
@@ -125,10 +113,7 @@ class MCPSecurityAnalyzer:
                             and call_name in MCP_SHELL_CALLS
                             and not ctx.should_suppress(AW_MCP_003.rule_id)
                         ):
-                            sev = (
-                                ctx.severity_override(AW_MCP_003.rule_id)
-                                or AW_MCP_003.severity
-                            )
+                            sev = ctx.severity_override(AW_MCP_003.rule_id) or AW_MCP_003.severity
                             findings.append(
                                 Finding(
                                     rule_id=AW_MCP_003.rule_id,
@@ -154,9 +139,7 @@ class MCPSecurityAnalyzer:
 
     @staticmethod
     def _get_qualified_name(node: ast.Call) -> str | None:
-        if isinstance(node.func, ast.Attribute) and isinstance(
-            node.func.value, ast.Name
-        ):
+        if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
             return f"{node.func.value.id}.{node.func.attr}"
         if isinstance(node.func, ast.Name):
             return node.func.id

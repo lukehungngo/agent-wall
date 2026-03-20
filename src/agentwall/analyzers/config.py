@@ -134,6 +134,7 @@ class ConfigAuditor:
     depends_on: Sequence[str] = ()
     replace: bool = False
     opt_in: bool = False
+    framework_agnostic: bool = True
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         target = ctx.target

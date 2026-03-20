@@ -121,11 +121,11 @@ class TestCollectionNameClassification:
 
 class TestFastAPIEntryPoints:
     def test_detects_post_route(self) -> None:
-        code = '''
+        code = """
 @app.post("/upload")
 async def upload(file):
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("api.py"))
         assert len(eps) == 1
@@ -133,31 +133,31 @@ async def upload(file):
         assert eps[0].provenance.symbol == "upload"
 
     def test_detects_get_route(self) -> None:
-        code = '''
+        code = """
 @app.get("/items")
 def list_items():
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("api.py"))
         assert len(eps) == 1
 
     def test_detects_router_route(self) -> None:
-        code = '''
+        code = """
 @router.post("/ingest")
 async def ingest(data: dict):
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("routes.py"))
         assert len(eps) == 1
 
     def test_detects_auth_dependency(self) -> None:
-        code = '''
+        code = """
 @app.post("/upload")
 async def upload(file, user=Depends(get_current_user)):
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("api.py"))
         assert len(eps) == 1
@@ -165,21 +165,21 @@ async def upload(file, user=Depends(get_current_user)):
         assert eps[0].confidence == ASMConfidence.CONFIRMED
 
     def test_no_auth_is_unknown(self) -> None:
-        code = '''
+        code = """
 @app.post("/upload")
 async def upload(file):
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("api.py"))
         assert eps[0].auth == "unknown"
 
     def test_celery_task(self) -> None:
-        code = '''
+        code = """
 @celery.task
 def nightly_reindex():
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("tasks.py"))
         assert len(eps) == 1
@@ -187,31 +187,31 @@ def nightly_reindex():
         assert eps[0].auth == "unauthenticated"
 
     def test_flask_route(self) -> None:
-        code = '''
+        code = """
 @app.route("/upload", methods=["POST"])
 def upload():
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("views.py"))
         assert len(eps) == 1
         assert eps[0].kind == "http_route"
 
     def test_ignores_non_route_decorators(self) -> None:
-        code = '''
+        code = """
 @tool
 def search(query: str):
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("tools.py"))
         assert len(eps) == 0
 
     def test_ignores_plain_functions(self) -> None:
-        code = '''
+        code = """
 def helper():
     pass
-'''
+"""
         tree = ast.parse(code)
         eps = _ep(tree, Path("utils.py"))
         assert len(eps) == 0
@@ -222,11 +222,11 @@ def helper():
 
 class TestContextSinks:
     def test_detects_llm_invoke_with_retrieval_var(self) -> None:
-        code = '''
+        code = """
 docs = vectorstore.similarity_search(query)
 context = "\\n".join([d.page_content for d in docs])
 response = llm.invoke(f"Context: {context}\\nQuestion: {query}")
-'''
+"""
         tree = ast.parse(code)
         sinks = _sinks(tree, Path("app.py"))
         assert len(sinks) == 1
@@ -234,19 +234,19 @@ response = llm.invoke(f"Context: {context}\\nQuestion: {query}")
         assert sinks[0].sanitized is False
 
     def test_no_sink_when_no_retrieval(self) -> None:
-        code = '''
+        code = """
 response = llm.invoke("Hello world")
-'''
+"""
         tree = ast.parse(code)
         sinks = _sinks(tree, Path("app.py"))
         assert len(sinks) == 0
 
     def test_sanitized_when_sanitize_called(self) -> None:
-        code = '''
+        code = """
 docs = vectorstore.similarity_search(query)
 clean = sanitize(docs)
 response = llm.invoke(clean)
-'''
+"""
         tree = ast.parse(code)
         sinks = _sinks(tree, Path("app.py"))
         assert len(sinks) == 1
@@ -259,13 +259,19 @@ response = llm.invoke(clean)
 class TestEdgeLinker:
     def test_links_write_to_store_by_store_id(self) -> None:
         store = Store(
-            id="s-1", provenance=_prov("Chroma"), backend="chroma",
-            collection_name="docs", collection_name_is_static=True,
+            id="s-1",
+            provenance=_prov("Chroma"),
+            backend="chroma",
+            collection_name="docs",
+            collection_name_is_static=True,
             confidence=ASMConfidence.CONFIRMED,
         )
         write = WriteOp(
-            id="w-1", provenance=_prov("add_docs"), store_id="s-1",
-            method="add_documents", metadata_keys=frozenset({"source"}),
+            id="w-1",
+            provenance=_prov("add_docs"),
+            store_id="s-1",
+            method="add_documents",
+            metadata_keys=frozenset({"source"}),
             confidence=ASMConfidence.CONFIRMED,
         )
         model = ApplicationModel(write_ops=[write], stores=[store])
@@ -277,14 +283,21 @@ class TestEdgeLinker:
 
     def test_links_read_from_store(self) -> None:
         store = Store(
-            id="s-1", provenance=_prov("Chroma"), backend="chroma",
-            collection_name="docs", collection_name_is_static=True,
+            id="s-1",
+            provenance=_prov("Chroma"),
+            backend="chroma",
+            collection_name="docs",
+            collection_name_is_static=True,
             confidence=ASMConfidence.CONFIRMED,
         )
         read = ReadOp(
-            id="r-1", provenance=_prov("search"), store_id="s-1",
-            method="similarity_search", filter_keys=frozenset(),
-            has_filter=False, confidence=ASMConfidence.CONFIRMED,
+            id="r-1",
+            provenance=_prov("search"),
+            store_id="s-1",
+            method="similarity_search",
+            filter_keys=frozenset(),
+            has_filter=False,
+            confidence=ASMConfidence.CONFIRMED,
         )
         model = ApplicationModel(stores=[store], read_ops=[read])
         edges = link_edges(model)
@@ -294,13 +307,19 @@ class TestEdgeLinker:
 
     def test_links_read_to_sink(self) -> None:
         read = ReadOp(
-            id="r-1", provenance=_prov("search", line=10), store_id="s-1",
-            method="similarity_search", filter_keys=frozenset(),
-            has_filter=False, confidence=ASMConfidence.CONFIRMED,
+            id="r-1",
+            provenance=_prov("search", line=10),
+            store_id="s-1",
+            method="similarity_search",
+            filter_keys=frozenset(),
+            has_filter=False,
+            confidence=ASMConfidence.CONFIRMED,
         )
         sink = ContextSink(
-            id="sink-1", provenance=_prov("invoke", line=15),
-            kind="llm_context", sanitized=False,
+            id="sink-1",
+            provenance=_prov("invoke", line=15),
+            kind="llm_context",
+            sanitized=False,
             confidence=ASMConfidence.INFERRED,
         )
         model = ApplicationModel(read_ops=[read], sinks=[sink])
@@ -319,19 +338,28 @@ class TestEdgeLinker:
 
         # ep covers lines 1-5, write at line 3 (inside), write at line 10 (outside)
         ep = EntryPoint(
-            id="ep-1", kind="http_route",
+            id="ep-1",
+            kind="http_route",
             provenance=Provenance(file=Path("app.py"), line=1, col=0, symbol="upload", end_line=5),
-            auth="unknown", auth_mechanism=None, user_id_source=None,
+            auth="unknown",
+            auth_mechanism=None,
+            user_id_source=None,
             confidence=ASMConfidence.CONFIRMED,
         )
         write_in = WriteOp(
-            id="w-1", provenance=_prov("add_docs", line=3), store_id="s-1",
-            method="add_documents", metadata_keys=frozenset(),
+            id="w-1",
+            provenance=_prov("add_docs", line=3),
+            store_id="s-1",
+            method="add_documents",
+            metadata_keys=frozenset(),
             confidence=ASMConfidence.CONFIRMED,
         )
         write_out = WriteOp(
-            id="w-2", provenance=_prov("add_docs", line=10), store_id="s-1",
-            method="add_documents", metadata_keys=frozenset(),
+            id="w-2",
+            provenance=_prov("add_docs", line=10),
+            store_id="s-1",
+            method="add_documents",
+            metadata_keys=frozenset(),
             confidence=ASMConfidence.CONFIRMED,
         )
         model = ApplicationModel(entry_points=[ep], write_ops=[write_in, write_out])
@@ -345,14 +373,20 @@ class TestEdgeLinker:
         from agentwall.models import EntryPoint
 
         ep = EntryPoint(
-            id="ep-1", kind="http_route",
+            id="ep-1",
+            kind="http_route",
             provenance=Provenance(file=Path("app.py"), line=1, col=0, symbol="upload"),
-            auth="unknown", auth_mechanism=None, user_id_source=None,
+            auth="unknown",
+            auth_mechanism=None,
+            user_id_source=None,
             confidence=ASMConfidence.CONFIRMED,
         )
         write = WriteOp(
-            id="w-1", provenance=_prov("add_docs", line=50), store_id="s-1",
-            method="add_documents", metadata_keys=frozenset(),
+            id="w-1",
+            provenance=_prov("add_docs", line=50),
+            store_id="s-1",
+            method="add_documents",
+            metadata_keys=frozenset(),
             confidence=ASMConfidence.CONFIRMED,
         )
         model = ApplicationModel(entry_points=[ep], write_ops=[write])

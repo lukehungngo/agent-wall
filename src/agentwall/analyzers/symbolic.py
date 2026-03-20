@@ -176,6 +176,7 @@ class SymbolicAnalyzer:
     depends_on: Sequence[str] = ("L3",)
     replace: bool = False
     opt_in: bool = False
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         """Analyze all functions for path-dependent filter application."""
@@ -183,7 +184,9 @@ class SymbolicAnalyzer:
         if spec is None:
             return []
 
-        _taint_results = ctx.taint_results  # available for taint-aware path analysis (v1.0)  # noqa: F841
+        _taint_results = (
+            ctx.taint_results
+        )  # available for taint-aware path analysis (v1.0)  # noqa: F841
 
         findings: list[Finding] = []
 

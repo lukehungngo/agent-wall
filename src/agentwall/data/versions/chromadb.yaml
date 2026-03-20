@@ -1,0 +1,33 @@
+library: chromadb
+pypi_name: chromadb
+import_names: [chromadb]
+
+versions:
+  - range: "<0.4.0"
+    facts:
+      has_native_tenant_isolation: false
+      has_auth_support: false
+      default_persist_encrypted: false
+
+  - range: ">=0.4.0,<0.5.0"
+    facts:
+      has_native_tenant_isolation: false
+      has_auth_support: true
+      default_persist_encrypted: false
+
+  - range: ">=0.5.0"
+    facts:
+      has_native_tenant_isolation: true
+      has_auth_support: true
+      default_persist_encrypted: false
+
+cves: []
+
+modifiers:
+  - range: ">=0.5.0"
+    downgrade:
+      AW-MEM-001: HIGH
+    condition: "tenant isolation API available — downgrade since code must still use it"
+  - range: "<0.4.0"
+    upgrade:
+      AW-MEM-003: HIGH

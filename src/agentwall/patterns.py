@@ -44,9 +44,7 @@ SOURCE_PATTERNS: list[str] = [
     "owner",
 ]
 
-SIMPLE_SOURCE_NAMES: frozenset[str] = frozenset(
-    s for s in SOURCE_PATTERNS if "." not in s
-)
+SIMPLE_SOURCE_NAMES: frozenset[str] = frozenset(s for s in SOURCE_PATTERNS if "." not in s)
 
 # ── Taint sinks: retrieval method → expected filter parameter ────────────────
 
@@ -91,9 +89,7 @@ CODE_EXEC_KEYWORDS: frozenset[str] = frozenset(
 
 # ── Tenant identity keys ─────────────────────────────────────────────────────
 
-TENANT_KEYS: frozenset[str] = frozenset(
-    {"user_id", "tenant_id", "org_id", "owner_id"}
-)
+TENANT_KEYS: frozenset[str] = frozenset({"user_id", "tenant_id", "org_id", "owner_id"})
 
 # ── Secret detection ─────────────────────────────────────────────────────────
 

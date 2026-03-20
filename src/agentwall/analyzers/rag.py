@@ -56,9 +56,7 @@ class RAGAnalyzer:
     # Call-level checks: AW-RAG-003, AW-RAG-004, AW-RAG-002
     # ------------------------------------------------------------------
 
-    def _check_calls(
-        self, ctx: AnalysisContext, tree: ast.Module, path: Path
-    ) -> list[Finding]:
+    def _check_calls(self, ctx: AnalysisContext, tree: ast.Module, path: Path) -> list[Finding]:
         findings: list[Finding] = []
 
         for node in ast.walk(tree):
@@ -70,7 +68,10 @@ class RAGAnalyzer:
             # AW-RAG-003: local persistence (save_local, load_local)
             if call_name in _LOCAL_PERSIST_METHODS:
                 finding = _make_finding(
-                    ctx, AW_RAG_003, path, node,
+                    ctx,
+                    AW_RAG_003,
+                    path,
+                    node,
                     f"Call to {call_name}() — unencrypted local persistence. "
                     f"{AW_RAG_003.description}",
                 )
@@ -81,7 +82,10 @@ class RAGAnalyzer:
             for kw in node.keywords:
                 if kw.arg == "persist_directory":
                     finding = _make_finding(
-                        ctx, AW_RAG_003, path, node,
+                        ctx,
+                        AW_RAG_003,
+                        path,
+                        node,
                         f"persist_directory= kwarg — unencrypted local persistence. "
                         f"{AW_RAG_003.description}",
                     )
@@ -93,20 +97,23 @@ class RAGAnalyzer:
                 kwarg_names = {kw.arg for kw in node.keywords if kw.arg}
                 if not kwarg_names & VECTOR_STORE_AUTH_KWARGS:
                     finding = _make_finding(
-                        ctx, AW_RAG_004, path, node,
-                        f"{call_name}() called without auth kwargs. "
-                        f"{AW_RAG_004.description}",
+                        ctx,
+                        AW_RAG_004,
+                        path,
+                        node,
+                        f"{call_name}() called without auth kwargs. {AW_RAG_004.description}",
                     )
                     if finding:
                         findings.append(finding)
 
             # AW-RAG-002: ingestion from untrusted source
-            if (
-                call_name in {"add_texts", "add_documents"}
-                and _file_has_untrusted_source(tree)
-            ):
+            if call_name in {"add_texts", "add_documents"} and _file_has_untrusted_source(tree):
                 finding = _make_finding(
-                    ctx, AW_RAG_002, path, node, AW_RAG_002.description,
+                    ctx,
+                    AW_RAG_002,
+                    path,
+                    node,
+                    AW_RAG_002.description,
                 )
                 if finding:
                     findings.append(finding)
@@ -135,7 +142,11 @@ class RAGAnalyzer:
         for node in ast.walk(tree):
             if isinstance(node, ast.JoinedStr):
                 finding = _make_finding(
-                    ctx, AW_RAG_001, path, node, AW_RAG_001.description,
+                    ctx,
+                    AW_RAG_001,
+                    path,
+                    node,
+                    AW_RAG_001.description,
                 )
                 if finding:
                     return [finding]  # one per file
@@ -155,9 +166,7 @@ def _get_call_name(node: ast.Call) -> str | None:
 
 
 def _get_qualified_name(node: ast.Call) -> str | None:
-    if isinstance(node.func, ast.Attribute) and isinstance(
-        node.func.value, ast.Name
-    ):
+    if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
         return f"{node.func.value.id}.{node.func.attr}"
     return None
 

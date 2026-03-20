@@ -138,6 +138,7 @@ class SemgrepAnalyzer:
     depends_on: Sequence[str] = ()
     replace: bool = False
     opt_in: bool = False
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         """Run semgrep and return findings. Returns empty list if semgrep not installed."""

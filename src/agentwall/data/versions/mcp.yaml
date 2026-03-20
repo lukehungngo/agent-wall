@@ -1,0 +1,14 @@
+library: mcp
+pypi_name: mcp
+import_names: [mcp]
+
+versions:
+  - range: "<1.0.0"
+    facts:
+      has_auth_middleware: false
+  - range: ">=1.0.0"
+    facts:
+      has_auth_middleware: true
+
+cves: []
+modifiers: []

@@ -1,0 +1,19 @@
+library: weaviate-client
+pypi_name: weaviate-client
+import_names: [weaviate]
+
+versions:
+  - range: "<4.0.0"
+    facts:
+      has_multi_tenancy: false
+  - range: ">=4.0.0"
+    facts:
+      has_multi_tenancy: true
+
+cves: []
+
+modifiers:
+  - range: ">=4.0.0"
+    downgrade:
+      AW-MEM-001: HIGH
+    condition: "multi-tenancy API available but code must use it"

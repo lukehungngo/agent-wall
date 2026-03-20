@@ -1,4 +1,5 @@
 """Fixture: Full cross-tenant leakage — write without user metadata, read without filter, into LLM."""
+
 from fastapi import FastAPI
 from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI

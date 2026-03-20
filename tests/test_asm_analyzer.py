@@ -28,18 +28,22 @@ def _prov(symbol: str = "f", line: int = 1, file: str = "app.py") -> Provenance:
 
 def _store(id: str = "s-1", collection: str = "docs", static: bool = True) -> Store:
     return Store(
-        id=id, provenance=_prov("Chroma"), backend="chroma",
-        collection_name=collection, collection_name_is_static=static,
+        id=id,
+        provenance=_prov("Chroma"),
+        backend="chroma",
+        collection_name=collection,
+        collection_name_is_static=static,
         confidence=ASMConfidence.CONFIRMED,
     )
 
 
-def _write(
-    id: str = "w-1", store_id: str = "s-1", keys: frozenset[str] = frozenset()
-) -> WriteOp:
+def _write(id: str = "w-1", store_id: str = "s-1", keys: frozenset[str] = frozenset()) -> WriteOp:
     return WriteOp(
-        id=id, provenance=_prov("add_docs"), store_id=store_id,
-        method="add_documents", metadata_keys=keys,
+        id=id,
+        provenance=_prov("add_docs"),
+        store_id=store_id,
+        method="add_documents",
+        metadata_keys=keys,
         confidence=ASMConfidence.CONFIRMED,
     )
 
@@ -51,31 +55,39 @@ def _read(
     has_filter: bool = False,
 ) -> ReadOp:
     return ReadOp(
-        id=id, provenance=_prov("search"), store_id=store_id,
-        method="similarity_search", filter_keys=filter_keys,
-        has_filter=has_filter, confidence=ASMConfidence.CONFIRMED,
+        id=id,
+        provenance=_prov("search"),
+        store_id=store_id,
+        method="similarity_search",
+        filter_keys=filter_keys,
+        has_filter=has_filter,
+        confidence=ASMConfidence.CONFIRMED,
     )
 
 
 def _entry(id: str = "ep-1", auth: str = "unauthenticated") -> EntryPoint:
     return EntryPoint(
-        id=id, kind="http_route", provenance=_prov("upload"),
-        auth=auth, auth_mechanism=None, user_id_source=None,
+        id=id,
+        kind="http_route",
+        provenance=_prov("upload"),
+        auth=auth,
+        auth_mechanism=None,
+        user_id_source=None,
         confidence=ASMConfidence.CONFIRMED,
     )
 
 
 def _sink(id: str = "sink-1") -> ContextSink:
     return ContextSink(
-        id=id, provenance=_prov("invoke", line=20),
-        kind="llm_context", sanitized=False,
+        id=id,
+        provenance=_prov("invoke", line=20),
+        kind="llm_context",
+        sanitized=False,
         confidence=ASMConfidence.INFERRED,
     )
 
 
-def _edge(
-    src: str, tgt: str, kind: str, conf: ASMConfidence = ASMConfidence.CONFIRMED
-) -> Edge:
+def _edge(src: str, tgt: str, kind: str, conf: ASMConfidence = ASMConfidence.CONFIRMED) -> Edge:
     return Edge(source_id=src, target_id=tgt, kind=kind, confidence=conf, provenance=_prov())
 
 
@@ -94,16 +106,24 @@ class TestProofStrength:
 
     def test_inferred_downgrades(self) -> None:
         ep = EntryPoint(
-            id="ep-1", kind="http_route", provenance=_prov(),
-            auth="unauthenticated", auth_mechanism=None, user_id_source=None,
+            id="ep-1",
+            kind="http_route",
+            provenance=_prov(),
+            auth="unauthenticated",
+            auth_mechanism=None,
+            user_id_source=None,
             confidence=ASMConfidence.INFERRED,
         )
         assert ASMAnalyzer()._proof_strength([ep, _write()]) == "possible"
 
     def test_unknown_downgrades_further(self) -> None:
         ep = EntryPoint(
-            id="ep-1", kind="http_route", provenance=_prov(),
-            auth="unauthenticated", auth_mechanism=None, user_id_source=None,
+            id="ep-1",
+            kind="http_route",
+            provenance=_prov(),
+            auth="unauthenticated",
+            auth_mechanism=None,
+            user_id_source=None,
             confidence=ASMConfidence.UNKNOWN,
         )
         assert ASMAnalyzer()._proof_strength([ep, _write()]) == "uncertain"
@@ -189,8 +209,11 @@ class TestQ3StaticSharedCollection:
             ],
         )
         findings = ASMAnalyzer().analyze(_ctx(model))
-        q3 = [f for f in findings if f.rule_id == "AW-MEM-001" and f.layer == "ASM"
-              and "shared" in f.title.lower()]
+        q3 = [
+            f
+            for f in findings
+            if f.rule_id == "AW-MEM-001" and f.layer == "ASM" and "shared" in f.title.lower()
+        ]
         assert len(q3) >= 1
 
     def test_does_not_fire_on_dynamic_collection(self) -> None:
@@ -205,8 +228,11 @@ class TestQ3StaticSharedCollection:
             ],
         )
         findings = ASMAnalyzer().analyze(_ctx(model))
-        q3 = [f for f in findings if f.rule_id == "AW-MEM-001" and f.layer == "ASM"
-              and "shared" in f.title.lower()]
+        q3 = [
+            f
+            for f in findings
+            if f.rule_id == "AW-MEM-001" and f.layer == "ASM" and "shared" in f.title.lower()
+        ]
         assert len(q3) == 0
 
     def test_does_not_fire_with_single_writer(self) -> None:
@@ -218,8 +244,11 @@ class TestQ3StaticSharedCollection:
             edges=[_edge("ep-1", "w-1", "triggers")],
         )
         findings = ASMAnalyzer().analyze(_ctx(model))
-        q3 = [f for f in findings if f.rule_id == "AW-MEM-001" and f.layer == "ASM"
-              and "shared" in f.title.lower()]
+        q3 = [
+            f
+            for f in findings
+            if f.rule_id == "AW-MEM-001" and f.layer == "ASM" and "shared" in f.title.lower()
+        ]
         assert len(q3) == 0
 
 
@@ -308,8 +337,10 @@ class TestQ5UnsanitizedContext:
 
     def test_does_not_fire_on_sanitized_sink(self) -> None:
         sink = ContextSink(
-            id="sink-1", provenance=_prov("invoke", line=20),
-            kind="llm_context", sanitized=True,
+            id="sink-1",
+            provenance=_prov("invoke", line=20),
+            kind="llm_context",
+            sanitized=True,
             confidence=ASMConfidence.CONFIRMED,
         )
         model = ApplicationModel(
@@ -417,8 +448,10 @@ class TestASMSafe:
         read = _read(filter_keys=frozenset({"user_id"}), has_filter=True)
         ep = _entry(auth="authenticated")
         sink = ContextSink(
-            id="sink-1", provenance=_prov("invoke", line=20),
-            kind="llm_context", sanitized=True,
+            id="sink-1",
+            provenance=_prov("invoke", line=20),
+            kind="llm_context",
+            sanitized=True,
             confidence=ASMConfidence.CONFIRMED,
         )
         model = ApplicationModel(

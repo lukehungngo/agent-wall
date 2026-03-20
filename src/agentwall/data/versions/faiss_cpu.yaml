@@ -1,0 +1,17 @@
+library: faiss-cpu
+pypi_name: faiss-cpu
+import_names: [faiss]
+
+versions:
+  - range: ">=0.0.1"
+    facts:
+      has_access_control: false
+      local_only: true
+
+cves: []
+
+modifiers:
+  - range: ">=0.0.1"
+    upgrade:
+      AW-MEM-003: HIGH
+    condition: "FAISS has zero access control — always flag"

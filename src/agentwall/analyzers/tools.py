@@ -51,6 +51,7 @@ class ToolAnalyzer:
     depends_on: Sequence[str] = ()
     replace: bool = False
     opt_in: bool = False
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         spec = ctx.spec

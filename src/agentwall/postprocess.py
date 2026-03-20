@@ -1,4 +1,5 @@
 """Finding post-processing: dedup, file context classification, sorting."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -28,11 +29,7 @@ def classify_file_context(file_path: Path | None) -> str | None:
         return None
     name = file_path.name
     parts = file_path.parts
-    if (
-        any(p in _TEST_DIRS for p in parts)
-        or name.startswith("test_")
-        or name.endswith("_test.py")
-    ):
+    if any(p in _TEST_DIRS for p in parts) or name.startswith("test_") or name.endswith("_test.py"):
         return "test file"
     if any(p in _EXAMPLE_DIRS for p in parts) or name.endswith(".example"):
         return "example"

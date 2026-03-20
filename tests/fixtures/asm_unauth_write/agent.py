@@ -1,4 +1,5 @@
 """Fixture: Public endpoint writes to vector store without auth."""
+
 from fastapi import FastAPI
 from langchain_community.vectorstores import Chroma
 

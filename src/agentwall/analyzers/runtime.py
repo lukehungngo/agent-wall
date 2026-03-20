@@ -15,6 +15,7 @@ class RuntimeAnalyzer:
     depends_on: Sequence[str] = ("L1-memory", "L1-tools")
     replace: bool = False
     opt_in: bool = True
+    framework_agnostic: bool = False
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         from agentwall.runtime.patcher import run_with_instrumentation

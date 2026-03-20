@@ -185,7 +185,10 @@ class _FileVisitor(ast.NodeVisitor):
         store_node = Store(
             id=store_id,
             provenance=Provenance(
-                file=self.source_file, line=lineno, col=0, symbol=class_name,
+                file=self.source_file,
+                line=lineno,
+                col=0,
+                symbol=class_name,
             ),
             backend=backend,
             collection_name=coll_name_val,
@@ -226,7 +229,9 @@ class _FileVisitor(ast.NodeVisitor):
             read_op = ReadOp(
                 id=read_id,
                 provenance=Provenance(
-                    file=self.source_file, line=node.lineno, col=node.col_offset,
+                    file=self.source_file,
+                    line=node.lineno,
+                    col=node.col_offset,
                     symbol=func.attr,
                 ),
                 store_id=store_id,
@@ -263,7 +268,9 @@ class _FileVisitor(ast.NodeVisitor):
             write_op = WriteOp(
                 id=write_id,
                 provenance=Provenance(
-                    file=self.source_file, line=node.lineno, col=node.col_offset,
+                    file=self.source_file,
+                    line=node.lineno,
+                    col=node.col_offset,
                     symbol=func.attr,
                 ),
                 store_id=store_id,

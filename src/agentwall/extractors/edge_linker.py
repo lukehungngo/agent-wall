@@ -25,24 +25,28 @@ def link_edges(model: ApplicationModel) -> list[Edge]:
     # 1. WriteOp -> Store
     for write in model.write_ops:
         if write.store_id in store_ids:
-            edges.append(Edge(
-                source_id=write.id,
-                target_id=write.store_id,
-                kind="writes_to",
-                confidence=ASMConfidence.CONFIRMED,
-                provenance=write.provenance,
-            ))
+            edges.append(
+                Edge(
+                    source_id=write.id,
+                    target_id=write.store_id,
+                    kind="writes_to",
+                    confidence=ASMConfidence.CONFIRMED,
+                    provenance=write.provenance,
+                )
+            )
 
     # 2. ReadOp -> Store
     for read in model.read_ops:
         if read.store_id in store_ids:
-            edges.append(Edge(
-                source_id=read.id,
-                target_id=read.store_id,
-                kind="reads_from",
-                confidence=ASMConfidence.CONFIRMED,
-                provenance=read.provenance,
-            ))
+            edges.append(
+                Edge(
+                    source_id=read.id,
+                    target_id=read.store_id,
+                    kind="reads_from",
+                    confidence=ASMConfidence.CONFIRMED,
+                    provenance=read.provenance,
+                )
+            )
 
     # 3. ReadOp -> nearest ContextSink (same file, sink after read)
     for read in model.read_ops:
@@ -56,13 +60,15 @@ def link_edges(model: ApplicationModel) -> list[Edge]:
                 nearest_sink = sink
                 nearest_line = sink.provenance.line
         if nearest_sink is not None:
-            edges.append(Edge(
-                source_id=read.id,
-                target_id=nearest_sink.id,
-                kind="assembles_into",
-                confidence=ASMConfidence.INFERRED,
-                provenance=read.provenance,
-            ))
+            edges.append(
+                Edge(
+                    source_id=read.id,
+                    target_id=nearest_sink.id,
+                    kind="assembles_into",
+                    confidence=ASMConfidence.INFERRED,
+                    provenance=read.provenance,
+                )
+            )
 
     # 4. EntryPoint -> WriteOp/ReadOp (same file, within function body)
     # Scoped by line range: only link ops whose line falls within the
@@ -76,24 +82,28 @@ def link_edges(model: ApplicationModel) -> list[Edge]:
                 continue
             if ep_end is not None and not (ep_start <= write.provenance.line <= ep_end):
                 continue
-            edges.append(Edge(
-                source_id=ep.id,
-                target_id=write.id,
-                kind="triggers",
-                confidence=ASMConfidence.INFERRED,
-                provenance=ep.provenance,
-            ))
+            edges.append(
+                Edge(
+                    source_id=ep.id,
+                    target_id=write.id,
+                    kind="triggers",
+                    confidence=ASMConfidence.INFERRED,
+                    provenance=ep.provenance,
+                )
+            )
         for read in model.read_ops:
             if ep.provenance.file != read.provenance.file:
                 continue
             if ep_end is not None and not (ep_start <= read.provenance.line <= ep_end):
                 continue
-            edges.append(Edge(
-                source_id=ep.id,
-                target_id=read.id,
-                kind="triggers",
-                confidence=ASMConfidence.INFERRED,
-                provenance=ep.provenance,
-            ))
+            edges.append(
+                Edge(
+                    source_id=ep.id,
+                    target_id=read.id,
+                    kind="triggers",
+                    confidence=ASMConfidence.INFERRED,
+                    provenance=ep.provenance,
+                )
+            )
 
     return edges
