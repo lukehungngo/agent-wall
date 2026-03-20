@@ -20,6 +20,11 @@ class Severity(str, Enum):
 class Category(str, Enum):
     MEMORY = "memory"
     TOOL = "tool"
+    SECRETS = "secrets"
+    RAG = "rag"
+    MCP = "mcp"
+    SERIALIZATION = "serialization"
+    AGENT = "agent"
 
 
 class ConfidenceLevel(str, Enum):
@@ -221,6 +226,24 @@ class ScanResult(BaseModel):
         for f in self.findings:
             result[f.severity].append(f)
         return result
+
+
+class CVEMatch(BaseModel):
+    id: str
+    severity: Severity
+    description: str
+    library: str
+    version: str
+
+
+class VersionModifier(BaseModel):
+    library: str
+    resolved_version: str | None = None
+    suppress: list[str] = Field(default_factory=list)
+    downgrade: dict[str, Severity] = Field(default_factory=dict)
+    upgrade: dict[str, Severity] = Field(default_factory=dict)
+    facts: dict[str, bool | str] = Field(default_factory=dict)
+    cves: list[CVEMatch] = Field(default_factory=list)
 
 
 # ── Call Graph models (L2) ───────────────────────────────────────────────────
