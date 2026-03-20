@@ -231,7 +231,7 @@ class SymbolicAnalyzer:
                         Finding(
                             rule_id="AW-MEM-001",
                             title=f"No filter on any path in {node.name}()",
-                            severity=Severity.CRITICAL,
+                            severity=Severity.HIGH,
                             category=Category.MEMORY,
                             description=(
                                 f"Function '{node.name}' performs vector store retrieval "
@@ -240,7 +240,7 @@ class SymbolicAnalyzer:
                             file=py_file,
                             line=node.lineno,
                             fix="Add filter= to all retrieval calls in this function.",
-                            confidence=ConfidenceLevel.HIGH,
+                            confidence=ConfidenceLevel.MEDIUM,
                             layer="L6",
                         )
                     )
