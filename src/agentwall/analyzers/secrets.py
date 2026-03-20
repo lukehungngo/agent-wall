@@ -118,8 +118,50 @@ class SecretsAnalyzer:
 
     @staticmethod
     def _references_context_var(node: ast.expr) -> bool:
-        """Check if an AST expression references any context variable name."""
-        for child in ast.walk(node):
-            if isinstance(child, ast.Name) and child.id in CONTEXT_VAR_NAMES:
-                return True
+        """Return True only when a context var's *content* would be logged.
+
+        Suppressed (returns False):
+        - Call wrapping the var: ``len(messages)``, ``type(messages)`` — metadata
+        - Attribute access on the var: ``context.function.name`` — metadata
+
+        Fires (returns True):
+        - Direct Name: ``messages``
+        - f-string with direct Name: ``f"payload: {messages}"``
+        - Subscript: ``messages[-1]`` — content access by index
+        - BinOp with direct ref: recurse both sides
+        """
+        return SecretsAnalyzer._is_content_reference(node)
+
+    @staticmethod
+    def _is_content_reference(node: ast.expr) -> bool:
+        """Recursive helper — True when the node exposes context var content."""
+        if isinstance(node, ast.Name):
+            return node.id in CONTEXT_VAR_NAMES
+
+        if isinstance(node, ast.Call):
+            # Only check the func expression itself (e.g. chained calls like
+            # messages.copy()), NOT the arguments — args are metadata extraction.
+            return SecretsAnalyzer._is_content_reference(node.func)
+
+        if isinstance(node, ast.Attribute):
+            # Attribute access reads metadata from the object, not its content.
+            return False
+
+        if isinstance(node, ast.Subscript):
+            # messages[-1] is a content reference; recurse on the container.
+            return SecretsAnalyzer._is_content_reference(node.value)
+
+        if isinstance(node, ast.BinOp):
+            return SecretsAnalyzer._is_content_reference(
+                node.left
+            ) or SecretsAnalyzer._is_content_reference(node.right)
+
+        if isinstance(node, ast.JoinedStr):
+            # f-string: check each interpolated value node.
+            for value in node.values:
+                if isinstance(value, ast.FormattedValue):
+                    if SecretsAnalyzer._is_content_reference(value.value):
+                        return True
+            return False
+
         return False
