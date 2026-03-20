@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from pathlib import Path
 
 from agentwall.context import AnalysisContext
-from agentwall.models import ConfidenceLevel, Finding, MemoryConfig
+from agentwall.models import ConfidenceLevel, Finding, MemoryConfig, Severity
 from agentwall.rules import AW_MEM_001, AW_MEM_002, AW_MEM_003, AW_MEM_004, AW_MEM_005, RuleDef
 
 # Memory class backends — these are LangChain conversation memory, not vector stores.
@@ -54,12 +55,29 @@ class MemoryAnalyzer:
         spec = ctx.spec
         if spec is None:
             return []
+        engine_isolation = self._get_engine_isolation(ctx)
         findings: list[Finding] = []
         for mc in spec.memory_configs:
-            findings.extend(self._check(mc))
+            findings.extend(self._check(mc, engine_isolation))
         return findings
 
-    def _check(self, mc: MemoryConfig) -> list[Finding]:
+    @staticmethod
+    def _get_engine_isolation(ctx: AnalysisContext) -> dict[str, str]:
+        """Get isolation strategy per backend from engine store profiles."""
+        result: dict[str, str] = {}
+        profiles = getattr(ctx, "store_profiles", None)
+        if not profiles:
+            return result
+        try:
+            for profile in profiles:
+                result[profile.backend] = profile.isolation_strategy.value
+        except Exception:  # noqa: BLE001
+            pass
+        return result
+
+    def _check(
+        self, mc: MemoryConfig, engine_isolation: dict[str, str] | None = None
+    ) -> list[Finding]:
         findings: list[Finding] = []
 
         is_memory_class = mc.backend in _MEMORY_CLASS_BACKENDS
@@ -70,7 +88,27 @@ class MemoryAnalyzer:
         # AW-MEM-001: no isolation AND no retrieval filter (vector stores only)
         # HIGH confidence — direct pattern match (no filter kwarg observed)
         if not is_memory_class and no_isolation and no_filter:
-            findings.append(_finding_from_rule(AW_MEM_001, mc, ConfidenceLevel.HIGH))
+            iso = (engine_isolation or {}).get(mc.backend, "")
+            if iso == "filter_on_read":
+                pass  # suppressed — engine confirmed all reads carry tenant filter
+            elif iso == "collection_per_tenant":
+                f = _finding_from_rule(AW_MEM_001, mc, ConfidenceLevel.LOW)
+                findings.append(
+                    Finding(
+                        rule_id=f.rule_id,
+                        title=f.title,
+                        severity=Severity.MEDIUM,
+                        category=f.category,
+                        description=f.description
+                        + " (downgraded: engine detected per-tenant collection isolation)",
+                        fix=f.fix,
+                        file=f.file,
+                        line=f.line,
+                        confidence=ConfidenceLevel.LOW,
+                    )
+                )
+            else:
+                findings.append(_finding_from_rule(AW_MEM_001, mc, ConfidenceLevel.HIGH))
 
         # AW-MEM-002: has write metadata BUT no retrieval filter (false sense of security)
         # HIGH confidence — concrete mismatch between write and read paths
@@ -88,10 +126,30 @@ class MemoryAnalyzer:
             findings.append(_finding_from_rule(AW_MEM_004, mc, ConfidenceLevel.HIGH))
 
         # AW-MEM-005: no sanitization on retrieved memory before context injection
-        # Only fires for vector stores (memory classes already get MEM-004).
-        # Only fires when we have evidence of a retrieval path (not just store instantiation).
-        # MEDIUM confidence — absence of sanitization is heuristic
+        # Only fires when there's a confirmed retrieval path in the file.
+        # Suppress for write-only stores and constructor-only files.
         if not is_memory_class and not mc.sanitizes_retrieved_content:
-            findings.append(_finding_from_rule(AW_MEM_005, mc, ConfidenceLevel.MEDIUM))
+            has_retrieval = self._file_has_retrieval(mc.source_file)
+            if has_retrieval:
+                findings.append(_finding_from_rule(AW_MEM_005, mc, ConfidenceLevel.MEDIUM))
 
         return findings
+
+    @staticmethod
+    def _file_has_retrieval(source_file: Path | None) -> bool:
+        """Check if a file contains any vector store retrieval method call."""
+        if source_file is None:
+            return True  # fail open — assume retrieval exists
+        try:
+            import ast as _ast
+
+            from agentwall.patterns import RETRIEVAL_METHODS
+
+            source = source_file.read_text(encoding="utf-8")
+            tree = _ast.parse(source)
+            for node in _ast.walk(tree):
+                if isinstance(node, _ast.Attribute) and node.attr in RETRIEVAL_METHODS:
+                    return True
+            return False
+        except Exception:  # noqa: BLE001
+            return True  # fail open on parse errors

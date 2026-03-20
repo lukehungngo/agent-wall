@@ -223,3 +223,147 @@ class TestSEC003FalsePositives:
         """f-string interpolating the var directly logs content — must fire."""
         code = 'import logging\nlogger = logging.getLogger(__name__)\nlogger.debug(f"payload: {messages}")\n'
         assert self._sec003_count(tmp_path, code) == 1
+
+
+# ---------------------------------------------------------------------------
+# AW-MEM-001 false positive reduction — engine StoreProfile isolation
+# ---------------------------------------------------------------------------
+
+
+class TestMEM001FalsePositives:
+    def test_no_engine_profiles_fires_normally(self, tmp_path: Path) -> None:
+        """Without engine profiles, MEM-001 fires as CRITICAL."""
+        from agentwall.analyzers.memory import MemoryAnalyzer
+        from agentwall.models import MemoryConfig
+
+        ctx = _make_ctx(tmp_path, "# empty", "agent.py")
+        ctx.spec = type(
+            "Spec",
+            (),
+            {
+                "framework": "langchain",
+                "memory_configs": [MemoryConfig(backend="chromadb")],
+                "tools": [],
+                "source_files": [],
+                "metadata": {},
+                "asm": None,
+            },
+        )()
+        findings = MemoryAnalyzer().analyze(ctx)
+        mem001 = [f for f in findings if f.rule_id == "AW-MEM-001"]
+        assert any(f.severity.value == "critical" for f in mem001)
+
+    def test_collection_per_tenant_downgrades(self, tmp_path: Path) -> None:
+        """Engine says COLLECTION_PER_TENANT -> downgrade to MEDIUM."""
+        from agentwall.analyzers.memory import MemoryAnalyzer
+        from agentwall.engine.models import StoreProfile, ValueKind
+        from agentwall.models import MemoryConfig
+
+        ctx = _make_ctx(tmp_path, "# empty", "agent.py")
+        ctx.spec = type(
+            "Spec",
+            (),
+            {
+                "framework": "langchain",
+                "memory_configs": [MemoryConfig(backend="chromadb")],
+                "tools": [],
+                "source_files": [],
+                "metadata": {},
+                "asm": None,
+            },
+        )()
+        ctx.store_profiles = [
+            StoreProfile(
+                store_id="t",
+                backend="chromadb",
+                collection_name_kind=ValueKind.TENANT_SCOPED,
+            )
+        ]
+        findings = MemoryAnalyzer().analyze(ctx)
+        mem001 = [f for f in findings if f.rule_id == "AW-MEM-001"]
+        for f in mem001:
+            assert f.severity.value != "critical", "Per-tenant should not be CRITICAL"
+
+    def test_filter_on_read_suppresses(self, tmp_path: Path) -> None:
+        """Engine says FILTER_ON_READ -> suppress MEM-001."""
+        from agentwall.analyzers.memory import MemoryAnalyzer
+        from agentwall.engine.models import PropertyExtraction, StoreProfile, ValueKind
+        from agentwall.models import MemoryConfig
+
+        ctx = _make_ctx(tmp_path, "# empty", "agent.py")
+        ctx.spec = type(
+            "Spec",
+            (),
+            {
+                "framework": "langchain",
+                "memory_configs": [MemoryConfig(backend="chromadb")],
+                "tools": [],
+                "source_files": [],
+                "metadata": {},
+                "asm": None,
+            },
+        )()
+        profile = StoreProfile(store_id="t", backend="chromadb")
+        profile.extractions.append(
+            PropertyExtraction(
+                file=tmp_path / "agent.py",
+                line=1,
+                store_id="t",
+                operation="read",
+                method="similarity_search",
+                has_filter=True,
+                filter_value_kind=ValueKind.COMPOUND_TENANT,
+            )
+        )
+        ctx.store_profiles = [profile]
+        findings = MemoryAnalyzer().analyze(ctx)
+        mem001 = [f for f in findings if f.rule_id == "AW-MEM-001"]
+        assert len(mem001) == 0, "FILTER_ON_READ should suppress MEM-001"
+
+
+# ---------------------------------------------------------------------------
+# AW-MEM-005 false positive reduction — retrieval path required
+# ---------------------------------------------------------------------------
+
+
+class TestMEM005FalsePositives:
+    """AW-MEM-005: no sanitization on retrieved memory.
+
+    FP: fires on store constructor/init lines without retrieval.
+    """
+
+    def test_store_with_retrieval_fires(self, tmp_path: Path):
+        """Store with similarity_search should fire MEM-005."""
+        code = '''
+from langchain_community.vectorstores import Chroma
+db = Chroma(collection_name="docs")
+results = db.similarity_search("query")
+'''
+        p = tmp_path / "agent.py"
+        p.write_text(code)
+        from agentwall.adapters.langchain import LangChainAdapter
+        spec = LangChainAdapter().parse(tmp_path)
+        ctx = _make_ctx(tmp_path, code)
+        ctx.spec = spec
+        from agentwall.analyzers.memory import MemoryAnalyzer
+        findings = MemoryAnalyzer().analyze(ctx)
+        mem005 = [f for f in findings if f.rule_id == "AW-MEM-005"]
+        assert len(mem005) >= 1, "Store WITH retrieval should fire MEM-005"
+
+    def test_store_without_retrieval_suppressed(self, tmp_path: Path):
+        """Store that only does add_texts (no read) should NOT fire MEM-005."""
+        code = '''
+from langchain_community.vectorstores import Chroma
+db = Chroma(collection_name="docs")
+db.add_texts(["hello world"])
+'''
+        p = tmp_path / "agent.py"
+        p.write_text(code)
+        from agentwall.adapters.langchain import LangChainAdapter
+        spec = LangChainAdapter().parse(tmp_path)
+        ctx = _make_ctx(tmp_path, code)
+        ctx.spec = spec
+        from agentwall.analyzers.memory import MemoryAnalyzer
+        findings = MemoryAnalyzer().analyze(ctx)
+        mem005 = [f for f in findings if f.rule_id == "AW-MEM-005"]
+        assert len(mem005) == 0, "Write-only store should NOT fire MEM-005"
