@@ -32,6 +32,7 @@ class SerializationAnalyzer:
         return findings
 
     def _check_file(self, ctx: AnalysisContext, tree: ast.Module, path: Path) -> list[Finding]:
+        safe_vars = self._collect_safe_import_vars(tree)
         findings: list[Finding] = []
         for node in ast.walk(tree):
             if not isinstance(node, ast.Call):
@@ -68,6 +69,7 @@ class SerializationAnalyzer:
                 and node.args
                 and not isinstance(node.args[0], ast.Constant)
                 and not self._is_dict_lookup_import(node)
+                and not self._is_safe_var_import(node, safe_vars)
                 and not ctx.should_suppress(AW_SER_003.rule_id)
             ):
                 sev = ctx.severity_override(AW_SER_003.rule_id) or AW_SER_003.severity
@@ -128,6 +130,47 @@ class SerializationAnalyzer:
             and isinstance(node.value, ast.Name)
             and SerializationAnalyzer._is_constant_dict_name(node.value.id)
         )
+
+    @staticmethod
+    def _collect_safe_import_vars(tree: ast.Module) -> set[str]:
+        """Collect variable names assigned from dict-lookup on module-level constants.
+
+        Tracks: ``x = _DICT[name]`` and ``x = "." + _DICT[name]``.
+        These are safe for use in ``importlib.import_module(x)``.
+        """
+        safe: set[str] = set()
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Assign):
+                continue
+            if SerializationAnalyzer._is_safe_import_source(node.value):
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+                        safe.add(target.id)
+        return safe
+
+    @staticmethod
+    def _is_safe_import_source(node: ast.expr) -> bool:
+        """Check if an expression is a known-safe import source.
+
+        Safe patterns:
+        - ``_DICT[name]`` (subscript on constant dict)
+        - ``"." + _DICT[name]`` (BinOp with constant dict subscript)
+        """
+        if SerializationAnalyzer._is_constant_dict_subscript(node):
+            return True
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+            return SerializationAnalyzer._is_safe_import_source(
+                node.left
+            ) or SerializationAnalyzer._is_safe_import_source(node.right)
+        return False
+
+    @staticmethod
+    def _is_safe_var_import(node: ast.Call, safe_vars: set[str]) -> bool:
+        """Return True when the first arg is a Name that was assigned from a safe source."""
+        if not node.args:
+            return False
+        arg = node.args[0]
+        return isinstance(arg, ast.Name) and arg.id in safe_vars
 
     @staticmethod
     def _is_dict_lookup_import(node: ast.Call) -> bool:

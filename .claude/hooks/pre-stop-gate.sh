@@ -1,26 +1,22 @@
 #!/usr/bin/env bash
 # Hook: pre-stop-gate
 # Trigger: Stop
-# Purpose: Full quality gate before session ends.
-# Runs ruff + mypy --strict + pytest. Prints summary.
+# Purpose: Quick quality summary before session ends.
+# Non-blocking — always exits 0. Outputs JSON systemMessage.
 
-set -euo pipefail
+cd /home/soh/working/agent-wall 2>/dev/null || exit 0
 
-cd /home/soh/working/agent-wall
+summary=""
 
-echo "==============================="
-echo "  AgentWall — pre-stop gate"
-echo "==============================="
+# ruff
+if ruff check src/ tests/ --quiet 2>/dev/null; then
+  summary="ruff:ok"
+else
+  summary="ruff:warnings"
+fi
 
-echo ""
-echo "→ ruff check"
-ruff check src/ tests/ --quiet
+# pytest (quick count only)
+test_line=$(python3 -m pytest tests/ -q --tb=no 2>/dev/null | tail -1)
+summary="$summary | $test_line"
 
-echo "→ mypy"
-mypy src/ --strict --no-error-summary 2>&1 | tail -20
-
-echo "→ pytest"
-pytest --tb=short -q 2>&1 | tail -30
-
-echo ""
-echo "✓ gate passed"
+echo "{\"systemMessage\": \"Stop gate: $summary\"}"

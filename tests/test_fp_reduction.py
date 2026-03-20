@@ -334,36 +334,104 @@ class TestMEM005FalsePositives:
 
     def test_store_with_retrieval_fires(self, tmp_path: Path):
         """Store with similarity_search should fire MEM-005."""
-        code = '''
+        code = """
 from langchain_community.vectorstores import Chroma
 db = Chroma(collection_name="docs")
 results = db.similarity_search("query")
-'''
+"""
         p = tmp_path / "agent.py"
         p.write_text(code)
         from agentwall.adapters.langchain import LangChainAdapter
+
         spec = LangChainAdapter().parse(tmp_path)
         ctx = _make_ctx(tmp_path, code)
         ctx.spec = spec
         from agentwall.analyzers.memory import MemoryAnalyzer
+
         findings = MemoryAnalyzer().analyze(ctx)
         mem005 = [f for f in findings if f.rule_id == "AW-MEM-005"]
         assert len(mem005) >= 1, "Store WITH retrieval should fire MEM-005"
 
     def test_store_without_retrieval_suppressed(self, tmp_path: Path):
         """Store that only does add_texts (no read) should NOT fire MEM-005."""
-        code = '''
+        code = """
 from langchain_community.vectorstores import Chroma
 db = Chroma(collection_name="docs")
 db.add_texts(["hello world"])
-'''
+"""
         p = tmp_path / "agent.py"
         p.write_text(code)
         from agentwall.adapters.langchain import LangChainAdapter
+
         spec = LangChainAdapter().parse(tmp_path)
         ctx = _make_ctx(tmp_path, code)
         ctx.spec = spec
         from agentwall.analyzers.memory import MemoryAnalyzer
+
         findings = MemoryAnalyzer().analyze(ctx)
         mem005 = [f for f in findings if f.rule_id == "AW-MEM-005"]
         assert len(mem005) == 0, "Write-only store should NOT fire MEM-005"
+
+
+# ---------------------------------------------------------------------------
+# AW-SER-003 variable indirection — dict-lookup via intermediate variable
+# ---------------------------------------------------------------------------
+
+
+class TestSER003VariableIndirection:
+    """SER-003: variable indirection -- mod = _DICT[name]; import_module(mod)"""
+
+    def test_dict_lookup_via_variable(self, tmp_path: Path) -> None:
+        """submod_name = _IMPORTS[name]; import_module(submod_name) -> suppressed"""
+        code = """\
+import importlib
+_IMPORTS = {"foo": ".bar", "baz": ".qux"}
+def __getattr__(name):
+    if name in _IMPORTS:
+        submod_name = _IMPORTS[name]
+        return importlib.import_module(submod_name, __name__)
+    raise AttributeError(name)
+"""
+        assert _ser003_findings(tmp_path, code) == []
+
+    def test_binop_dict_lookup_via_variable(self, tmp_path: Path) -> None:
+        """module_path = '.' + _LIBS[name]; import_module(module_path) -> suppressed"""
+        code = """\
+import importlib
+_LIBS = {"pdf": "pdf", "csv": "csv"}
+def __getattr__(name):
+    if name in _LIBS:
+        module_path = "." + _LIBS[name]
+        return importlib.import_module(module_path, __name__)
+    raise AttributeError(name)
+"""
+        assert _ser003_findings(tmp_path, code) == []
+
+    def test_fstring_via_variable_still_fires(self, tmp_path: Path) -> None:
+        """module_name = f"pkg.{user_var}"; import_module(module_name) -> fires"""
+        code = """\
+import importlib
+def load_service(service_name):
+    module_name = f"services.{service_name}.module"
+    return importlib.import_module(module_name)
+"""
+        assert _ser003_findings(tmp_path, code) == ["AW-SER-003"]
+
+    def test_attribute_via_variable_still_fires(self, tmp_path: Path) -> None:
+        """module_name = node.module; import_module(module_name) -> fires"""
+        code = """\
+import importlib
+def load_from_ast(node):
+    module_name = node.module
+    return importlib.import_module(module_name)
+"""
+        assert _ser003_findings(tmp_path, code) == ["AW-SER-003"]
+
+    def test_param_still_fires(self, tmp_path: Path) -> None:
+        """def load(mod): import_module(mod) -> fires (no safe assignment)"""
+        code = """\
+import importlib
+def load(module_name):
+    return importlib.import_module(module_name)
+"""
+        assert _ser003_findings(tmp_path, code) == ["AW-SER-003"]

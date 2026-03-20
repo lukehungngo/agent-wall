@@ -1,14 +1,14 @@
-# AgentWall — Product Requirements Document v4
+# AgentWall — Product Requirements Document v5
 
 ## Unified Product Specification, Market Analysis & Technical Architecture
 
-**Version:** 4.0
-**Date:** 2026-03-18
+**Version:** 5.0
+**Date:** 2026-03-20
 **Author:** SoH Engineering
-**Status:** v0.x complete. v1.0 ready for execution.
+**Status:** v0.x complete. Engine upgrade (V5) shipped. FP reduction Phase 1 shipped.
 **Classification:** Internal — Confidential
 **License:** MIT
-**Previous:** [PRD v3](AgentWall_PRD_v3.md)
+**Previous:** PRD v4 (archived)
 
 ---
 
@@ -41,6 +41,8 @@
 18. Technology Stack
 19. Data Flow
 20. Data Model
+20b. Engine Architecture (V5)
+20c. Framework Model Schema
 
 **Part V — AI Agent Integration**
 21. Problem Statement
@@ -155,7 +157,7 @@ From PRD v2 Section 5:
 |---|---|
 | Action Analyzer | Agent action-level security is a separate concern. Memory + Tool first. |
 | Trace Analyzer | Requires runtime observation. Out of scope for static pre-deployment scanner. |
-| Multi-framework support (CrewAI, AutoGen, LlamaIndex) | LangChain covers 73% of market. Others are v1.0. |
+| Multi-framework support (CrewAI, AutoGen) | LangChain covers 73% of market. Others are v1.0. LlamaIndex: framework model added in v0.x (adapter pending). |
 | Multi-vector-store support (Milvus, Pinecone, Weaviate, PGVector) | ChromaDB covers 43% of market. Others are v1.0. |
 | Policy-as-code engine | Over-engineering for v1. Hardcode sensible defaults. |
 | HTML report | Nice-to-have. Terminal + JSON + SARIF covers the launch. |
@@ -175,8 +177,8 @@ From PRD v2 Section 6:
 | Terminal reporter | Human-readable output (the default) |
 | JSON reporter | Machine-readable for CI pipelines |
 | SARIF reporter | GitHub Security tab integration |
-| 10 rules (AW-MEM-001–005, AW-TOOL-001–005) | Minimum viable rule set for launch |
-| 8-Layer Detection Pipeline (L0–L8) | Differentiator — no other tool has multi-layer memory analysis |
+| 27+ rules across 8 categories (MEM, TOOL, SEC, RAG, MCP, SER, AGT, CFG) | Minimum viable rule set for launch |
+| 9-Layer Detection Pipeline (L0–L8) | Differentiator — no other tool has multi-layer memory analysis |
 | AI Agent Integration (agent-json, MCP) | Primary users are AI agents, not humans |
 
 ---
@@ -203,7 +205,7 @@ Scanner         Ecosystem       Compliance
                   secure?"         secure?"
 ```
 
-**v0.x (shipped):** A CLI tool that any developer or AI agent can run against a LangChain + ChromaDB project and get actionable memory security findings in under 90 seconds. 9 analysis layers, 10 rules, 5 output formats.
+**v0.x (shipped):** A CLI tool that any developer or AI agent can run against a LangChain + ChromaDB project and get actionable memory security findings in under 90 seconds. 9 analysis layers (L0–L8), 27+ rules across 8 categories, 5 output formats. Engine upgrade (V5) adds model-driven property extraction, PyCG-style call graph with composition detection, and Pysa-style fixpoint tenant isolation verification.
 
 **v1.x (next):** Multi-framework coverage (OpenAI Agents SDK, CrewAI, AutoGen, MCP). Agentic supply chain security. Architectural pattern enforcement. IDE integration. Live vector store probing.
 
@@ -387,12 +389,13 @@ From PRD v2 Section 13:
                        │
                        ▼
 ┌──────────────────────────────────────────────────────────────┐
-│                   REMEDIATION ENGINE                          │
-│  ContextDetector → FixGenerator → RemediationPlan            │
-│  - auth pattern detection    - per framework/rule            │
-│  - ingestion path analysis   - diff output + confidence      │
-│  - existing filter patterns  - dependency tracking           │
-│  - test framework detection  - conflict detection            │
+│                    ENGINE LAYER (V5)                           │
+│  frameworks/   → Declarative framework models (per-framework)│
+│  engine/       → General analysis engines (built once)        │
+│    extractor   → L1: value classification + property extract │
+│    graph       → L2: PyCG call graph + composition detection │
+│    verifier    → L3: fixpoint tenant isolation verification  │
+│    pathcov     → L6: path coverage aggregation               │
 └──────────────────────┬───────────────────────────────────────┘
                        │
                        ▼
@@ -420,34 +423,27 @@ From PRD v2 Section 13:
 **Limitation:** Cannot follow function calls across file boundaries
 
 #### L2 — Inter-Procedural Call Graph
-**Status:** Implemented
+**Status:** Implemented (V5 upgrade: PyCG-style assignment graph + LCEL/factory/decorator composition + single-level inheritance)
 **Purpose:** Resolve method calls across files to trace the full retrieval chain
 **Priority:** HIGH — biggest detection gap closer after L0–L1
-**Approach:** Custom AST import resolver for core (zero deps). Optional `jedi` for enhanced resolution.
+**Approach:** Custom PyCG-style assignment graph (zero deps). Handles LCEL pipe operator, factory patterns, decorator composition, and single-level inheritance.
 **Data Model:**
 ```python
 @dataclass
-class CallEdge:
-    caller: FunctionRef
-    callee: FunctionRef
-    call_site: Location
-    resolved: bool
-
-@dataclass
-class CallGraph:
-    edges: list[CallEdge]
-    unresolved: list[Location]
-    def callers_of(self, func: FunctionRef) -> list[CallEdge]: ...
-    def callees_of(self, func: FunctionRef) -> list[CallEdge]: ...
-    def paths_between(self, source: FunctionRef, sink: FunctionRef) -> list[list[CallEdge]]: ...
+class ProjectGraph:
+    call_edges: list[CallEdgeV2]         # caller→callee with arg_names
+    composition_edges: list[CompositionEdge]  # pipe, factory, decorator
+    identifiers: dict[str, IdentifierState]  # PyCG pointsto sets
+    extends: dict[str, str]              # single-level inheritance
+    unresolved: list[UnresolvedCall]     # honest uncertainty
 ```
 **Integration:** L1 findings where `has_metadata_filter_on_retrieval = False` are post-processed by L2 — if filter found upstream in call chain, downgrade to INFO.
 
 #### L3 — Taint Analysis
-**Status:** Planned (v1.0)
+**Status:** Implemented (V5 — per-function summaries + fixpoint iteration, scoped to tenant isolation)
 **Purpose:** Track whether user identity flows from request entry point to retrieval filter
 **Priority:** HIGH — definitive answer to "is this actually isolated?"
-**Approach:** pysa (if type annotations), CodeQL otherwise
+**Approach:** Pysa-style fixpoint iteration implemented in engine/verifier.py. Three-phase: (1) intraprocedural summaries, (2) interprocedural fixpoint propagation via call graph arg_names, (3) per-store verdict emission.
 **Taint Model:**
 - Sources: `request.user`, `session.user_id`, `current_user`, params named `user_id`/`tenant_id`/`org_id`
 - Sinks: `similarity_search(filter=TAINTED)`, `collection.query(where=TAINTED)`
@@ -467,7 +463,7 @@ class CallGraph:
 **User extensible:** Custom rules via `agentwall.yaml` → `semgrep_rules_dir`
 
 #### L6 — Symbolic / Abstract Interpretation
-**Status:** Implemented (future use)
+**Status:** Implemented (V5 — path coverage aggregation over L3 verifications)
 **Purpose:** Path-sensitive analysis — determine if filter is always applied, not just sometimes
 **When to activate:** Only if FP rate from L1+L2+L3 exceeds 15%
 **Approach:** FilterState lattice: TOP → FILTERED/UNFILTERED → BOTTOM
@@ -531,68 +527,116 @@ agentwall/
 ├── pyproject.toml
 ├── LICENSE                          # MIT
 ├── README.md
+├── BENCHMARK.md                     # 20-project benchmark results
+├── BENCHMARK3000.md                 # 107-project benchmark results
 ├── src/
 │   └── agentwall/
 │       ├── __init__.py
-│       ├── cli.py                   # Typer CLI (scan, verify, explain, mcp-serve)
+│       ├── cli.py                   # Typer CLI (scan, verify)
 │       ├── scanner.py               # Orchestrator — wires L0–L8
-│       ├── models.py                # Finding, ScanResult, ScanConfig, CallGraph, TaintResult
-│       ├── config.py                # agentwall.yaml parser
-│       ├── analyzers/
-│       │   ├── __init__.py
-│       │   ├── memory.py            # L1: AST visitor for memory leakage
-│       │   ├── tools.py             # L1: AST visitor for tool-use vulns
-│       │   ├── callgraph.py         # L2: inter-procedural call graph
-│       │   ├── taint.py             # L3: taint analysis
-│       │   ├── config.py            # L4: configuration auditing
-│       │   ├── semgrep.py           # L5: semgrep rule runner
-│       │   ├── symbolic.py          # L6: abstract interpretation
-│       │   └── confidence.py        # L8: LLM-assisted confidence
-│       ├── runtime/
-│       │   └── patcher.py           # L7: runtime instrumentation
-│       ├── adapters/
-│       │   ├── __init__.py
-│       │   ├── langchain.py         # LangChain pattern detection
-│       │   └── chromadb.py          # ChromaDB pattern detection
-│       ├── reporters/
-│       │   ├── __init__.py
-│       │   ├── terminal.py          # Colored terminal output
-│       │   ├── json_reporter.py     # JSON output
-│       │   ├── sarif.py             # SARIF v2.1.0 output
-│       │   ├── agent_json.py        # Agent-optimized JSON (FR-501)
-│       │   └── patch.py             # Unified diff output (FR-502)
-│       ├── remediation/
-│       │   ├── __init__.py
-│       │   ├── context_detector.py  # Codebase context analysis (FR-532)
-│       │   ├── fix_generator.py     # Per-framework fix generation
-│       │   └── plan.py              # Remediation plan builder (FR-511)
-│       ├── mcp/
-│       │   ├── __init__.py
-│       │   └── server.py            # MCP server (FR-523)
-│       ├── rules/
-│       │   └── semgrep/
-│       │       ├── memory.yaml
-│       │       ├── tools.yaml
-│       │       └── config.yaml
-│       └── attack_vectors/
-│           └── catalog.json         # Machine-readable attack vector catalog
-├── tests/
-│   ├── conftest.py
+│       ├── models.py                # Finding, AgentSpec, ASM models, CallGraph, TaintResult
+│       ├── patterns.py              # Shared detection constants
+│       ├── rules.py                 # 27+ rule definitions (AW-MEM/TOOL/SEC/RAG/MCP/SER/AGT)
+│       ├── context.py               # AnalysisContext (shared mutable state)
+│       ├── detector.py              # Framework auto-detection
+│       ├── postprocess.py           # dedup, file context, sort
+│       ├── version_resolver.py      # Version-aware rule modifiers
+│       │
+│       ├── engine/                  # V5: General analysis engines
+│       │   ├── models.py            # ValueKind, StoreProfile, TenantFlowSummary, etc.
+│       │   ├── extractor.py         # L1: model-driven property extraction
+│       │   ├── graph.py             # L2: PyCG-style call graph + composition
+│       │   ├── verifier.py          # L3: fixpoint tenant isolation verification
+│       │   └── pathcov.py           # L6: path coverage aggregation
+│       │
+│       ├── frameworks/              # V5: Declarative framework models
+│       │   ├── base.py              # FrameworkModel, StoreModel, Pattern schemas
+│       │   ├── langchain.py         # LangChain model (12 vector stores)
+│       │   └── llamaindex.py        # LlamaIndex model (3 vector stores)
+│       │
+│       ├── analyzers/               # 16 analyzers (L0–L8 + ASM)
+│       │   ├── versions.py          # L0: version detection + CVE matching
+│       │   ├── memory.py            # L1: AW-MEM-001..005 (engine FP reduction)
+│       │   ├── tools.py             # L1: AW-TOOL-001..005
+│       │   ├── secrets.py           # L1: AW-SEC-001,003 (FP-refined)
+│       │   ├── serialization.py     # L1: AW-SER-001,003 (FP-refined)
+│       │   ├── rag.py               # L1: AW-RAG-001..004
+│       │   ├── mcp_security.py      # L1: AW-MCP-001..003
+│       │   ├── agent_arch.py        # L2: AW-AGT-001..004
+│       │   ├── callgraph.py         # L2: call graph (triggers engine)
+│       │   ├── taint.py             # L3: taint analysis (triggers engine)
+│       │   ├── config.py            # L4: config auditing (FP-refined)
+│       │   ├── semgrep.py           # L5: declarative patterns
+│       │   ├── symbolic.py          # L6: path-sensitive (triggers engine)
+│       │   ├── asm.py               # ASM: graph-based queries
+│       │   ├── runtime.py           # L7: runtime instrumentation (opt-in)
+│       │   └── confidence.py        # L8: LLM confidence scoring (opt-in)
+│       │
+│       ├── adapters/                # Framework-specific AST → AgentSpec
+│       │   ├── base.py              # AbstractAdapter protocol
+│       │   └── langchain.py         # LangChain adapter
+│       │
+│       ├── extractors/              # ASM component extraction
+│       │   ├── entry_points.py
+│       │   ├── edge_linker.py
+│       │   └── context_sinks.py
+│       │
+│       ├── reporters/               # Output formatters
+│       │   ├── terminal.py
+│       │   ├── json_reporter.py
+│       │   ├── sarif.py
+│       │   ├── agent_json.py
+│       │   └── patch.py
+│       │
+│       ├── runtime/                 # L7 instrumentation
+│       │   └── patcher.py
+│       │
+│       ├── semgrep_rules/           # L5 YAML rules
+│       │   ├── memory.yaml
+│       │   ├── tools.yaml
+│       │   └── config.yaml
+│       │
+│       └── data/versions/           # Version-aware rule modifiers
+│           └── (9 framework YAML files)
+│
+├── tests/                           # 39 test files, 623 tests
+│   ├── test_engine_models.py        # V5 engine data models
+│   ├── test_extractor.py            # V5 L1 engine
+│   ├── test_graph.py                # V5 L2 engine
+│   ├── test_verifier.py             # V5 L3 engine
+│   ├── test_pathcov.py              # V5 L6 engine
+│   ├── test_framework_model.py      # V5 framework models
+│   ├── test_engine_integration.py   # V5 integration tests
+│   ├── test_fp_reduction.py         # FP reduction regression tests
 │   ├── test_memory_analyzer.py
-│   ├── test_tool_analyzer.py
-│   ├── test_callgraph.py
-│   ├── test_config_auditor.py
-│   ├── test_semgrep.py
-│   ├── test_remediation.py
-│   ├── test_reporters.py
-│   ├── test_mcp_server.py
-│   └── fixtures/
-│       ├── vulnerable_rag_app/
-│       ├── safe_rag_app/
-│       ├── langchain_chatchat_sample/
-│       └── ...
-└── docs/
-    └── claude-code-integration.md   # FR-521 template
+│   ├── test_scanner.py
+│   ├── ... (39 files total)
+│   └── fixtures/                    # 26 fixture directories
+│       ├── engine_basic/
+│       ├── engine_tenant_collection/
+│       ├── engine_static_filter/
+│       ├── engine_cross_file/
+│       ├── engine_lcel_pipe/
+│       ├── engine_factory/
+│       ├── engine_inheritance/
+│       ├── engine_branching/
+│       ├── langchain_basic/
+│       ├── langchain_safe/
+│       ├── ... (26 dirs total)
+│
+├── docs/
+│   ├── ARCHITECTURE_V5.md           # V5 engine architecture
+│   ├── COMPETITIVE_ANALYSIS.md
+│   ├── ATTACK_VECTOR_CATALOG.md
+│   └── superpowers/specs/           # Design specs
+│
+├── prd/                             # Product requirements
+│   ├── AgentWall_PRD_v5.md          # This document
+│   └── (previous versions)
+│
+└── scripts/
+    ├── benchmark.sh                 # 20-project benchmark
+    └── benchmark3000.sh             # 107-project benchmark
 ```
 
 ### 18. Technology Stack
@@ -603,7 +647,7 @@ agentwall/
 | CLI | Typer | Modern, typed CLI framework |
 | AST | stdlib `ast` | Zero deps for core analysis |
 | Config parsing | `pyyaml`, `tomllib` (stdlib 3.11+) | Config auditing |
-| Call graph (optional) | `jedi` | Post-MVP enhanced resolution |
+| Call graph | Custom PyCG-style (stdlib `ast`) | Zero-dep, handles LCEL/factory/decorator |
 | Semgrep (optional) | `semgrep` CLI | Community-maintainable rules |
 | LLM (optional) | `ollama` / `anthropic` | Capital-aware confidence scoring |
 | SARIF | `sarif-tools` or manual | GitHub Security integration |
@@ -629,28 +673,54 @@ pip install agentwall[all]         # Everything
 Target Codebase
     │
     ▼
-[L0: Framework Detection] → FrameworkType
+[L0: Framework Detection] → "langchain" | None
     │
     ▼
-[L1: AST Analysis] → list[Finding] (per-file)
+[Adapter: LangChainAdapter.parse()] → AgentSpec (tools, memory_configs, ASM)
+    │
+    ├──── OLD PATH ────────────────┐  ┌──── ENGINE PATH (V5) ─────────┐
+    │                              │  │                                │
+    ▼                              │  │                                │
+[L1: AST Analyzers]                │  │                                │
+  Memory, Tool, Secret,            │  │                                │
+  Serialization, RAG, MCP,         │  │                                │
+  Agent Arch                       │  │                                │
+  → per-file findings              │  │                                │
+    │                              │  │                                │
+    ▼                              │  │                                │
+[L2: CallGraphAnalyzer] ───────────┼──┤ build_project_graph()          │
+  build_call_graph()               │  │ → ctx.project_graph            │
+  → ctx.call_graph                 │  │ (call + composition + extends) │
+    │                              │  │                                │
+    ▼                              │  │                                │
+[L3: TaintAnalyzer] ───────────────┼──┤ extract_properties()           │
+  _TaintVisitor                    │  │ → ctx.store_profiles           │
+  → ctx.taint_results              │  │                                │
+                                   │  │ verify_tenant_isolation()      │
+                                   │  │ → ctx.property_verifications   │
+    │                              │  │                                │
+    ▼                              │  │                                │
+[L4: ConfigAuditor] (infra)        │  │                                │
+[L5: SemgrepAnalyzer] (patterns)   │  │                                │
+    │                              │  │                                │
+    ▼                              │  │                                │
+[L6: SymbolicAnalyzer] ────────────┼──┤ compute_path_coverage()        │
+  _PathAnalyzer (lattice)          │  │ → ctx.path_coverages           │
+    │                              │  │                                │
+    └──────────────────────────────┘  └────────────────────────────────┘
     │
     ▼
-[L2: Call Graph] → list[Finding] (cross-file confirmed/downgraded)
+[ASM: Graph Queries] → evidence_path findings
     │
     ▼
-[L4: Config Audit] → list[Finding] (infra misconfig)
+[L7: Runtime] (opt-in) → dynamic findings
+[L8: LLM Confidence] (opt-in) → FP reduction
     │
     ▼
-[L5: Semgrep] → list[Finding] (declarative patterns)
+[Postprocess] → dedup → file context → sort
     │
     ▼
-[L8: Confidence Scoring] → list[Finding] (FP reduced)
-    │
-    ▼
-[Remediation Engine] → list[RemediationPlan] (context-aware fixes)
-    │
-    ▼
-[Output Formatter] → Terminal / JSON / SARIF / AgentJSON / Patch
+[Reporter] → Terminal | JSON | SARIF | AgentJSON | Patch
 ```
 
 ### 20. Data Model
@@ -707,6 +777,62 @@ class RemediationStep:
     diff: str | None
     confidence: FixConfidence  # AUTO, GUIDED, MANUAL
 ```
+
+#### 20b. Engine Data Models (V5)
+
+```python
+class ValueKind(str, Enum):
+    LITERAL = "literal"           # "global_docs", 42
+    DYNAMIC = "dynamic"           # variable reference
+    TENANT_SCOPED = "tenant"      # contains tenant identifier
+    COMPOUND_STATIC = "cstatic"   # dict with all literal values
+    COMPOUND_DYNAMIC = "cdynamic" # dict with at least one dynamic value
+    COMPOUND_TENANT = "ctenant"   # dict with at least one tenant-scoped value
+
+@dataclass
+class StoreProfile:
+    store_id: str
+    backend: str
+    collection_name_kind: ValueKind
+    extractions: list[PropertyExtraction]
+    isolation_strategy: IsolationStrategy  # COLLECTION_PER_TENANT | FILTER_ON_READ | NONE
+
+@dataclass
+class PropertyVerification:
+    store_id: str
+    verdict: Verdict  # VERIFIED | VIOLATED | UNKNOWN
+    evidence: list[FlowStep]
+
+@dataclass
+class PathCoverage:
+    store_id: str
+    verified_paths: list[VerifiedPath]
+    violated_paths: list[ViolatedPath]
+    coverage_ratio: float
+```
+
+#### 20c. Framework Model Schema (V5)
+
+```python
+@dataclass
+class FrameworkModel:
+    name: str                         # "langchain"
+    stores: dict[str, StoreModel]     # 12 vector store definitions
+    pipe_patterns: list[PipePattern]  # LCEL "|" operator
+    factory_patterns: list[FactoryPattern]
+    decorator_patterns: list[DecoratorPattern]
+    tenant_param_names: list[str]     # ["user_id", "tenant_id", ...]
+
+@dataclass
+class StoreModel:
+    backend: str                      # "chromadb"
+    isolation_params: list[str]       # ["collection_name"]
+    read_methods: dict[str, str]      # {"similarity_search": "filter"}
+    write_methods: dict[str, str]     # {"add_texts": "metadata"}
+    has_builtin_acl: bool             # False for FAISS
+```
+
+Adding a new vector store = add a dict entry. Adding a new framework = write a ~50-line model file. Zero engine changes.
 
 ---
 
@@ -849,7 +975,7 @@ Detects: authentication pattern, ingestion pipeline, existing filter patterns, t
 
 ### 28. Product Vision & Versioned Roadmap
 
-> **Current Position (2026-03-18):** v0.x complete. 216 tests passing, 72% coverage. Benchmark run on 20 real-world projects: 165 findings (57 CRITICAL) across 5,085 files. 10/32 attack vectors detected via static analysis, 7 confirmed in real code. Next priority: v1.0 (multi-framework coverage).
+> **Current Position (2026-03-20):** v0.x complete + V5 engine upgrade shipped. 623 tests passing across 39 test files. Benchmark run on 107 real-world projects (BENCHMARK3000): 1,280 findings (147 CRITICAL) across 29,238 files. 9/35 attack vectors detected. FP reduction Phase 1 eliminated 159 findings (12.4% reduction). Engine layer adds model-driven property extraction (L1), PyCG-style call graph with LCEL/factory/decorator composition (L2), fixpoint tenant isolation verification (L3), and path coverage aggregation (L6). Framework model validated: LlamaIndex added with zero engine changes.
 
 **The v0.x releases establish the foundation. What follows is the full vision for AgentWall as the definitive security layer for every AI agent ever shipped.**
 
@@ -867,7 +993,7 @@ Scanner         Ecosystem       Compliance
 
 #### v0.x — Static Scanner ✅ COMPLETE
 
-Core static scanner for LangChain + ChromaDB. 9 analysis layers (L0–L8), 10 detection rules (AW-MEM-001–005, AW-TOOL-001–005), 5 output formats (terminal, JSON, SARIF, agent-json, patch). Inter-procedural call graph, config auditing, Semgrep rules, LLM confidence scoring. Incremental `verify` command for fast fix-verify loops. Benchmark suite across 20 real-world projects.
+Core static scanner for LangChain + ChromaDB (+ LlamaIndex model). 9 analysis layers (L0–L8), 27+ detection rules across 8 categories (MEM, TOOL, SEC, RAG, MCP, SER, AGT, CFG), 5 output formats (terminal, JSON, SARIF, agent-json, patch). V5 engine upgrade: model-driven property extraction, PyCG-style call graph with composition detection, Pysa-style fixpoint verification, path coverage. FP reduction Phase 1 shipped. Benchmark expanded from 20 to 107 projects.
 
 **What shipped:**
 
@@ -887,9 +1013,25 @@ Core static scanner for LangChain + ChromaDB. 9 analysis layers (L0–L8), 10 de
 | CLI with `--fail-on`, `--layers`, `--fast`, `--dynamic`, `--llm-assist` | ✅ |
 | Benchmark: 20 real-world repos, 32 fixture tests | ✅ |
 | PyPI packaging | ✅ |
-| 216 tests, ruff clean, mypy strict | ✅ |
+| 623 tests (39 test files, 26 fixture dirs), ruff clean, mypy strict | ✅ |
+| 2.0 | V5 engine data models | ValueKind, StoreProfile, PropertyVerification, etc. | ✅ Done |
+| 2.1 | V5 framework model schema | FrameworkModel, StoreModel, Pattern schemas | ✅ Done |
+| 2.2 | LangChain framework model | 12 vector stores, pipe/factory/decorator patterns | ✅ Done |
+| 2.3 | L1 engine: property extractor | Model-driven value classification | ✅ Done |
+| 2.4 | L2 engine: project graph | PyCG call graph + composition + inheritance | ✅ Done |
+| 2.5 | L3 engine: fixpoint verifier | Tenant isolation verification | ✅ Done |
+| 2.6 | L6 engine: path coverage | Aggregation over L3 verifications | ✅ Done |
+| 2.7 | Engine wiring into analyzers | Backward-compatible integration | ✅ Done |
+| 2.8 | LlamaIndex framework model | Abstraction validation (zero engine changes) | ✅ Done |
+| 2.9 | AW-SEC/RAG/MCP/SER/AGT rules | 17 new rules across 5 categories | ✅ Done |
+| 3.0 | FP-1: AW-SER-003 dict-lookup | Suppress dict-lookup dynamic imports | ✅ Done |
+| 3.1 | FP-2: AW-SEC-003 content ref | Require content reference, not metadata | ✅ Done |
+| 3.2 | FP-3: AW-MEM-001 per-tenant | Downgrade via engine StoreProfile | ✅ Done |
+| 3.3 | FP-4: AW-CFG-hardcoded-secret | Skip templates, placeholders | ✅ Done |
+| 3.4 | FP-5: AW-MEM-005 retrieval | Require retrieval path | ✅ Done |
+| 3.5 | BENCHMARK3000 | 107 projects, 29,238 files, 1,280 findings | ✅ Done |
 
-**Known gap:** Test coverage at 72% (target: 80%) — gap in L2 callgraph (56%), L8 confidence (44%), L7 runtime (26%).
+**Known gap:** Test coverage at 72% (target: 80%). Partially mitigated by engine upgrade test suite (95 new tests). Gap in L2 callgraph (56%), L8 confidence (44%), L7 runtime (26%).
 
 ---
 
@@ -1029,7 +1171,7 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 | 1.8 | L8 LLM confidence scoring | Ambiguity resolution (built ahead of schedule) | ✅ Done |
 | 1.9 | Benchmark suite (20 repos) | 32 fixture tests, 20 real-world repos (27 tests) | ✅ Done |
 
-**18/18 steps complete. 216 tests passing, ruff clean.**
+**33/33 steps complete (18 original + 15 V5 engine + FP reduction). 623 tests passing, ruff clean.**
 
 **Attack Vector Detection Status (verified against code, 2026-03-18):**
 
@@ -1059,16 +1201,16 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 
 ### 30. Success Metrics
 
-| Metric | Target | Actual (2026-03-18) | Status |
+| Metric | Target | Actual (2026-03-20) | Status |
 |---|---|---|---|
 | `pip install agentwall && agentwall scan .` works first try | 100% | Works | ✅ |
-| Scan detects real bugs in Langchain-Chatchat | ≥ 3 CRITICAL findings | **14 CRITICAL** | ✅ |
-| Scan completes in < 90s on 50K LOC (L0–L5) | Mandatory | < 10s for all 20 projects | ✅ |
-| False positive rate on benchmark suite | < 15% | **0%** (0/6 rules on safe fixture) | ✅ |
+| Scan detects real bugs in Langchain-Chatchat | ≥ 3 CRITICAL findings | **147 CRITICAL** across 107 projects | ✅ |
+| Scan completes in < 90s on 50K LOC (L0–L5) | Mandatory | < 10s for all 107 projects | ✅ |
+| False positive rate on benchmark suite | < 15% | **~35% measured (45% before FP reduction, ~35% after Phase 1)** | 🔶 Phase 2 planned |
 | True positive rate on benchmark suite | > 85% | **100%** (11/11 expected rules) | ✅ |
-| Test suite | > 80% coverage | 72% (216 tests) — gap in L2/L7/L8 | 🔶 |
-| Attack vectors detected | — | 10/32 (31%) — all statically detectable | ✅ |
-| Real-world projects with findings | — | 12/20 (60%) | ✅ |
+| Test suite | > 80% coverage | 72% (623 tests) — gap in L2/L7/L8 | 🔶 |
+| Attack vectors detected | — | 9/35 (26%) — all statically detectable | ✅ |
+| Real-world projects with findings | — | 84/107 (79%) | ✅ |
 | AI agent can install + scan + parse output without human help | 100% for Claude Code, Codex | `--format agent-json` implemented | 🔶 Untested |
 | AUTO-confidence fixes apply cleanly (`git apply`) | > 90% | Patch validity test passing | 🔶 Limited scope |
 | AUTO-confidence fixes resolve finding on re-scan | > 85% | `agentwall verify` implemented | 🔶 Untested |
@@ -1080,7 +1222,7 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 
 | Risk | Probability | Impact | Mitigation | Status |
 |---|---|---|---|---|
-| False positive rate too high for CI adoption | Medium | HIGH | L8 confidence, `--fail-on critical` | ✅ Mitigated — 0% FP rate on benchmark |
+| False positive rate too high for CI adoption | Medium | HIGH | L8 confidence, `--fail-on critical` | 🔶 ~35% FP rate (down from 45% after Phase 1). Phase 2 targets ~18%. Measured via 98-finding manual triage. |
 | LangChain API changes break adapter | Medium | MEDIUM | Pin to v0.2+, adapter abstraction | 🔶 Monitoring |
 | Scope creep beyond MVP | HIGH | HIGH | PRD is scope contract | ✅ Mitigated — L3/L6/L7 scope creep was beneficial |
 | Solo engineer burnout | Medium | CRITICAL | Phase-gated delivery | 🔶 Phase 0+1 done in one sprint |
@@ -1095,7 +1237,7 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 
 | Stage | Version | What It Is | Revenue Model |
 |---|---|---|---|
-| Foundation | v0.x ✅ | Static scanner, LangChain + ChromaDB | Open source (MIT) |
+| Foundation | v0.x ✅ | Static scanner, LangChain + ChromaDB. V5 engine upgrade. FP reduction Phase 1. | Open source (MIT) |
 | Ecosystem | v1.0–v1.4 | Multi-framework, supply chain, IDE, live probing | Open source core + paid extras (advanced rules, priority support) |
 | Platform | v2.0–v2.1 | Continuous monitoring, compliance, enterprise | SaaS (hosted dashboard, team management, audit trails) |
 
@@ -1111,7 +1253,7 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 
 ### Fixture Benchmark (automated, `tests/test_benchmark.py`)
 
-32 tests, 7 fixture directories, 0.18s runtime.
+39 test files, 26 fixture directories.
 
 | Fixture | Findings | CRIT | Rules Fired | Use |
 |---|---|---|---|---|
@@ -1123,9 +1265,9 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 | langchain_branching | 2 | 0 | MEM-001, MEM-005 | Path-sensitive |
 | langchain_safe | 1 | 0 | MEM-005 only | FP test |
 
-### Real-World Benchmark (20 OSS projects)
+### Real-World Benchmark (107 OSS projects)
 
-165 findings (57 CRITICAL, 74 HIGH) across 5,085 files. Top projects:
+1,280 findings (147 CRITICAL, 526 HIGH) across 29,238 files in 107 projects. See BENCHMARK3000.md. Top projects:
 
 | Repo | Stars | Findings | CRIT | HIGH | Top Attack Vector |
 |---|---|---|---|---|---|
@@ -1146,11 +1288,11 @@ Enterprise teams need to prove to auditors that their agent systems are secure. 
 | Layer | Required | Optional | Install |
 |---|---|---|---|
 | L0–L1 | Python stdlib (`ast`, `re`) | — | Built-in |
-| L2 | — | `jedi` (enhanced) | `pip install agentwall[callgraph]` |
-| L3 | — | `pysa` or `codeql` | External install |
+| L2 | Python stdlib (`ast`) | — | Built-in (V5 PyCG-style graph) |
+| L3 | Python stdlib (`ast`) | — | Built-in (V5 fixpoint verifier) |
 | L4 | `pyyaml`, `tomllib` (3.11+) | `python-dotenv` | `pip install agentwall[config]` |
 | L5 | — | `semgrep` | `pip install agentwall[semgrep]` |
-| L6 | — | `z3-solver` | `pip install agentwall[symbolic]` |
+| L6 | Python stdlib (`ast`) | — | Built-in (V5 path coverage) |
 | L7 | Target app's deps | — | N/A (runtime) |
 | L8 | — | `ollama`, `anthropic` | `pip install agentwall[llm]` |
 

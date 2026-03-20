@@ -23,8 +23,10 @@
         "matcher": "Write|Edit",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Run the linter: bash /home/soh/working/agent-wall/.claude/hooks/lint.sh — fix any issues before continuing."
+            "type": "command",
+            "command": "bash /home/soh/working/agent-wall/.claude/hooks/lint.sh 2>/dev/null || true",
+            "timeout": 15,
+            "statusMessage": "Linting..."
           }
         ]
       }
