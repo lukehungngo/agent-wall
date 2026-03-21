@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AgentWall Benchmark 3000 — comprehensive scan of 150+ AI agent projects
+# AgentWall Benchmark 3000 — comprehensive scan of 300+ AI agent projects
 # Usage: ./scripts/benchmark3000.sh [targets_dir] [results_dir]
 #
 # Massively expanded version of benchmark.sh. Clones projects (shallow),
@@ -303,6 +303,530 @@ reg camel-oasis "https://github.com/camel-ai/oasis.git" \
 reg swe-bench "https://github.com/SWE-bench/SWE-bench.git" \
     "SWE-bench" "~4k" "tier2-small"
 
+# ══════════════════════════════════════════════════════════════════════════
+# LlamaIndex & CrewAI ecosystem expansion (200+ repos)
+# ══════════════════════════════════════════════════════════════════════════
+
+# ── LlamaIndex: Official / Core ──────────────────────────────────────────
+
+reg llama-deploy "https://github.com/run-llama/llama_deploy.git" \
+    "LlamaDeploy" "~2k" "llamaindex"
+reg llamaindex-ts "https://github.com/run-llama/LlamaIndexTS.git" \
+    "LlamaIndex.TS" "~3k" "llamaindex"
+reg llama-agents "https://github.com/run-llama/llama-agents.git" \
+    "LlamaAgents" "~1k" "llamaindex"
+reg llama-hub "https://github.com/run-llama/llama-hub.git" \
+    "LlamaHub" "~3k" "llamaindex"
+reg llama-lab "https://github.com/run-llama/llama-lab.git" \
+    "LlamaLab" "~1k" "llamaindex"
+reg multi-agent-concierge "https://github.com/run-llama/multi-agent-concierge.git" \
+    "Multi-Agent Concierge" "~500" "llamaindex"
+reg pr-manager-llama "https://github.com/run-llama/pr-manager.git" \
+    "PR Manager (LlamaIndex)" "~11" "llamaindex"
+
+# ── LlamaIndex: RAG Applications ────────────────────────────────────────
+
+reg lazyllm "https://github.com/LazyAGI/LazyLLM.git" \
+    "LazyLLM" "~3.7k" "llamaindex-rag"
+reg thinkrag "https://github.com/wzdavid/ThinkRAG.git" \
+    "ThinkRAG" "~322" "llamaindex-rag"
+reg delphic "https://github.com/JSv4/Delphic.git" \
+    "Delphic" "~318" "llamaindex-rag"
+reg local-llama "https://github.com/jlonge4/local_llama.git" \
+    "local_llama" "~297" "llamaindex-rag"
+reg awesome-rag-lucifertrj "https://github.com/lucifertrj/Awesome-RAG.git" \
+    "Awesome-RAG (lucifertrj)" "~278" "llamaindex-rag"
+reg veritasgraph "https://github.com/bibinprathap/VeritasGraph.git" \
+    "VeritasGraph" "~254" "llamaindex-rag"
+reg corpusos "https://github.com/Corpus-OS/corpusos.git" \
+    "CorpusOS" "~174" "llamaindex-rag"
+reg hello-wordsmith "https://github.com/wordsmith-ai/hello-wordsmith.git" \
+    "Hello Wordsmith" "~167" "llamaindex-rag"
+reg paperschat "https://github.com/AstraBert/PapersChat.git" \
+    "PapersChat" "~153" "llamaindex-rag"
+reg llamaindex-omakase-rag "https://github.com/ammirsm/llamaindex-omakase-rag.git" \
+    "LlamaIndex Omakase RAG" "~147" "llamaindex-rag"
+reg local-rag-llamaindex "https://github.com/Otman404/local-rag-llamaindex.git" \
+    "local-rag-llamaindex" "~132" "llamaindex-rag"
+reg xrag "https://github.com/DocAILab/XRAG.git" \
+    "XRAG" "~118" "llamaindex-rag"
+reg flexible-graphrag "https://github.com/stevereiner/flexible-graphrag.git" \
+    "flexible-graphrag" "~114" "llamaindex-rag"
+reg vector-cookbook "https://github.com/timescale/vector-cookbook.git" \
+    "Vector Cookbook (Timescale)" "~125" "llamaindex-rag"
+reg docmind-ai "https://github.com/BjornMelin/docmind-ai-llm.git" \
+    "DocMind AI" "~102" "llamaindex-rag"
+reg ragarch "https://github.com/AI-ANK/RAGArch.git" \
+    "RAGArch" "~87" "llamaindex-rag"
+reg rag-llamaindex-pinecone "https://github.com/felipearosr/RAG-LlamaIndex.git" \
+    "RAG-LlamaIndex (Pinecone)" "~81" "llamaindex-rag"
+reg kyosek-job-search "https://github.com/kyosek/RAG-based-job-search-assistant.git" \
+    "RAG Job Search Assistant" "~86" "llamaindex-rag"
+reg ingest-anything "https://github.com/AstraBert/ingest-anything.git" \
+    "ingest-anything" "~89" "llamaindex-rag"
+
+# ── LlamaIndex: Agents & Workflows ──────────────────────────────────────
+
+reg openinference "https://github.com/Arize-ai/openinference.git" \
+    "OpenInference (Arize)" "~891" "llamaindex-agent"
+reg mcpadapt "https://github.com/grll/mcpadapt.git" \
+    "MCPAdapt" "~420" "llamaindex-agent"
+reg planexe "https://github.com/PlanExeOrg/PlanExe.git" \
+    "PlanExe" "~361" "llamaindex-agent"
+reg llamaindex-docs-agent "https://github.com/rsrohan99/llamaindex-docs-agent.git" \
+    "LlamaIndex Docs Agent" "~156" "llamaindex-agent"
+reg llamaindex-trip-planner "https://github.com/rsrohan99/llamaindex-trip-planner.git" \
+    "LlamaIndex Trip Planner" "~49" "llamaindex-agent"
+reg user-centric-rag "https://github.com/pavannagula/User-Centric-RAG-Using-Llamaindex-Multi-Agent-System-and-Qdrant.git" \
+    "User-Centric RAG (LlamaIndex+Qdrant)" "~55" "llamaindex-agent"
+reg agentserve "https://github.com/PropsAI/agentserve.git" \
+    "AgentServe" "~40" "llamaindex-agent"
+reg agentic-rag-llamaindex "https://github.com/PatrickAttankurugu/Agentic-RAG-with-Llamaindex.git" \
+    "Agentic RAG (LlamaIndex)" "~8" "llamaindex-agent"
+reg logan-agent-as-service "https://github.com/logan-markewich/agent-as-a-service.git" \
+    "Agent-as-a-Service" "~24" "llamaindex-agent"
+reg workflows-acp "https://github.com/AstraBert/workflows-acp.git" \
+    "Workflows ACP" "~45" "llamaindex-agent"
+reg agentic-chatbot-llamaindex "https://github.com/sachink1729/Agentic-AI-Chatbot-Llamaindex.git" \
+    "Agentic AI Chatbot (LlamaIndex)" "~15" "llamaindex-agent"
+reg llama4-researcher "https://github.com/AstraBert/llama-4-researcher.git" \
+    "Llama-4 Researcher" "~192" "llamaindex-agent"
+reg e-library-agent "https://github.com/AstraBert/e-library-agent.git" \
+    "e-Library Agent" "~48" "llamaindex-agent"
+reg ragcoon "https://github.com/AstraBert/ragcoon.git" \
+    "ragcoon" "~56" "llamaindex-agent"
+reg diragnosis "https://github.com/AstraBert/diRAGnosis.git" \
+    "diRAGnosis" "~42" "llamaindex-agent"
+reg agentic-prd-generation "https://github.com/SeeknnDestroy/agentic-prd-generation.git" \
+    "Agentic PRD Generation" "~11" "llamaindex-agent"
+
+# ── LlamaIndex: Chatbots & Assistants ───────────────────────────────────
+
+reg llamaindexchat "https://github.com/dcarpintero/llamaindexchat.git" \
+    "LlamaIndexChat" "~45" "llamaindex-chatbot"
+reg llamaindex-ollama-chainlit "https://github.com/rauni-iitr/llamaindex_ollama_chainlit.git" \
+    "LlamaIndex Ollama Chainlit" "~20" "llamaindex-chatbot"
+reg ragindex "https://github.com/rigvedrs/RAGIndex.git" \
+    "RAGIndex" "~12" "llamaindex-chatbot"
+reg rag-application-llamaindex "https://github.com/VaradDeshmukh97/rag-application-with-llamaindex.git" \
+    "RAG Application (LlamaIndex)" "~10" "llamaindex-chatbot"
+reg llamaindex-with-llama2 "https://github.com/prashant022/LlamaIndex-with-Llama2.git" \
+    "LlamaIndex-with-Llama2" "~20" "llamaindex-chatbot"
+reg sql-agent-llamaindex "https://github.com/m13v/sql_agent_llamaindex.git" \
+    "SQL Agent LlamaIndex" "~15" "llamaindex-chatbot"
+reg llamaindex-knowledge-graph "https://github.com/hasanmehmood/llamaindex-knowledge-graph.git" \
+    "LlamaIndex Knowledge Graph" "~15" "llamaindex-chatbot"
+reg llamaindex-agent-swastik "https://github.com/swastikmaiti/LlamaIndex-Agent.git" \
+    "LlamaIndex Agent (Swastik)" "~10" "llamaindex-chatbot"
+reg azure-llamaindex "https://github.com/Azure-Samples/llama-index-python.git" \
+    "Azure LlamaIndex Sample" "~20" "llamaindex-chatbot"
+reg brainiac-llamaindex "https://github.com/jdhruv1503/Brainiac.git" \
+    "Brainiac" "~45" "llamaindex-chatbot"
+reg rag-tui "https://github.com/rasinmuhammed/rag-tui.git" \
+    "RAG-TUI" "~21" "llamaindex-chatbot"
+reg chat-rag-llamaindex "https://github.com/JakeFurtaw/Chat-RAG.git" \
+    "Chat-RAG" "~23" "llamaindex-chatbot"
+reg tok-llamaindex "https://github.com/gurveervirk/ToK.git" \
+    "ToK" "~28" "llamaindex-chatbot"
+reg multimodal-semantic-rag "https://github.com/AhmedAl93/multimodal-semantic-RAG.git" \
+    "Multimodal Semantic RAG" "~26" "llamaindex-chatbot"
+reg m2m-vector-search "https://github.com/schwabauerbriantomas-gif/m2m-vector-search.git" \
+    "M2M Vector Search" "~24" "llamaindex-chatbot"
+
+# ── LlamaIndex: Data & Evaluation ───────────────────────────────────────
+
+reg rag-performance "https://github.com/SciPhi-AI/RAG-Performance.git" \
+    "RAG Performance" "~20" "llamaindex-eval"
+reg rag-firewall "https://github.com/taladari/rag-firewall.git" \
+    "RAG Firewall" "~19" "llamaindex-eval"
+reg rag-framework-eval "https://github.com/oztrkoguz/RAG-Framework-Evaluation.git" \
+    "RAG Framework Evaluation" "~14" "llamaindex-eval"
+reg rag-ingest "https://github.com/iamarunbrahma/rag-ingest.git" \
+    "RAG Ingest" "~13" "llamaindex-eval"
+reg gptstonks "https://github.com/GPTStonks/gptstonks.git" \
+    "GPTStonks" "~57" "llamaindex-eval"
+reg quackling "https://github.com/DS4SD/quackling.git" \
+    "Quackling" "~57" "llamaindex-eval"
+reg gut-llamaindex "https://github.com/AstraBert/gut.git" \
+    "GUT" "~62" "llamaindex-eval"
+reg ai-equity-research "https://github.com/AI-ANK/ai-equity-research-analyst.git" \
+    "AI Equity Research Analyst" "~36" "llamaindex-eval"
+
+# ── LlamaIndex: Production & Integrations ───────────────────────────────
+
+reg opik "https://github.com/comet-ml/opik.git" \
+    "Opik (Comet)" "~18k" "llamaindex-prod"
+reg gptcache "https://github.com/zilliztech/GPTCache.git" \
+    "GPTCache" "~8k" "llamaindex-prod"
+reg all-in-rag "https://github.com/datawhalechina/all-in-rag.git" \
+    "All-in-RAG" "~5k" "llamaindex-prod"
+reg gerev "https://github.com/GerevAI/gerev.git" \
+    "Gerev" "~2.8k" "llamaindex-prod"
+reg py-gpt-llamaindex "https://github.com/szczyglis-dev/py-gpt.git" \
+    "PyGPT (LlamaIndex)" "~1.7k" "llamaindex-prod"
+reg judgeval "https://github.com/JudgmentLabs/judgeval.git" \
+    "Judgeval" "~1k" "llamaindex-prod"
+reg autollm "https://github.com/viddexa/autollm.git" \
+    "AutoLLM" "~1k" "llamaindex-prod"
+reg repoagent "https://github.com/OpenBMB/RepoAgent.git" \
+    "RepoAgent" "~923" "llamaindex-prod"
+reg datvodinh-rag-chatbot "https://github.com/datvodinh/rag-chatbot.git" \
+    "RAG Chatbot (datvodinh)" "~638" "llamaindex-prod"
+reg graphrag-toolkit "https://github.com/awslabs/graphrag-toolkit.git" \
+    "GraphRAG Toolkit (AWS)" "~367" "llamaindex-prod"
+reg agent-wiz "https://github.com/Repello-AI/Agent-Wiz.git" \
+    "Agent-Wiz" "~369" "llamaindex-prod"
+reg agentic-ai-systems "https://github.com/alirezadir/Agentic-AI-Systems.git" \
+    "Agentic AI Systems" "~261" "llamaindex-prod"
+reg restai "https://github.com/apocas/restai.git" \
+    "RESTai" "~200" "llamaindex-prod"
+reg slidespeak "https://github.com/SlideSpeak/slidespeak-backend.git" \
+    "SlideSpeak" "~92" "llamaindex-prod"
+reg epuerta-whisk "https://github.com/epuerta9/whisk.git" \
+    "Whisk" "~88" "llamaindex-prod"
+reg vincentkoc-airgapped-rag "https://github.com/vincentkoc/airgapped-offfline-rag.git" \
+    "Airgapped Offline RAG" "~81" "llamaindex-prod"
+reg fastapi-agents "https://github.com/blairhudson/fastapi-agents.git" \
+    "FastAPI Agents" "~47" "llamaindex-prod"
+reg bentoml-rag-tutorials "https://github.com/bentoml/rag-tutorials.git" \
+    "BentoML RAG Tutorials" "~49" "llamaindex-prod"
+
+# ── LlamaIndex: Small/Niche ─────────────────────────────────────────────
+
+reg reliable-rag "https://github.com/Lokesh-Chimakurthi/Reliable_RAG.git" \
+    "Reliable RAG" "~41" "llamaindex-small"
+reg llm-ollama-bootstrap "https://github.com/tyrell/llm-ollama-llamaindex-bootstrap.git" \
+    "LLM Ollama LlamaIndex Bootstrap" "~47" "llamaindex-small"
+reg ai-playground-rokbenko "https://github.com/rokbenko/ai-playground.git" \
+    "AI Playground (rokbenko)" "~321" "llamaindex-small"
+reg applied-ai-rag "https://github.com/BittnerPierre/applied-ai-rag-assistant.git" \
+    "Applied AI RAG Assistant" "~26" "llamaindex-small"
+reg ronoh-dspy-rag "https://github.com/Ronoh4/A-DSPy-based-RAG-with-LlamaIndex.git" \
+    "DSPy RAG + LlamaIndex" "~27" "llamaindex-small"
+reg ato-chatbot "https://github.com/tedzhao226/ato_chatbot.git" \
+    "ATO Chatbot" "~21" "llamaindex-small"
+reg ragtag-tiger "https://github.com/StuartRiffle/ragtag-tiger.git" \
+    "Ragtag Tiger" "~21" "llamaindex-small"
+reg llama-index-zoom "https://github.com/TuanaCelik/llama_index_zoom_assistant.git" \
+    "LlamaIndex Zoom Assistant" "~15" "llamaindex-small"
+reg llamaindex-retrieval-api "https://github.com/Haste171/llamaindex-retrieval-api.git" \
+    "LlamaIndex Retrieval API" "~14" "llamaindex-small"
+reg multimodal-rag-plugin "https://github.com/jacobmarks/fiftyone-multimodal-rag-plugin.git" \
+    "Multimodal RAG Plugin" "~21" "llamaindex-small"
+reg chatgpt-custom-knowledge "https://github.com/robindekoster/chatgpt-custom-knowledge-chatbot.git" \
+    "ChatGPT Custom Knowledge" "~136" "llamaindex-small"
+reg chatpdf-llamaindex "https://github.com/gabacode/chatPDF.git" \
+    "chatPDF" "~101" "llamaindex-small"
+reg smart-llm-loader "https://github.com/drmingler/smart-llm-loader.git" \
+    "Smart LLM Loader" "~75" "llamaindex-small"
+reg chatgpt-longterm-memory "https://github.com/ElmiraGhorbani/chatgpt-long-term-memory.git" \
+    "ChatGPT Long-Term Memory" "~62" "llamaindex-small"
+reg alphasecio-llamaindex "https://github.com/alphasecio/llama-index.git" \
+    "LlamaIndex Examples (alphasecio)" "~55" "llamaindex-small"
+reg dennisz-agentic-playground "https://github.com/denniszielke/agentic-playground.git" \
+    "Agentic Playground" "~53" "llamaindex-small"
+reg intelliweb-gpt "https://github.com/AdirthaBorgohain/intelliweb-GPT.git" \
+    "IntelliWeb GPT" "~36" "llamaindex-small"
+reg johnmalek-supervisor "https://github.com/johnmalek312/llama-index-supervisor.git" \
+    "LlamaIndex Supervisor" "~33" "llamaindex-small"
+reg contextual-retrieval-anthropic "https://github.com/RionDsilvaCS/contextual-retrieval-by-anthropic.git" \
+    "Contextual Retrieval (Anthropic)" "~27" "llamaindex-small"
+reg streaming-llm-chat "https://github.com/mickymultani/Streaming-LLM-Chat.git" \
+    "Streaming LLM Chat" "~25" "llamaindex-small"
+reg docs-n-data "https://github.com/asehmi/docs-n-data-knowledge-app.git" \
+    "Docs-n-Data Knowledge App" "~24" "llamaindex-small"
+reg llamaindex-flask-demo "https://github.com/mewmix/llama-index-flask-demo.git" \
+    "LlamaIndex Flask Demo" "~22" "llamaindex-small"
+reg agenticaicoach-li "https://github.com/Agentic-AI-Coach/AgenticAICoach.git" \
+    "AgenticAI Coach" "~22" "llamaindex-small"
+reg geminsights "https://github.com/izam-mohammed/GemInsights.git" \
+    "GemInsights" "~20" "llamaindex-small"
+reg j4nn0-llm-rag "https://github.com/J4NN0/llm-rag.git" \
+    "LLM RAG" "~20" "llamaindex-small"
+reg quickdigest "https://github.com/codingis4noobs2/QuickDigest.git" \
+    "QuickDigest" "~44" "llamaindex-small"
+reg aitrika "https://github.com/dSupertramp/AItrika.git" \
+    "AItrika" "~36" "llamaindex-small"
+reg vargha-langchain-rag "https://github.com/Vargha-Kh/Langchain-RAG-DevelopmentKit.git" \
+    "LangChain RAG DevKit" "~49" "llamaindex-small"
+reg adii-rag-voice "https://github.com/Adii2202/RAG-AI-Voice-assistant-.git" \
+    "RAG AI Voice Assistant" "~46" "llamaindex-small"
+reg translation-agent-webui "https://github.com/snekkenull/translation-agent-webui.git" \
+    "Translation Agent WebUI" "~30" "llamaindex-small"
+reg hiflylabs-agent-demo "https://github.com/Hiflylabs/agent-demo.git" \
+    "Hiflylabs Agent Demo" "~10" "llamaindex-small"
+reg hk-rag-knowledgellm "https://github.com/hk3427/RAG-KnowledgeLLM-LlamaIndex-BOT.git" \
+    "RAG KnowledgeLLM Bot" "~13" "llamaindex-small"
+reg pyqt-llamaindex "https://github.com/yjg30737/pyqt-llamaindex.git" \
+    "PyQt LlamaIndex" "~8" "llamaindex-small"
+reg santhalakshminarayana-doppalf "https://github.com/santhalakshminarayana/doppalf.git" \
+    "Doppalf" "~9" "llamaindex-small"
+reg fltb-bot-the-defect "https://github.com/fltb/bot-the-defect.git" \
+    "Bot-the-Defect" "~6" "llamaindex-small"
+reg edurag "https://github.com/userHanlh/EduRAG-NetworkAssistant.git" \
+    "EduRAG Network Assistant" "~15" "llamaindex-small"
+reg llamaindex-ollama-bootstrap2 "https://github.com/lesteroliver911/llamaindex-agentworkflow-browse-agent.git" \
+    "LlamaIndex Agent Workflow Browse" "~15" "llamaindex-small"
+reg sulaiman-llamaindex-chatbot "https://github.com/sulaiman-shamasna/LlamaIndex-chatbot-with-advanced-search-and-RAG.git" \
+    "LlamaIndex Chatbot Advanced" "~20" "llamaindex-small"
+reg leann-llamaindex "https://github.com/yichuan-w/LEANN.git" \
+    "LEANN" "~10k" "llamaindex-small"
+reg romplex-llama-index-rag "https://github.com/romilandc/llama-index-RAG.git" \
+    "LlamaIndex RAG (romilandc)" "~15" "llamaindex-small"
+reg mcp-toolbox-sdk "https://github.com/googleapis/mcp-toolbox-sdk-python.git" \
+    "MCP Toolbox SDK (Google)" "~167" "llamaindex-small"
+reg doganarif-promptpilot "https://github.com/doganarif/promptpilot.git" \
+    "PromptPilot" "~71" "llamaindex-small"
+reg implyinfer-jetson "https://github.com/implyinfer/jetson-orin-nano-field-kit.git" \
+    "Jetson Orin Nano RAG Kit" "~149" "llamaindex-small"
+
+# ── CrewAI: Official / Core ──────────────────────────────────────────────
+
+reg crewai-examples "https://github.com/crewAIInc/crewAI-examples.git" \
+    "CrewAI Examples" "~3k" "crewai"
+reg crewai-tools "https://github.com/crewAIInc/crewAI-tools.git" \
+    "CrewAI Tools" "~1.4k" "crewai"
+reg awesome-crewai "https://github.com/crewAIInc/awesome-crewai.git" \
+    "Awesome CrewAI" "~500" "crewai"
+
+# ── CrewAI: High-Star Applications ──────────────────────────────────────
+
+reg autogroq "https://github.com/jgravelle/AutoGroq.git" \
+    "AutoGroq" "~1.5k" "crewai-app"
+reg mcp-memory-service "https://github.com/doobidoo/mcp-memory-service.git" \
+    "MCP Memory Service" "~1.5k" "crewai-app"
+reg crewai-studio "https://github.com/strnad/CrewAI-Studio.git" \
+    "CrewAI Studio" "~1.2k" "crewai-app"
+reg fullstack-ai-agent "https://github.com/vstorm-co/full-stack-ai-agent-template.git" \
+    "Full Stack AI Agent Template" "~808" "crewai-app"
+reg viral-clips-crew "https://github.com/alexfazio/viral-clips-crew.git" \
+    "Viral Clips Crew" "~749" "crewai-app"
+reg aiwritex "https://github.com/iniwap/AIWriteX.git" \
+    "AIWriteX" "~700" "crewai-app"
+reg upsonic-tiger "https://github.com/Upsonic/Tiger.git" \
+    "Tiger (Upsonic)" "~465" "crewai-app"
+reg easy-investment-agent "https://github.com/liangdabiao/easy_investment_Agent_crewai.git" \
+    "Easy Investment Agent" "~383" "crewai-app"
+reg claude-data-analysis "https://github.com/liangdabiao/claude-data-analysis.git" \
+    "Claude Data Analysis" "~346" "crewai-app"
+reg devyan "https://github.com/theyashwanthsai/Devyan.git" \
+    "Devyan" "~290" "crewai-app"
+reg openplexity-pages "https://github.com/alexfazio/OpenPlexity-Pages.git" \
+    "OpenPlexity Pages" "~253" "crewai-app"
+reg nangeplus-crewai "https://github.com/NanGePlus/CrewAITest.git" \
+    "CrewAI Test (NanGePlus)" "~226" "crewai-app"
+reg crewai-gui-qt "https://github.com/LangGraph-GUI/CrewAI-GUI-Qt.git" \
+    "CrewAI GUI Qt" "~206" "crewai-app"
+reg wavefront "https://github.com/rootflo/wavefront.git" \
+    "Wavefront" "~200" "crewai-app"
+
+# ── CrewAI: Automation & Workflow ────────────────────────────────────────
+
+reg crewai-ui-business-launch "https://github.com/AbubakrChan/crewai-UI-business-product-launch.git" \
+    "CrewAI UI Business Launch" "~188" "crewai-workflow"
+reg open-extract "https://github.com/velocitybolt/open-extract.git" \
+    "Open Extract" "~184" "crewai-workflow"
+reg crewai-gmail-automation "https://github.com/tonykipkemboi/crewai-gmail-automation.git" \
+    "CrewAI Gmail Automation" "~182" "crewai-workflow"
+reg value-crewai "https://github.com/valmi-io/value.git" \
+    "Value" "~169" "crewai-workflow"
+reg resume-optimization-crew "https://github.com/tonykipkemboi/resume-optimization-crew.git" \
+    "Resume Optimization Crew" "~146" "crewai-workflow"
+reg crewai-stock-analysis "https://github.com/liangdabiao/crewai_stock_analysis_system.git" \
+    "CrewAI Stock Analysis" "~147" "crewai-workflow"
+reg geo-ai-agent "https://github.com/brightdata/geo-ai-agent.git" \
+    "Geo AI Agent" "~145" "crewai-workflow"
+reg trip-planner-agent "https://github.com/tonykipkemboi/trip_planner_agent.git" \
+    "Trip Planner Agent" "~139" "crewai-workflow"
+reg paper-summarizer "https://github.com/zhangleino1/paper-summarizer.git" \
+    "Paper Summarizer" "~126" "crewai-workflow"
+reg real-estate-ai-agent "https://github.com/brightdata/real-estate-ai-agent.git" \
+    "Real Estate AI Agent" "~121" "crewai-workflow"
+reg crewai-flows-fullstack "https://github.com/NanGePlus/CrewAIFlowsFullStack.git" \
+    "CrewAI Flows FullStack" "~119" "crewai-workflow"
+reg agent-audit "https://github.com/HeadyZhang/agent-audit.git" \
+    "Agent Audit" "~117" "crewai-workflow"
+reg mengram "https://github.com/alibaizhanov/mengram.git" \
+    "Mengram" "~112" "crewai-workflow"
+reg nicknochnack-watsonx "https://github.com/nicknochnack/WatsonxCrewAI.git" \
+    "Watsonx CrewAI" "~100" "crewai-workflow"
+reg fenixai-tradingbot "https://github.com/Ganador1/FenixAI_tradingBot.git" \
+    "FenixAI Trading Bot" "~99" "crewai-workflow"
+reg jambo-crewai "https://github.com/HideyoshiNakazone/jambo.git" \
+    "Jambo" "~93" "crewai-workflow"
+reg aitino "https://github.com/startino/aitino.git" \
+    "Aitino" "~91" "crewai-workflow"
+reg awesome-ai-agents-hub "https://github.com/OneDuckyBoy/Awesome-AI-Agents-HUB-for-CrewAI.git" \
+    "Awesome AI Agents HUB" "~90" "crewai-workflow"
+reg workshop-ai-agent "https://github.com/caio-moliveira/workshop-ai-agent.git" \
+    "Workshop AI Agent" "~88" "crewai-workflow"
+reg spotify-playlist-crewai "https://github.com/NTTLuke/spotify-playlist-old.git" \
+    "Spotify Playlist (CrewAI)" "~81" "crewai-workflow"
+
+# ── CrewAI: Multi-Agent Systems ──────────────────────────────────────────
+
+reg crewai-sheets-ui "https://github.com/yuriwa/crewai-sheets-ui.git" \
+    "CrewAI Sheets UI" "~76" "crewai-multiagent"
+reg custom-build-crewai "https://github.com/custom-build-robots/ai-agents-with-CrewAI.git" \
+    "AI Agents with CrewAI" "~73" "crewai-multiagent"
+reg ai-agile-team "https://github.com/jeanjerome/ai-agile-team.git" \
+    "AI Agile Team" "~70" "crewai-multiagent"
+reg ai-agents-whyash "https://github.com/whyashthakker/ai-agents.git" \
+    "AI Agents (whyash)" "~69" "crewai-multiagent"
+reg crewai-streamlit-demo "https://github.com/tonykipkemboi/crewai-streamlit-demo.git" \
+    "CrewAI Streamlit Demo" "~69" "crewai-multiagent"
+reg agent-os "https://github.com/imran-siddique/agent-os.git" \
+    "Agent OS" "~68" "crewai-multiagent"
+reg eval-view "https://github.com/hidai25/eval-view.git" \
+    "Eval View" "~68" "crewai-multiagent"
+reg multi-agents-scratch "https://github.com/AIAnytime/Multi-Agents-System-from-Scratch.git" \
+    "Multi-Agents System from Scratch" "~67" "crewai-multiagent"
+reg rag-boilerplate "https://github.com/mburaksayici/RAG-Boilerplate.git" \
+    "RAG Boilerplate" "~66" "crewai-multiagent"
+reg youtube-yapper-trapper "https://github.com/tonykipkemboi/youtube_yapper_trapper.git" \
+    "YouTube Yapper Trapper" "~66" "crewai-multiagent"
+reg robocrew "https://github.com/Grigorij-Dudnik/RoboCrew.git" \
+    "RoboCrew" "~63" "crewai-multiagent"
+reg aisquare-studio-qa "https://github.com/AISquare-Studio/AISquare-Studio-QA.git" \
+    "AISquare Studio QA" "~63" "crewai-multiagent"
+reg abcxyz-vn-stock "https://github.com/abcxyz91/vn_stock_advisor.git" \
+    "VN Stock Advisor" "~62" "crewai-multiagent"
+reg comfyui-crewai "https://github.com/luandev/ComfyUI-CrewAI.git" \
+    "ComfyUI-CrewAI" "~60" "crewai-multiagent"
+reg travelplanner-crewai "https://github.com/AdritPal08/TravelPlanner-CrewAi-Agents-Streamlit.git" \
+    "TravelPlanner CrewAI" "~54" "crewai-multiagent"
+reg multi-agent-rag-template "https://github.com/The-Swarm-Corporation/Multi-Agent-RAG-Template.git" \
+    "Multi-Agent RAG Template" "~53" "crewai-multiagent"
+reg investment-agent-langgraph "https://github.com/liangdabiao/investment_Agent_langgraph_crewai.git" \
+    "Investment Agent (LangGraph+CrewAI)" "~51" "crewai-multiagent"
+reg aibtcdev-crew "https://github.com/aibtcdev/ai-agent-crew.git" \
+    "AI Agent Crew (Bitcoin)" "~47" "crewai-multiagent"
+reg philippe-aitrading "https://github.com/philippe-ostiguy/AITradingCrew.git" \
+    "AI Trading Crew" "~47" "crewai-multiagent"
+reg akj-multi-ai-crewai "https://github.com/akj2018/Multi-AI-Agent-Systems-with-crewAI.git" \
+    "Multi-AI-Agent Systems (CrewAI)" "~50" "crewai-multiagent"
+reg ksm-multi-ai-crewai "https://github.com/ksm26/Multi-AI-Agent-Systems-with-crewAI.git" \
+    "Multi-AI-Agent Systems (ksm)" "~30" "crewai-multiagent"
+
+# ── CrewAI: Small/Niche ─────────────────────────────────────────────────
+
+reg crewai-mcp "https://github.com/plaban1981/Crewai-MCP.git" \
+    "CrewAI MCP" "~40" "crewai-small"
+reg haasonsaas-email "https://github.com/haasonsaas/email-agent.git" \
+    "Email Agent" "~43" "crewai-small"
+reg hugozanini-jira "https://github.com/hugozanini/jira-tiger.git" \
+    "Jira Tiger" "~43" "crewai-small"
+reg korucutech-kai "https://github.com/KorucuTech/kai.git" \
+    "KAI" "~42" "crewai-small"
+reg mesutdmn-essay "https://github.com/mesutdmn/Autonomous-Multi-Agent-Systems-with-CrewAI-Essay-Writer.git" \
+    "CrewAI Essay Writer" "~40" "crewai-small"
+reg mstryoda-agents "https://github.com/mstrYoda/llm-agents-example.git" \
+    "LLM Agents Example" "~40" "crewai-small"
+reg crew-llamafile "https://github.com/heaversm/crew-llamafile.git" \
+    "Crew Llamafile" "~39" "crewai-small"
+reg crew-news "https://github.com/rokbenko/crew-news.git" \
+    "Crew News" "~39" "crewai-small"
+reg botextractai-crewai "https://github.com/botextractai/ai-crewai-multi-agent.git" \
+    "CrewAI Multi-Agent (Financial)" "~37" "crewai-small"
+reg ainews-blogwriter "https://github.com/LikithMeruvu/AINewsResearcher-and-BlogWriter.git" \
+    "AI News Researcher & Blog Writer" "~36" "crewai-small"
+reg multiagent-debugger "https://github.com/VishApp/multiagent-debugger.git" \
+    "Multiagent Debugger" "~35" "crewai-small"
+reg personal-brand-team "https://github.com/AshAIDevelopment/PersonalBrandTeam.git" \
+    "Personal Brand Team" "~37" "crewai-small"
+reg agentfacts "https://github.com/soth-ai/agentfacts-py.git" \
+    "AgentFacts" "~33" "crewai-small"
+reg ai-book-writer "https://github.com/agruai/ai-book-writer.git" \
+    "AI Book Writer" "~33" "crewai-small"
+reg smart-marketing-crewai "https://github.com/praj2408/Smart-Marketing-Assistant-Crew-AI.git" \
+    "Smart Marketing Assistant" "~32" "crewai-small"
+reg operagents "https://github.com/yanyongyu/operagents.git" \
+    "Operagents" "~31" "crewai-small"
+reg contextloom "https://github.com/danielckv/ContextLoom.git" \
+    "ContextLoom" "~31" "crewai-small"
+reg kbhujbal-travel "https://github.com/kbhujbal/Multi-Agent-AI-Travel-Advisor.git" \
+    "Multi-Agent Travel Advisor" "~30" "crewai-small"
+reg qdrant-crewai-obsidian "https://github.com/qdrant/webinar-crewai-qdrant-obsidian.git" \
+    "CrewAI Qdrant Obsidian" "~29" "crewai-small"
+reg multi-agent-newsletter "https://github.com/felixggj/multi-agent-ai-newsletter.git" \
+    "Multi-Agent AI Newsletter" "~28" "crewai-small"
+reg ai-in-pm-pmo "https://github.com/ai-in-pm/PMO-CrewAI.git" \
+    "PMO CrewAI" "~28" "crewai-small"
+reg cv-agents "https://github.com/0xrushi/cv-agents.git" \
+    "CV Agents" "~27" "crewai-small"
+reg smart-nutritional "https://github.com/HaileyTQuach/Smart-Nutritional-App.git" \
+    "Smart Nutritional App" "~26" "crewai-small"
+reg alexnodeland-crewlit "https://github.com/alexnodeland/crewlit.git" \
+    "Crewlit" "~26" "crewai-small"
+reg maryam-rag-agents "https://github.com/Maryam-Nasseri/RAG-based-AI-Agents.git" \
+    "RAG-based AI Agents" "~25" "crewai-small"
+reg healthcare-assistant "https://github.com/Dharm3438/Healthcare-Assistant.git" \
+    "Healthcare Assistant" "~25" "crewai-small"
+reg yaalalabs-agent-kernel "https://github.com/yaalalabs/agent-kernel.git" \
+    "Agent Kernel" "~25" "crewai-small"
+reg siddhardhan-stock-trader "https://github.com/siddhardhan2323/crewai-stock-trader-agents.git" \
+    "CrewAI Stock Trader" "~25" "crewai-small"
+reg aws-compliance-crew "https://github.com/aws-samples/sample-compliance-assistant-with-agents.git" \
+    "Compliance Assistant (AWS)" "~24" "crewai-small"
+reg kalibr-sdk "https://github.com/kalibr-ai/kalibr-sdk-python.git" \
+    "Kalibr SDK" "~24" "crewai-small"
+reg coral-ai "https://github.com/Coral-Bricks-AI/coral-ai.git" \
+    "Coral AI" "~23" "crewai-small"
+reg ebrown-stock-analysis "https://github.com/ebrown-32/Agentic-AI-Stock-Analysis-Crew.git" \
+    "Agentic Stock Analysis Crew" "~23" "crewai-small"
+reg newsletter-agent "https://github.com/ananeridev/newsletter-agent.git" \
+    "Newsletter Agent" "~23" "crewai-small"
+reg yaitec-hub "https://github.com/yaitec/yaitec-hub-templates.git" \
+    "Yaitec Hub Templates" "~23" "crewai-small"
+reg asharib-agentic "https://github.com/AsharibAli/agentic-ai-projects.git" \
+    "Agentic AI Projects" "~22" "crewai-small"
+reg bentoml-bentocrewai "https://github.com/bentoml/BentoCrewAI.git" \
+    "BentoCrewAI" "~22" "crewai-small"
+reg rosidotidev-jira "https://github.com/rosidotidev/CrewAI-Agentic-Jira.git" \
+    "CrewAI Agentic Jira" "~22" "crewai-small"
+reg nebeyou-news-agents "https://github.com/NebeyouMusie/News-AI-Agents-Using-CrewAI-And-Google-Gemini-Pro-LLM-Models.git" \
+    "News AI Agents (Gemini)" "~22" "crewai-small"
+reg python-coding-agent "https://github.com/LikithMeruvu/Python-coding-Agent.git" \
+    "Python Coding Agent" "~22" "crewai-small"
+reg psrane-market-research "https://github.com/psrane8/Market-Research-Agent.git" \
+    "Market Research Agent" "~21" "crewai-small"
+reg nighttrek-backlinker "https://github.com/NightTrek/mistral-backlinker.git" \
+    "Mistral Backlinker" "~21" "crewai-small"
+reg uriafranko-taskforce "https://github.com/uriafranko/TaskForce.git" \
+    "TaskForce" "~21" "crewai-small"
+reg graphlit-tools "https://github.com/graphlit/graphlit-tools-python.git" \
+    "Graphlit Tools" "~20" "crewai-small"
+reg nomadu-insaits "https://github.com/Nomadu27/InsAIts.git" \
+    "InsAIts" "~20" "crewai-small"
+reg langcrew "https://github.com/01-ai/langcrew.git" \
+    "LangCrew" "~113" "crewai-small"
+reg aipagepad "https://github.com/AjayK47/PagePod.git" \
+    "PagePod" "~19" "crewai-small"
+reg doctor-assist-crewai "https://github.com/shaadclt/Doctor-Assist-crewAI.git" \
+    "Doctor Assist (CrewAI)" "~14" "crewai-small"
+reg hmnajam-crewai "https://github.com/hmnajam/crewAI-projects.git" \
+    "CrewAI Projects (hmnajam)" "~10" "crewai-small"
+reg lakshya-crewai "https://github.com/lakshyakumar/crewAI-projects.git" \
+    "CrewAI Projects (lakshya)" "~10" "crewai-small"
+reg crewai-debate "https://github.com/rajeswarandhandapani/crewai_multi_agent_debate.git" \
+    "CrewAI Multi-Agent Debate" "~5" "crewai-small"
+reg techindicium-multiagent "https://github.com/techindicium/MultiAgent-CrewAI.git" \
+    "MultiAgent CrewAI (Indicium)" "~5" "crewai-small"
+reg minhosong-investor "https://github.com/minhosong88/Investor-Crew.git" \
+    "Investor Crew" "~10" "crewai-small"
+reg aiforge-crewai "https://github.com/iniwap/AIForge.git" \
+    "AIForge" "~48" "crewai-small"
+reg prompt-maker "https://github.com/adamjen/Prompt_Maker.git" \
+    "Prompt Maker" "~46" "crewai-small"
+reg zinyando-awesome-crewai "https://github.com/zinyando/awesome-crewai.git" \
+    "Awesome CrewAI (zinyando)" "~15" "crewai-small"
+reg 500-ai-agents "https://github.com/ashishpatel26/500-AI-Agents-Projects.git" \
+    "500 AI Agents Projects" "~100" "crewai-small"
+reg harehimself-crewai-lab "https://github.com/harehimself/crewai-lab.git" \
+    "CrewAI Lab" "~9" "crewai-small"
+reg billy-crewai-research "https://github.com/billy-enrizky/crewai-research-assistant.git" \
+    "CrewAI Research Assistant" "~8" "crewai-small"
+
 # ── Force framework overrides ───────────────────────────────────────────
 
 FORCE_FRAMEWORK=(
@@ -318,6 +842,152 @@ FORCE_FRAMEWORK=(
   [rag-chatbot-langchain]="langchain"
   [canopy]="langchain"
   [libre-chat]="llamaindex"
+  # LlamaIndex force overrides
+  [lazyllm]="llamaindex"
+  [thinkrag]="llamaindex"
+  [delphic]="llamaindex"
+  [local-llama]="llamaindex"
+  [veritasgraph]="llamaindex"
+  [corpusos]="llamaindex"
+  [hello-wordsmith]="llamaindex"
+  [paperschat]="llamaindex"
+  [llamaindex-omakase-rag]="llamaindex"
+  [local-rag-llamaindex]="llamaindex"
+  [xrag]="llamaindex"
+  [flexible-graphrag]="llamaindex"
+  [ragarch]="llamaindex"
+  [rag-llamaindex-pinecone]="llamaindex"
+  [kyosek-job-search]="llamaindex"
+  [ingest-anything]="llamaindex"
+  [openinference]="llamaindex"
+  [planexe]="llamaindex"
+  [llamaindex-docs-agent]="llamaindex"
+  [llamaindex-trip-planner]="llamaindex"
+  [user-centric-rag]="llamaindex"
+  [agentserve]="llamaindex"
+  [agentic-rag-llamaindex]="llamaindex"
+  [logan-agent-as-service]="llamaindex"
+  [agentic-chatbot-llamaindex]="llamaindex"
+  [llama4-researcher]="llamaindex"
+  [e-library-agent]="llamaindex"
+  [ragcoon]="llamaindex"
+  [diragnosis]="llamaindex"
+  [llamaindexchat]="llamaindex"
+  [llamaindex-ollama-chainlit]="llamaindex"
+  [ragindex]="llamaindex"
+  [rag-application-llamaindex]="llamaindex"
+  [llamaindex-with-llama2]="llamaindex"
+  [sql-agent-llamaindex]="llamaindex"
+  [llamaindex-knowledge-graph]="llamaindex"
+  [llamaindex-agent-swastik]="llamaindex"
+  [azure-llamaindex]="llamaindex"
+  [brainiac-llamaindex]="llamaindex"
+  [rag-tui]="llamaindex"
+  [chat-rag-llamaindex]="llamaindex"
+  [tok-llamaindex]="llamaindex"
+  [multimodal-semantic-rag]="llamaindex"
+  [m2m-vector-search]="llamaindex"
+  [rag-performance]="llamaindex"
+  [rag-firewall]="llamaindex"
+  [rag-framework-eval]="llamaindex"
+  [rag-ingest]="llamaindex"
+  [gptstonks]="llamaindex"
+  [quackling]="llamaindex"
+  [gut-llamaindex]="llamaindex"
+  [ai-equity-research]="llamaindex"
+  [opik]="llamaindex"
+  [gptcache]="llamaindex"
+  [gerev]="llamaindex"
+  [autollm]="llamaindex"
+  [repoagent]="llamaindex"
+  [datvodinh-rag-chatbot]="llamaindex"
+  [graphrag-toolkit]="llamaindex"
+  [restai]="llamaindex"
+  [slidespeak]="llamaindex"
+  [vincentkoc-airgapped-rag]="llamaindex"
+  [fastapi-agents]="llamaindex"
+  [bentoml-rag-tutorials]="llamaindex"
+  [reliable-rag]="llamaindex"
+  [llm-ollama-bootstrap]="llamaindex"
+  [chatgpt-custom-knowledge]="llamaindex"
+  [chatpdf-llamaindex]="llamaindex"
+  [smart-llm-loader]="llamaindex"
+  [chatgpt-longterm-memory]="llamaindex"
+  [alphasecio-llamaindex]="llamaindex"
+  [intelliweb-gpt]="llamaindex"
+  [llamaindex-flask-demo]="llamaindex"
+  [quickdigest]="llamaindex"
+  [aitrika]="llamaindex"
+  [adii-rag-voice]="llamaindex"
+  [translation-agent-webui]="llamaindex"
+  [hk-rag-knowledgellm]="llamaindex"
+  [pyqt-llamaindex]="llamaindex"
+  [doganarif-promptpilot]="llamaindex"
+  # CrewAI force overrides
+  [crewai-examples]="crewai"
+  [crewai-tools]="crewai"
+  [awesome-crewai]="crewai"
+  [autogroq]="crewai"
+  [mcp-memory-service]="crewai"
+  [crewai-studio]="crewai"
+  [fullstack-ai-agent]="crewai"
+  [viral-clips-crew]="crewai"
+  [aiwritex]="crewai"
+  [easy-investment-agent]="crewai"
+  [claude-data-analysis]="crewai"
+  [devyan]="crewai"
+  [openplexity-pages]="crewai"
+  [nangeplus-crewai]="crewai"
+  [crewai-gui-qt]="crewai"
+  [wavefront]="crewai"
+  [crewai-ui-business-launch]="crewai"
+  [open-extract]="crewai"
+  [crewai-gmail-automation]="crewai"
+  [resume-optimization-crew]="crewai"
+  [crewai-stock-analysis]="crewai"
+  [geo-ai-agent]="crewai"
+  [trip-planner-agent]="crewai"
+  [paper-summarizer]="crewai"
+  [real-estate-ai-agent]="crewai"
+  [crewai-flows-fullstack]="crewai"
+  [agent-audit]="crewai"
+  [mengram]="crewai"
+  [nicknochnack-watsonx]="crewai"
+  [fenixai-tradingbot]="crewai"
+  [jambo-crewai]="crewai"
+  [aitino]="crewai"
+  [awesome-ai-agents-hub]="crewai"
+  [workshop-ai-agent]="crewai"
+  [crewai-sheets-ui]="crewai"
+  [custom-build-crewai]="crewai"
+  [ai-agile-team]="crewai"
+  [crewai-streamlit-demo]="crewai"
+  [multi-agents-scratch]="crewai"
+  [rag-boilerplate]="crewai"
+  [youtube-yapper-trapper]="crewai"
+  [robocrew]="crewai"
+  [travelplanner-crewai]="crewai"
+  [multi-agent-rag-template]="crewai"
+  [investment-agent-langgraph]="crewai"
+  [philippe-aitrading]="crewai"
+  [akj-multi-ai-crewai]="crewai"
+  [ksm-multi-ai-crewai]="crewai"
+  [crewai-mcp]="crewai"
+  [haasonsaas-email]="crewai"
+  [mesutdmn-essay]="crewai"
+  [botextractai-crewai]="crewai"
+  [ainews-blogwriter]="crewai"
+  [multiagent-debugger]="crewai"
+  [smart-marketing-crewai]="crewai"
+  [ebrown-stock-analysis]="crewai"
+  [newsletter-agent]="crewai"
+  [bentoml-bentocrewai]="crewai"
+  [rosidotidev-jira]="crewai"
+  [doctor-assist-crewai]="crewai"
+  [crewai-debate]="crewai"
+  [techindicium-multiagent]="crewai"
+  [minhosong-investor]="crewai"
+  [langcrew]="crewai"
 )
 
 TOTAL_REPOS=${#REPO_NAMES[@]}

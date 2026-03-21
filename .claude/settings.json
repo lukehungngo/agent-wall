@@ -7,7 +7,22 @@
       "Bash:*",
       "Glob:*",
       "Grep:*",
-      "Agent:*"
+      "Agent:*",
+      "WebSearch",
+      "WebFetch:*",
+      "Skill:*",
+      "TaskCreate",
+      "TaskUpdate",
+      "TaskGet",
+      "TaskList",
+      "TaskOutput",
+      "TaskStop",
+      "NotebookEdit:*",
+      "SendMessage:*",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__producthunt__search_posts",
+      "mcp__producthunt__get_post"
     ],
     "deny": [
       "Read:.env*",
