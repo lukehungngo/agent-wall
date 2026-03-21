@@ -90,3 +90,81 @@ class TestSerializationAnalyzer:
         findings = SerializationAnalyzer().analyze(ctx)
         ser_003 = [f for f in findings if f.rule_id == "AW-SER-003"]
         assert len(ser_003) == 0
+
+
+class TestSER003FPSuppressions:
+    """Tests for SER-003 false-positive suppression heuristics (KR1.4)."""
+
+    def test_fstring_with_constant_prefix_not_flagged(self, tmp_path: Path) -> None:
+        (tmp_path / "fstr.py").write_text(
+            'import importlib\n'
+            'name = "redis"\n'
+            'mod = importlib.import_module(f"myapp.backends.{name}")\n'
+        )
+        ctx = AnalysisContext(
+            target=tmp_path,
+            config=ScanConfig(),
+            source_files=[tmp_path / "fstr.py"],
+        )
+        findings = SerializationAnalyzer().analyze(ctx)
+        ser_003 = [f for f in findings if f.rule_id == "AW-SER-003"]
+        assert len(ser_003) == 0
+
+    def test_config_attribute_not_flagged(self, tmp_path: Path) -> None:
+        (tmp_path / "cfg.py").write_text(
+            'import importlib\n'
+            'mod = importlib.import_module(settings.BACKEND_CLASS)\n'
+        )
+        ctx = AnalysisContext(
+            target=tmp_path,
+            config=ScanConfig(),
+            source_files=[tmp_path / "cfg.py"],
+        )
+        findings = SerializationAnalyzer().analyze(ctx)
+        ser_003 = [f for f in findings if f.rule_id == "AW-SER-003"]
+        assert len(ser_003) == 0
+
+    def test_try_except_guarded_not_flagged(self, tmp_path: Path) -> None:
+        (tmp_path / "guarded.py").write_text(
+            'import importlib\n'
+            'try:\n'
+            '    mod = importlib.import_module(name)\n'
+            'except ImportError:\n'
+            '    pass\n'
+        )
+        ctx = AnalysisContext(
+            target=tmp_path,
+            config=ScanConfig(),
+            source_files=[tmp_path / "guarded.py"],
+        )
+        findings = SerializationAnalyzer().analyze(ctx)
+        ser_003 = [f for f in findings if f.rule_id == "AW-SER-003"]
+        assert len(ser_003) == 0
+
+    def test_constant_format_not_flagged(self, tmp_path: Path) -> None:
+        (tmp_path / "fmt.py").write_text(
+            'import importlib\n'
+            'mod = importlib.import_module("myapp.{}".format(name))\n'
+        )
+        ctx = AnalysisContext(
+            target=tmp_path,
+            config=ScanConfig(),
+            source_files=[tmp_path / "fmt.py"],
+        )
+        findings = SerializationAnalyzer().analyze(ctx)
+        ser_003 = [f for f in findings if f.rule_id == "AW-SER-003"]
+        assert len(ser_003) == 0
+
+    def test_unsafe_dynamic_import_still_flagged(self, tmp_path: Path) -> None:
+        (tmp_path / "unsafe.py").write_text(
+            'import importlib\n'
+            'mod = importlib.import_module(user_input)\n'
+        )
+        ctx = AnalysisContext(
+            target=tmp_path,
+            config=ScanConfig(),
+            source_files=[tmp_path / "unsafe.py"],
+        )
+        findings = SerializationAnalyzer().analyze(ctx)
+        ser_003 = [f for f in findings if f.rule_id == "AW-SER-003"]
+        assert len(ser_003) >= 1

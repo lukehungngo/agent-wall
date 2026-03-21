@@ -70,6 +70,10 @@ class SerializationAnalyzer:
                 and not isinstance(node.args[0], ast.Constant)
                 and not self._is_dict_lookup_import(node)
                 and not self._is_safe_var_import(node, safe_vars)
+                and not self._is_fstring_with_constant_prefix(node)
+                and not self._is_config_attribute_import(node)
+                and not self._is_try_except_guarded(node, tree)
+                and not self._is_constant_format_call(node)
                 and not ctx.should_suppress(AW_SER_003.rule_id)
             ):
                 sev = ctx.severity_override(AW_SER_003.rule_id) or AW_SER_003.severity
@@ -171,6 +175,80 @@ class SerializationAnalyzer:
             return False
         arg = node.args[0]
         return isinstance(arg, ast.Name) and arg.id in safe_vars
+
+    @staticmethod
+    def _is_fstring_with_constant_prefix(node: ast.Call) -> bool:
+        """Suppress when import arg is f"myapp.backends.{name}" with multi-segment dotted prefix.
+
+        Requires at least 2 dots in the prefix (e.g. ``myapp.backends.``) to ensure
+        the constant portion constrains to a real package hierarchy.  A single-segment
+        prefix like ``plugins.`` is too broad to be considered safe.
+        """
+        if not node.args:
+            return False
+        arg = node.args[0]
+        if not isinstance(arg, ast.JoinedStr) or not arg.values:
+            return False
+        first = arg.values[0]
+        return (
+            isinstance(first, ast.Constant)
+            and isinstance(first.value, str)
+            and first.value.count(".") >= 2
+        )
+
+    @staticmethod
+    def _is_config_attribute_import(node: ast.Call) -> bool:
+        """Suppress when arg is a config-style attribute like settings.BACKEND_CLASS.
+
+        Only suppresses when the attribute name is ALL_CAPS (constant convention).
+        Attributes like ``request.module_name`` are NOT considered safe.
+        """
+        if not node.args:
+            return False
+        arg = node.args[0]
+        return (
+            isinstance(arg, ast.Attribute)
+            and isinstance(arg.attr, str)
+            and arg.attr == arg.attr.upper()
+            and arg.attr.replace("_", "").isalpha()
+        )
+
+    @staticmethod
+    def _is_try_except_guarded(node: ast.Call, tree: ast.Module) -> bool:
+        """Suppress when the import call is inside a try/except ImportError block."""
+        for parent in ast.walk(tree):
+            if not isinstance(parent, ast.Try):
+                continue
+            for handler in parent.handlers:
+                if handler.type is None:
+                    continue
+                handler_name: str | None = None
+                if isinstance(handler.type, ast.Name):
+                    handler_name = handler.type.id
+                elif isinstance(handler.type, ast.Tuple):
+                    handler_name = ",".join(
+                        getattr(e, "id", "") for e in handler.type.elts
+                    )
+                if handler_name and "ImportError" in handler_name:
+                    for child in ast.walk(parent):
+                        if child is node:
+                            return True
+        return False
+
+    @staticmethod
+    def _is_constant_format_call(node: ast.Call) -> bool:
+        """Suppress when arg is "module.{}".format(name) — constant constrains namespace."""
+        if not node.args:
+            return False
+        arg = node.args[0]
+        return (
+            isinstance(arg, ast.Call)
+            and isinstance(arg.func, ast.Attribute)
+            and arg.func.attr == "format"
+            and isinstance(arg.func.value, ast.Constant)
+            and isinstance(arg.func.value.value, str)
+            and "." in arg.func.value.value
+        )
 
     @staticmethod
     def _is_dict_lookup_import(node: ast.Call) -> bool:
