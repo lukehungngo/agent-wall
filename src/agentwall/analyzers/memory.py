@@ -68,7 +68,8 @@ class MemoryAnalyzer:
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         spec = ctx.spec
-        if spec is None:
+        if spec is None or not spec.memory_configs:
+            # No adapter or adapter found no memory configs — use AST fallback
             return self._analyze_agnostic(ctx)
         engine_isolation = self._get_engine_isolation(ctx)
         # Compute web framework presence once for the entire scan.

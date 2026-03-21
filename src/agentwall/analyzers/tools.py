@@ -63,7 +63,8 @@ class ToolAnalyzer:
 
     def analyze(self, ctx: AnalysisContext) -> list[Finding]:
         spec = ctx.spec
-        if spec is None:
+        if spec is None or not spec.tools:
+            # No adapter or adapter found no tools — use AST fallback
             return self._analyze_agnostic(ctx)
         findings: list[Finding] = []
         for tool in spec.tools:
