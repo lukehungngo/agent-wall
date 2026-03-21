@@ -292,7 +292,7 @@ STEP 5: O5 — Package + Launch
 - [x] `pip install agentwall && agentwall scan . --format sarif` verified in tests + CI
 - [x] 808 tests passing, 85% coverage, ruff clean, mypy strict
 - [x] CI runs on Python 3.10 / 3.11 / 3.12
-- [ ] No known P0 issues in the issue tracker
+- [x] No known P0 issues in the issue tracker
 
 ---
 
