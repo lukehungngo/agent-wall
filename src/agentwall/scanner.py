@@ -127,18 +127,18 @@ def scan(
     # ── Parse adapter ────────────────────────────────────────────────────
     spec = None
     if detected == "langchain":
-        adapter = LangChainAdapter()
-        spec = adapter.parse(target)
+        lc_adapter = LangChainAdapter()
+        spec = lc_adapter.parse(target)
     elif detected == "llamaindex":
         from agentwall.adapters.llamaindex import LlamaIndexAdapter
 
-        adapter = LlamaIndexAdapter()
-        spec = adapter.parse(target)
+        li_adapter = LlamaIndexAdapter()
+        spec = li_adapter.parse(target)
     elif detected == "crewai":
         from agentwall.adapters.crewai import CrewAIAdapter
 
-        adapter = CrewAIAdapter()
-        spec = adapter.parse(target)
+        cr_adapter = CrewAIAdapter()
+        spec = cr_adapter.parse(target)
     else:
         scan_warnings.append(
             f"Unsupported or undetected framework: {detected!r}. "

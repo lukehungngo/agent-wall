@@ -159,9 +159,8 @@ class SecretsAnalyzer:
         if isinstance(node, ast.JoinedStr):
             # f-string: check each interpolated value node.
             for value in node.values:
-                if isinstance(value, ast.FormattedValue):
-                    if SecretsAnalyzer._is_content_reference(value.value):
-                        return True
+                if isinstance(value, ast.FormattedValue) and SecretsAnalyzer._is_content_reference(value.value):
+                    return True
             return False
 
         return False

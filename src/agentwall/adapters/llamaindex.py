@@ -150,11 +150,11 @@ class _LlamaIndexVisitor(ast.NodeVisitor):
             return
 
         # Handle Class.from_defaults(...)
-        actual_class = class_name
+        actual_class: str | None = class_name
         if class_name == "from_defaults":
             actual_class = _get_chained_class(call)
 
-        if actual_class not in _TOOL_CLASSES:
+        if actual_class is None or actual_class not in _TOOL_CLASSES:
             return
 
         name = _get_keyword_str(call, "name") or actual_class

@@ -1,5 +1,5 @@
-from langchain_community.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
+from langchain_community.vectorstores import Chroma
 from langchain_openai import ChatOpenAI
 
 db = Chroma(collection_name="docs")

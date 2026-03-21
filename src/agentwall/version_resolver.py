@@ -3,8 +3,14 @@
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
 from typing import Any
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib  # type: ignore[import-not-found]
 
 import yaml
 from packaging.specifiers import SpecifierSet
@@ -78,10 +84,6 @@ def resolve_version_from_pyproject(path: Path) -> dict[str, str | None]:
     """Parse pyproject.toml [project].dependencies for versions."""
     if not path.exists():
         return {}
-    try:
-        import tomllib  # type: ignore[import-not-found]
-    except ModuleNotFoundError:
-        import tomli as tomllib
 
     with open(path, "rb") as f:
         data = tomllib.load(f)

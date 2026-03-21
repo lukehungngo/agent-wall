@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from agentwall.models import ScanConfig
 from agentwall.scanner import scan
 
 
