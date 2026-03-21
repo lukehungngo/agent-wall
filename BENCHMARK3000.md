@@ -13,34 +13,34 @@
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Langchain-Chatchat | ~37k | 239 | 50 | 12 | 28 | 9 | 1 | AW-MEM-001(15), AW-RAG-001(10), AW-SEC-001(6) |
-| 2 | PrivateGPT | ~54k | 65 | 4 | 0 | 3 | 1 | 0 | AW-RAG-004(2), AW-SEC-001(1), AW-SEC-003(1) |
+| 2 | PrivateGPT | ~54k | 65 | 6 | 0 | 5 | 1 | 0 | AW-RAG-004(2), AW-MEM-003(2), AW-SEC-001(1) |
 | 3 | Quivr | ~36k | 41 | 7 | 0 | 2 | 3 | 2 | AW-RAG-001(2), AW-RAG-003(2), AW-MEM-001(2) |
-| 4 | LocalGPT | ~22k | 44 | 2 | 0 | 0 | 2 | 0 | AW-SEC-003(2) |
+| 4 | LocalGPT | ~22k | 44 | 18 | 0 | 0 | 16 | 2 | AW-TOOL-002(14), AW-SEC-003(2), AW-TOOL-004(2) |
 | 5 | DocsGPT | ~15k | 208 | 24 | 3 | 11 | 9 | 1 | AW-RAG-003(5), AW-MEM-001(4), AW-SEC-001(3) |
 | 6 | GPT-Researcher | ~17k | 167 | 7 | 2 | 3 | 1 | 1 | AW-MEM-001(2), AW-RAG-001(2), AW-SER-001(1) |
 | 7 | Onyx/Danswer | ~12k | 1420 | 23 | 0 | 12 | 9 | 2 | AW-SER-001(9), AW-SER-003(7), AW-TOOL-004(2) |
-| 8 | DB-GPT | ~17k | 1004 | 18 | 0 | 0 | 18 | 0 | AW-SEC-003(11), AW-SER-003(7) |
+| 8 | DB-GPT | ~17k | 1004 | 218 | 0 | 26 | 154 | 38 | AW-TOOL-002(120), AW-TOOL-004(38), AW-TOOL-001(15) |
 | 9 | Chat-LangChain | ~6k | 11 | 0 | 0 | 0 | 0 | 0 | — |
 | 10 | RasaGPT | ~2.4k | 11 | 0 | 0 | 0 | 0 | 0 | — |
 | 11 | Langflow | ~48k | 1274 | 97 | 19 | 36 | 38 | 4 | AW-SER-003(25), AW-MEM-001(21), AW-RAG-001(11) |
 | 12 | Flowise | ~35k | 0 | 0 | 0 | 0 | 0 | 0 | — |
-| 13 | Open Interpreter | ~58k | 136 | 6 | 0 | 1 | 5 | 0 | AW-SER-003(5), AW-SER-001(1) |
-| 14 | Chainlit | ~8k | 121 | 4 | 0 | 2 | 2 | 0 | AW-SER-003(2), AW-SEC-001(1), AW-SER-001(1) |
+| 13 | Open Interpreter | ~58k | 136 | 80 | 0 | 2 | 48 | 30 | AW-TOOL-002(42), AW-TOOL-004(30), AW-SER-003(5) |
+| 14 | Chainlit | ~8k | 121 | 11 | 0 | 2 | 6 | 3 | AW-TOOL-002(4), AW-TOOL-004(3), AW-SER-003(2) |
 | 15 | Mem0/Embedchain | ~48k | 374 | 16 | 2 | 8 | 5 | 1 | AW-RAG-001(3), AW-SER-003(3), AW-MEM-001(2) |
-| 16 | LLM App (Pathway) | ~4k | 17 | 0 | 0 | 0 | 0 | 0 | — |
-| 17 | Haystack | ~18k | 296 | 3 | 0 | 1 | 2 | 0 | AW-SER-003(2), AW-SER-001(1) |
+| 16 | LLM App (Pathway) | ~4k | 17 | 20 | 0 | 0 | 10 | 10 | AW-TOOL-002(10), AW-TOOL-004(10) |
+| 17 | Haystack | ~18k | 296 | 40 | 0 | 1 | 35 | 4 | AW-TOOL-002(33), AW-TOOL-004(4), AW-SER-003(2) |
 | 18 | SuperAgent | ~5k | 22 | 0 | 0 | 0 | 0 | 0 | — |
-| 19 | AgentGPT | ~32k | 85 | 1 | 0 | 0 | 1 | 0 | AW-SER-003(1) |
-| 20 | AutoGPT | ~172k | 918 | 8 | 0 | 5 | 3 | 0 | AW-SEC-001(4), AW-SER-003(3), AW-SER-001(1) |
-| 21 | LangGraph | ~45k | 173 | 10 | 0 | 3 | 7 | 0 | AW-SER-003(7), AW-SEC-001(1), AW-SER-001(1) |
-| 22 | LangSmith SDK | ~1k | 81 | 1 | 0 | 1 | 0 | 0 | AW-SEC-001(1) |
+| 19 | AgentGPT | ~32k | 85 | 14 | 0 | 2 | 7 | 5 | AW-TOOL-002(6), AW-TOOL-004(5), AW-MEM-003(2) |
+| 20 | AutoGPT | ~172k | 918 | 74 | 0 | 6 | 48 | 20 | AW-TOOL-002(45), AW-TOOL-004(20), AW-SEC-001(4) |
+| 21 | LangGraph | ~45k | 173 | 32 | 0 | 3 | 19 | 10 | AW-TOOL-002(12), AW-TOOL-004(10), AW-SER-003(7) |
+| 22 | LangSmith SDK | ~1k | 81 | 26 | 0 | 1 | 17 | 8 | AW-TOOL-002(17), AW-TOOL-004(8), AW-SEC-001(1) |
 | 23 | LangChain (mono) | ~100k | 1669 | 42 | 0 | 16 | 9 | 17 | AW-MEM-001(17), AW-SER-003(6), AW-AGT-004(4) |
 | 24 | OpenGPTs | ~6k | 28 | 16 | 0 | 3 | 0 | 13 | AW-TOOL-004(13), AW-CFG-no-tls(1), AW-SER-001(1) |
-| 25 | LangServe | ~2k | 13 | 0 | 0 | 0 | 0 | 0 | — |
+| 25 | LangServe | ~2k | 13 | 1 | 0 | 0 | 1 | 0 | AW-TOOL-002(1) |
 | 26 | LangChain Extract | ~1k | 20 | 1 | 1 | 0 | 0 | 0 | AW-MEM-001(1) |
-| 27 | Awesome LLM Apps | ~60k | 444 | 3 | 0 | 3 | 0 | 0 | AW-SEC-001(3) |
+| 27 | Awesome LLM Apps | ~60k | 444 | 313 | 0 | 58 | 184 | 71 | AW-TOOL-002(175), AW-TOOL-004(71), AW-MEM-003(14) |
 
-**Totals: 343 findings (39 CRITICAL, 138 HIGH) across 8881 files. 21/27 have findings.**
+**Totals: 1136 findings (39 CRITICAL, 225 HIGH) across 8881 files. 23/27 have findings.**
 
 ---
 
@@ -50,18 +50,18 @@
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | LlamaIndex | ~47k | - | - | - | - | - | - | not scanned |
 | 2 | RAGS (LlamaIndex) | ~6k | 15 | 2 | 0 | 1 | 0 | 1 | AW-RAG-001(1), AW-MEM-001(1) |
-| 3 | LlamaParse | ~3k | 41 | 1 | 0 | 0 | 0 | 1 | AW-MEM-001(1) |
+| 3 | LlamaParse | ~3k | 41 | 16 | 0 | 0 | 12 | 4 | AW-TOOL-002(12), AW-TOOL-004(3), AW-MEM-001(1) |
 | 4 | create-llama | ~2k | 172 | 28 | 0 | 21 | 2 | 5 | AW-MEM-003(11), AW-MEM-004(6), AW-RAG-001(3) |
-| 5 | SEC Insights | ~2k | 36 | 3 | 0 | 2 | 1 | 0 | AW-RAG-002(1), AW-MEM-003(1), AW-SEC-003(1) |
-| 6 | LlamaDeploy | ~2k | 60 | 2 | 0 | 1 | 1 | 0 | AW-CFG-hardcoded-secret(1), AW-SER-003(1) |
+| 5 | SEC Insights | ~2k | 36 | 6 | 0 | 2 | 3 | 1 | AW-TOOL-002(2), AW-RAG-002(1), AW-MEM-003(1) |
+| 6 | LlamaDeploy | ~2k | 60 | 27 | 0 | 1 | 16 | 10 | AW-TOOL-002(15), AW-TOOL-004(10), AW-CFG-hardcoded-secret(1) |
 | 7 | LlamaIndex.TS | ~3k | 0 | 1 | 0 | 1 | 0 | 0 | AW-CFG-hardcoded-secret(1) |
-| 8 | LlamaAgents | ~1k | 60 | 2 | 0 | 1 | 1 | 0 | AW-CFG-hardcoded-secret(1), AW-SER-003(1) |
+| 8 | LlamaAgents | ~1k | 60 | 27 | 0 | 1 | 16 | 10 | AW-TOOL-002(15), AW-TOOL-004(10), AW-CFG-hardcoded-secret(1) |
 | 9 | LlamaHub | ~3k | 593 | 108 | 14 | 74 | 19 | 1 | AW-MEM-003(50), AW-MEM-001(30), AW-MEM-005(17) |
 | 10 | LlamaLab | ~1k | 26 | 0 | 0 | 0 | 0 | 0 | — |
-| 11 | Multi-Agent Concierge | ~500 | 3 | 2 | 0 | 2 | 0 | 0 | AW-MEM-004(1), AW-MEM-003(1) |
-| 12 | PR Manager (LlamaIndex) | ~11 | 14 | 0 | 0 | 0 | 0 | 0 | — |
+| 11 | Multi-Agent Concierge | ~500 | 3 | 3 | 0 | 2 | 1 | 0 | AW-MEM-004(1), AW-MEM-003(1), AW-TOOL-002(1) |
+| 12 | PR Manager (LlamaIndex) | ~11 | 14 | 6 | 0 | 0 | 3 | 3 | AW-TOOL-002(3), AW-TOOL-004(3) |
 
-**Totals: 149 findings (14 CRITICAL, 103 HIGH) across 1020 files. 9/12 have findings.**
+**Totals: 224 findings (14 CRITICAL, 103 HIGH) across 1020 files. 10/12 have findings.**
 
 ---
 
@@ -69,17 +69,17 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | CrewAI | ~46k | 752 | 96 | 0 | 14 | 45 | 37 | AW-TOOL-004(37), AW-TOOL-002(25), AW-SER-003(11) |
-| 2 | AutoGen | ~48k | 406 | 10 | 0 | 5 | 5 | 0 | AW-SER-003(5), AW-SEC-001(3), AW-SER-001(2) |
-| 3 | MetaGPT | ~58k | 494 | 42 | 0 | 17 | 18 | 7 | AW-SER-003(12), AW-MEM-003(8), AW-MEM-001(7) |
-| 4 | ChatDev | ~25k | 186 | 3 | 0 | 2 | 1 | 0 | AW-SER-001(2), AW-SER-002(1) |
-| 5 | CAMEL | ~10k | 498 | 17 | 0 | 6 | 11 | 0 | AW-SEC-003(7), AW-SEC-001(5), AW-SER-003(4) |
-| 6 | BabyAGI | ~20k | 35 | 2 | 0 | 0 | 2 | 0 | AW-SER-003(2) |
-| 7 | OpenAI Swarm | ~18k | 6 | 0 | 0 | 0 | 0 | 0 | — |
-| 8 | Swarms | ~4k | 215 | 3 | 0 | 1 | 2 | 0 | AW-SER-001(1), AW-SER-002(1), AW-SER-003(1) |
-| 9 | TaskWeaver | ~5k | 136 | 5 | 0 | 1 | 2 | 2 | AW-MEM-001(2), AW-SER-001(1), AW-SER-003(1) |
+| 1 | CrewAI | ~46k | 752 | 128 | 0 | 46 | 45 | 37 | AW-TOOL-004(37), AW-MEM-003(32), AW-TOOL-002(25) |
+| 2 | AutoGen | ~48k | 406 | 64 | 0 | 10 | 43 | 11 | AW-TOOL-002(37), AW-TOOL-004(11), AW-SER-003(5) |
+| 3 | MetaGPT | ~58k | 494 | 208 | 0 | 18 | 120 | 70 | AW-TOOL-002(101), AW-TOOL-004(63), AW-SER-003(12) |
+| 4 | ChatDev | ~25k | 186 | 26 | 0 | 4 | 13 | 9 | AW-TOOL-002(12), AW-TOOL-004(9), AW-SER-001(2) |
+| 5 | CAMEL | ~10k | 498 | 101 | 0 | 19 | 80 | 2 | AW-TOOL-002(67), AW-MEM-003(8), AW-SEC-003(7) |
+| 6 | BabyAGI | ~20k | 35 | 8 | 0 | 0 | 5 | 3 | AW-TOOL-002(3), AW-TOOL-004(3), AW-SER-003(2) |
+| 7 | OpenAI Swarm | ~18k | 6 | 2 | 0 | 0 | 1 | 1 | AW-TOOL-002(1), AW-TOOL-004(1) |
+| 8 | Swarms | ~4k | 215 | 222 | 0 | 2 | 210 | 10 | AW-TOOL-002(207), AW-TOOL-004(10), AW-TOOL-001(1) |
+| 9 | TaskWeaver | ~5k | 136 | 17 | 0 | 1 | 8 | 8 | AW-TOOL-002(6), AW-TOOL-004(6), AW-MEM-001(2) |
 
-**Totals: 178 findings (0 CRITICAL, 46 HIGH) across 2728 files. 8/9 have findings.**
+**Totals: 776 findings (0 CRITICAL, 100 HIGH) across 2728 files. 9/9 have findings.**
 
 ---
 
@@ -87,22 +87,22 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | RAGFlow | ~70k | 463 | 29 | 0 | 21 | 8 | 0 | AW-CFG-hardcoded-secret(10), AW-SEC-001(8), AW-SER-003(8) |
-| 2 | Kotaemon | ~25k | 232 | 20 | 0 | 15 | 0 | 5 | AW-SER-001(15), AW-TOOL-004(5) |
-| 3 | LightRAG | ~30k | 77 | 3 | 0 | 1 | 2 | 0 | AW-RAG-004(1), AW-SEC-003(1), AW-SER-003(1) |
-| 4 | FastGPT | ~27k | 16 | 1 | 0 | 1 | 0 | 0 | AW-CFG-hardcoded-secret(1) |
-| 5 | QAnything | ~12k | 148 | 11 | 0 | 7 | 4 | 0 | AW-SER-001(5), AW-RAG-003(3), AW-RAG-001(2) |
-| 6 | R2R | ~4k | 224 | 3 | 0 | 0 | 3 | 0 | AW-SER-003(2), AW-SEC-003(1) |
-| 7 | FlashRAG | ~2k | 75 | 3 | 0 | 2 | 1 | 0 | AW-SER-001(2), AW-SEC-003(1) |
-| 8 | AutoRAG | ~3k | 177 | 4 | 0 | 3 | 1 | 0 | AW-SER-001(2), AW-RAG-004(1), AW-SER-003(1) |
-| 9 | Canopy (Pinecone) | ~3k | 80 | 0 | 0 | 0 | 0 | 0 | — |
-| 10 | Verba (Weaviate) | ~6k | 53 | 1 | 0 | 0 | 1 | 0 | AW-SER-003(1) |
-| 11 | Vanna | ~13k | 262 | 25 | 10 | 9 | 6 | 0 | AW-MEM-001(10), AW-MEM-003(5), AW-SER-003(3) |
-| 12 | Cognita | ~8k | 73 | 5 | 0 | 4 | 1 | 0 | AW-RAG-004(3), AW-RAG-001(1), AW-CFG-docker-no-auth(1) |
-| 13 | ChatGPT Retrieval Plugin | ~21k | 30 | 1 | 0 | 0 | 1 | 0 | AW-RAG-003(1) |
-| 14 | txtai | ~10k | 261 | 4 | 0 | 2 | 2 | 0 | AW-SER-001(2), AW-SER-003(2) |
+| 1 | RAGFlow | ~70k | 463 | 143 | 0 | 22 | 68 | 53 | AW-TOOL-002(60), AW-TOOL-004(53), AW-CFG-hardcoded-secret(10) |
+| 2 | Kotaemon | ~25k | 232 | 22 | 0 | 17 | 0 | 5 | AW-SER-001(15), AW-TOOL-004(5), AW-MEM-003(2) |
+| 3 | LightRAG | ~30k | 77 | 102 | 0 | 16 | 72 | 14 | AW-TOOL-002(60), AW-TOOL-004(14), AW-TOOL-001(10) |
+| 4 | FastGPT | ~27k | 16 | 5 | 0 | 1 | 2 | 2 | AW-TOOL-002(2), AW-TOOL-004(2), AW-CFG-hardcoded-secret(1) |
+| 5 | QAnything | ~12k | 148 | 46 | 0 | 10 | 21 | 15 | AW-TOOL-002(17), AW-TOOL-004(15), AW-SER-001(5) |
+| 6 | R2R | ~4k | 224 | 6 | 0 | 0 | 6 | 0 | AW-TOOL-002(3), AW-SER-003(2), AW-SEC-003(1) |
+| 7 | FlashRAG | ~2k | 75 | 24 | 0 | 5 | 11 | 8 | AW-TOOL-002(10), AW-TOOL-004(8), AW-MEM-003(3) |
+| 8 | AutoRAG | ~3k | 177 | 25 | 0 | 9 | 10 | 6 | AW-TOOL-002(9), AW-MEM-003(6), AW-TOOL-004(6) |
+| 9 | Canopy (Pinecone) | ~3k | 80 | 6 | 0 | 4 | 1 | 1 | AW-MEM-003(4), AW-TOOL-002(1), AW-TOOL-004(1) |
+| 10 | Verba (Weaviate) | ~6k | 53 | 9 | 0 | 6 | 3 | 0 | AW-MEM-003(5), AW-TOOL-002(2), AW-RAG-004(1) |
+| 11 | Vanna | ~13k | 262 | 30 | 10 | 9 | 11 | 0 | AW-MEM-001(10), AW-MEM-003(5), AW-TOOL-002(5) |
+| 12 | Cognita | ~8k | 73 | 11 | 0 | 10 | 1 | 0 | AW-MEM-003(6), AW-RAG-004(3), AW-RAG-001(1) |
+| 13 | ChatGPT Retrieval Plugin | ~21k | 30 | 11 | 0 | 6 | 3 | 2 | AW-MEM-003(6), AW-TOOL-002(2), AW-TOOL-004(2) |
+| 14 | txtai | ~10k | 261 | 17 | 0 | 5 | 12 | 0 | AW-TOOL-002(10), AW-MEM-003(3), AW-SER-001(2) |
 
-**Totals: 110 findings (10 CRITICAL, 65 HIGH) across 2171 files. 13/14 have findings.**
+**Totals: 457 findings (10 CRITICAL, 120 HIGH) across 2171 files. 14/14 have findings.**
 
 ---
 
@@ -110,12 +110,12 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | ChromaDB | ~17k | 148 | 4 | 0 | 2 | 2 | 0 | AW-SER-003(2), AW-SEC-001(1), AW-SER-001(1) |
+| 1 | ChromaDB | ~17k | 148 | 116 | 0 | 113 | 3 | 0 | AW-MEM-003(111), AW-SER-003(2), AW-SEC-001(1) |
 | 2 | Milvus Bootcamp | ~2k | 78 | 10 | 1 | 6 | 3 | 0 | AW-SER-001(5), AW-CFG-docker-no-auth(3), AW-MEM-001(1) |
-| 3 | Qdrant Examples | ~500 | 4 | 0 | 0 | 0 | 0 | 0 | — |
-| 4 | LanceDB | ~5k | 71 | 2 | 0 | 0 | 2 | 0 | AW-CFG-debug-mode(1), AW-SER-003(1) |
+| 3 | Qdrant Examples | ~500 | 4 | 6 | 0 | 3 | 2 | 1 | AW-MEM-003(3), AW-TOOL-002(2), AW-TOOL-004(1) |
+| 4 | LanceDB | ~5k | 71 | 189 | 0 | 13 | 135 | 41 | AW-TOOL-002(120), AW-TOOL-004(41), AW-TOOL-001(13) |
 
-**Totals: 16 findings (1 CRITICAL, 8 HIGH) across 301 files. 3/4 have findings.**
+**Totals: 321 findings (1 CRITICAL, 135 HIGH) across 301 files. 4/4 have findings.**
 
 ---
 
@@ -123,14 +123,14 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | Cognee | ~12k | 950 | 7 | 0 | 4 | 3 | 0 | AW-MCP-001(2), AW-MEM-003(2), AW-CFG-docker-no-auth(2) |
-| 2 | Graphiti (Zep) | ~14k | 178 | 6 | 0 | 6 | 0 | 0 | AW-RAG-001(6) |
+| 1 | Cognee | ~12k | 950 | 59 | 0 | 4 | 45 | 10 | AW-TOOL-002(42), AW-TOOL-004(10), AW-MCP-001(2) |
+| 2 | Graphiti (Zep) | ~14k | 178 | 482 | 0 | 98 | 239 | 145 | AW-TOOL-002(147), AW-TOOL-004(145), AW-TOOL-001(92) |
 | 3 | Letta (MemGPT) | ~22k | 692 | 23 | 0 | 7 | 11 | 5 | AW-SEC-003(6), AW-SER-001(5), AW-TOOL-004(5) |
-| 4 | GraphRAG (Microsoft) | ~22k | 444 | 0 | 0 | 0 | 0 | 0 | — |
-| 5 | nano-graphrag | ~5k | 19 | 3 | 0 | 3 | 0 | 0 | AW-CFG-hardcoded-secret(2), AW-SER-001(1) |
+| 4 | GraphRAG (Microsoft) | ~22k | 444 | 21 | 0 | 5 | 12 | 4 | AW-TOOL-002(12), AW-RAG-001(5), AW-TOOL-004(4) |
+| 5 | nano-graphrag | ~5k | 19 | 31 | 0 | 4 | 14 | 13 | AW-TOOL-002(13), AW-TOOL-004(13), AW-CFG-hardcoded-secret(2) |
 | 6 | Zep | ~3k | 19 | 0 | 0 | 0 | 0 | 0 | — |
 
-**Totals: 39 findings (0 CRITICAL, 20 HIGH) across 2302 files. 4/6 have findings.**
+**Totals: 616 findings (0 CRITICAL, 118 HIGH) across 2302 files. 5/6 have findings.**
 
 ---
 
@@ -140,12 +140,12 @@
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Open WebUI | ~124k | 163 | 8 | 0 | 7 | 0 | 1 | AW-RAG-004(5), AW-RAG-001(1), AW-MEM-003(1) |
 | 2 | LibreChat | ~30k | 1 | 0 | 0 | 0 | 0 | 0 | — |
-| 3 | Khoj | ~33k | 110 | 5 | 0 | 3 | 2 | 0 | AW-SER-001(2), AW-SEC-003(2), AW-SEC-001(1) |
+| 3 | Khoj | ~33k | 110 | 10 | 0 | 3 | 6 | 1 | AW-TOOL-002(4), AW-SER-001(2), AW-SEC-003(2) |
 | 4 | AnythingLLM | ~35k | 0 | 0 | 0 | 0 | 0 | 0 | — |
-| 5 | PyGPT | ~3k | 1190 | 31 | 0 | 6 | 4 | 21 | AW-TOOL-004(18), AW-SEC-001(5), AW-MEM-001(3) |
-| 6 | Jan | ~25k | 5 | 0 | 0 | 0 | 0 | 0 | — |
+| 5 | PyGPT | ~3k | 1190 | 33 | 0 | 8 | 4 | 21 | AW-TOOL-004(18), AW-SEC-001(5), AW-MEM-001(3) |
+| 6 | Jan | ~25k | 5 | 6 | 0 | 0 | 6 | 0 | AW-TOOL-002(6) |
 
-**Totals: 44 findings (0 CRITICAL, 16 HIGH) across 1469 files. 3/6 have findings.**
+**Totals: 57 findings (0 CRITICAL, 18 HIGH) across 1469 files. 4/6 have findings.**
 
 ---
 
@@ -153,14 +153,14 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | OpenHands (OpenDevin) | ~65k | 710 | 9 | 0 | 5 | 4 | 0 | AW-SER-001(5), AW-SER-003(4) |
-| 2 | SWE-agent | ~15k | 68 | 1 | 0 | 0 | 1 | 0 | AW-SER-003(1) |
-| 3 | Aider | ~36k | 90 | 7 | 0 | 2 | 3 | 2 | AW-SER-003(2), AW-MEM-001(2), AW-RAG-001(1) |
-| 4 | Devika | ~18k | 70 | 1 | 0 | 1 | 0 | 0 | AW-SEC-001(1) |
-| 5 | GPT-Engineer | ~52k | 43 | 4 | 0 | 0 | 4 | 0 | AW-SEC-003(3), AW-SER-003(1) |
-| 6 | GPT-Pilot | ~32k | 94 | 5 | 0 | 5 | 0 | 0 | AW-CFG-hardcoded-secret(5) |
+| 1 | OpenHands (OpenDevin) | ~65k | 710 | 52 | 0 | 5 | 34 | 13 | AW-TOOL-002(30), AW-TOOL-004(13), AW-SER-001(5) |
+| 2 | SWE-agent | ~15k | 68 | 37 | 0 | 0 | 25 | 12 | AW-TOOL-002(24), AW-TOOL-004(12), AW-SER-003(1) |
+| 3 | Aider | ~36k | 90 | 39 | 0 | 2 | 22 | 15 | AW-TOOL-002(19), AW-TOOL-004(13), AW-SER-003(2) |
+| 4 | Devika | ~18k | 70 | 3 | 0 | 1 | 1 | 1 | AW-SEC-001(1), AW-TOOL-002(1), AW-TOOL-004(1) |
+| 5 | GPT-Engineer | ~52k | 43 | 24 | 0 | 0 | 15 | 9 | AW-TOOL-002(11), AW-TOOL-004(9), AW-SEC-003(3) |
+| 6 | GPT-Pilot | ~32k | 94 | 10 | 0 | 5 | 4 | 1 | AW-CFG-hardcoded-secret(5), AW-TOOL-002(4), AW-TOOL-004(1) |
 
-**Totals: 27 findings (0 CRITICAL, 13 HIGH) across 1075 files. 6/6 have findings.**
+**Totals: 165 findings (0 CRITICAL, 13 HIGH) across 1075 files. 6/6 have findings.**
 
 ---
 
@@ -168,19 +168,19 @@
 
 | # | Project | Stars | Files | Findings | CRIT | HIGH | MED | LOW | Top Rules |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | Dify | ~129k | 1577 | 5 | 0 | 2 | 3 | 0 | AW-SER-003(3), AW-SEC-001(1), AW-SER-001(1) |
-| 2 | Agno (Phidata) | ~19k | 2626 | 12 | 0 | 9 | 3 | 0 | AW-SEC-001(8), AW-SER-003(3), AW-SER-001(1) |
-| 3 | Pydantic AI | ~15k | 236 | 0 | 0 | 0 | 0 | 0 | — |
-| 4 | smolagents (HF) | ~26k | 18 | 5 | 0 | 3 | 2 | 0 | AW-SER-001(3), AW-SER-003(2) |
-| 5 | Semantic Kernel | ~22k | 923 | 13 | 0 | 11 | 2 | 0 | AW-SEC-001(9), AW-MCP-001(2), AW-SER-003(2) |
-| 6 | OpenAI Agents SDK | ~7k | 165 | 0 | 0 | 0 | 0 | 0 | — |
-| 7 | DSPy | ~20k | 140 | 5 | 0 | 0 | 3 | 2 | AW-SEC-003(2), AW-TOOL-004(2), AW-SER-003(1) |
+| 1 | Dify | ~129k | 1577 | 70 | 0 | 14 | 41 | 15 | AW-TOOL-002(38), AW-TOOL-004(15), AW-MEM-003(6) |
+| 2 | Agno (Phidata) | ~19k | 2626 | 274 | 0 | 32 | 165 | 77 | AW-TOOL-002(150), AW-TOOL-004(77), AW-MEM-003(9) |
+| 3 | Pydantic AI | ~15k | 236 | 44 | 0 | 0 | 33 | 11 | AW-TOOL-002(33), AW-TOOL-004(11) |
+| 4 | smolagents (HF) | ~26k | 18 | 22 | 0 | 3 | 13 | 6 | AW-TOOL-002(11), AW-TOOL-004(6), AW-SER-001(3) |
+| 5 | Semantic Kernel | ~22k | 923 | 70 | 0 | 26 | 27 | 17 | AW-TOOL-002(24), AW-TOOL-004(17), AW-MEM-003(12) |
+| 6 | OpenAI Agents SDK | ~7k | 165 | 29 | 0 | 0 | 18 | 11 | AW-TOOL-002(18), AW-TOOL-004(11) |
+| 7 | DSPy | ~20k | 140 | 7 | 0 | 2 | 3 | 2 | AW-MEM-003(2), AW-SEC-003(2), AW-TOOL-004(2) |
 | 8 | Google Agent Dev Kit | ~18k | 835 | 32 | 1 | 13 | 15 | 3 | AW-SER-003(13), AW-SEC-001(5), AW-RAG-001(3) |
-| 9 | UFO (Microsoft) | ~5k | 291 | 14 | 1 | 2 | 11 | 0 | AW-RAG-003(9), AW-MEM-001(1), AW-RAG-001(1) |
-| 10 | AgentOps | ~3k | 303 | 15 | 0 | 8 | 7 | 0 | AW-SEC-001(7), AW-SEC-003(4), AW-SER-003(3) |
-| 11 | ModelScope Agent | ~3k | 204 | 11 | 0 | 3 | 8 | 0 | AW-SER-003(5), AW-SEC-003(3), AW-MEM-003(2) |
+| 9 | UFO (Microsoft) | ~5k | 291 | 40 | 1 | 2 | 36 | 1 | AW-TOOL-002(25), AW-RAG-003(9), AW-MEM-001(1) |
+| 10 | AgentOps | ~3k | 303 | 36 | 0 | 9 | 21 | 6 | AW-TOOL-002(14), AW-SEC-001(7), AW-TOOL-004(6) |
+| 11 | ModelScope Agent | ~3k | 204 | 104 | 0 | 4 | 64 | 36 | AW-TOOL-002(55), AW-TOOL-004(36), AW-SER-003(5) |
 
-**Totals: 112 findings (2 CRITICAL, 51 HIGH) across 7318 files. 9/11 have findings.**
+**Totals: 728 findings (2 CRITICAL, 105 HIGH) across 7318 files. 11/11 have findings.**
 
 ---
 
@@ -198,17 +198,17 @@
 | 8 | chat-with-pdf | 2 | 1 | 2 | 0 | 0 | 2 | 0 | AW-RAG-003(2) |
 | 9 | langchain-multi-agent | 10 | 1 | 5 | 0 | 3 | 1 | 1 | AW-AGT-001(2), AW-RAG-001(1), AW-TOOL-002(1) |
 | 10 | objectbox-rag | 10 | 3 | 0 | 0 | 0 | 0 | 0 | — |
-| 11 | AdalFlow | ~3k | 231 | 12 | 0 | 7 | 5 | 0 | AW-SER-001(6), AW-SER-003(3), AW-SEC-003(2) |
+| 11 | AdalFlow | ~3k | 231 | 150 | 0 | 10 | 98 | 42 | AW-TOOL-002(93), AW-TOOL-004(42), AW-SER-001(6) |
 | 12 | Hindsight | ~4k | - | - | - | - | - | - | not scanned |
 | 13 | Vector Admin | ~2k | 2 | 0 | 0 | 0 | 0 | 0 | — |
 | 14 | HF Agents Course | ~5k | 1 | 0 | 0 | 0 | 0 | 0 | — |
-| 15 | Libre Chat | ~500 | 9 | 5 | 0 | 1 | 4 | 0 | AW-RAG-003(2), AW-RAG-001(1), AW-SER-002(1) |
+| 15 | Libre Chat | ~500 | 9 | 7 | 0 | 1 | 5 | 1 | AW-RAG-003(2), AW-RAG-001(1), AW-SER-002(1) |
 | 16 | LangGraph BigTool | ~500 | 4 | 0 | 0 | 0 | 0 | 0 | — |
-| 17 | RAG-Anything | ~1k | 15 | 0 | 0 | 0 | 0 | 0 | — |
-| 18 | OASIS (CAMEL) | ~2k | 45 | 8 | 0 | 5 | 2 | 1 | AW-SER-001(2), AW-SEC-001(1), AW-RAG-001(1) |
-| 19 | SWE-bench | ~4k | 84 | 0 | 0 | 0 | 0 | 0 | — |
+| 17 | RAG-Anything | ~1k | 15 | 8 | 0 | 0 | 8 | 0 | AW-TOOL-002(8) |
+| 18 | OASIS (CAMEL) | ~2k | 45 | 40 | 0 | 7 | 18 | 15 | AW-TOOL-002(14), AW-TOOL-004(14), AW-TOOL-001(2) |
+| 19 | SWE-bench | ~4k | 84 | 21 | 0 | 2 | 15 | 4 | AW-TOOL-002(13), AW-TOOL-004(4), AW-TOOL-001(2) |
 
-**Totals: 63 findings (2 CRITICAL, 33 HIGH) across 433 files. 11/19 have findings.**
+**Totals: 264 findings (2 CRITICAL, 40 HIGH) across 433 files. 13/19 have findings.**
 
 ---
 
@@ -218,27 +218,27 @@
 |---|---|
 | Total projects | 349 |
 | Projects scanned | 112 |
-| Projects with findings | 87 (77%) |
+| Projects with findings | 99 (88%) |
 | Total files scanned | 27,698 |
-| Total findings | 1081 |
+| Total findings | 4744 |
 | CRITICAL | 68 |
-| HIGH | 493 |
-| Findings per file | 0.039 |
+| HIGH | 977 |
+| Findings per file | 0.171 |
 
 ### Category Comparison
 
 | Category | Projects | Scanned | With Findings | Findings | CRIT | HIGH | Files |
 |---|---|---|---|---|---|---|---|
-| LangChain Ecosystem (>2k stars) | 27 | 27 | 21 | 343 | 39 | 138 | 8,881 |
-| LlamaIndex Ecosystem | 12 | 11 | 9 | 149 | 14 | 103 | 1,020 |
-| Multi-Agent Frameworks | 9 | 9 | 8 | 178 | 0 | 46 | 2,728 |
-| RAG Applications | 14 | 14 | 13 | 110 | 10 | 65 | 2,171 |
-| Vector Store Ecosystems | 4 | 4 | 3 | 16 | 1 | 8 | 301 |
-| Memory & Knowledge Systems | 6 | 6 | 4 | 39 | 0 | 20 | 2,302 |
-| Chatbot / Assistant Frameworks | 6 | 6 | 3 | 44 | 0 | 16 | 1,469 |
-| Code / Dev Agents | 6 | 6 | 6 | 27 | 0 | 13 | 1,075 |
-| Production Agent Platforms | 11 | 11 | 9 | 112 | 2 | 51 | 7,318 |
-| Small / Niche Projects | 19 | 18 | 11 | 63 | 2 | 33 | 433 |
+| LangChain Ecosystem (>2k stars) | 27 | 27 | 23 | 1136 | 39 | 225 | 8,881 |
+| LlamaIndex Ecosystem | 12 | 11 | 10 | 224 | 14 | 103 | 1,020 |
+| Multi-Agent Frameworks | 9 | 9 | 9 | 776 | 0 | 100 | 2,728 |
+| RAG Applications | 14 | 14 | 14 | 457 | 10 | 120 | 2,171 |
+| Vector Store Ecosystems | 4 | 4 | 4 | 321 | 1 | 135 | 301 |
+| Memory & Knowledge Systems | 6 | 6 | 5 | 616 | 0 | 118 | 2,302 |
+| Chatbot / Assistant Frameworks | 6 | 6 | 4 | 57 | 0 | 18 | 1,469 |
+| Code / Dev Agents | 6 | 6 | 6 | 165 | 0 | 13 | 1,075 |
+| Production Agent Platforms | 11 | 11 | 11 | 728 | 2 | 105 | 7,318 |
+| Small / Niche Projects | 19 | 18 | 13 | 264 | 2 | 40 | 433 |
 
 ---
 
@@ -246,57 +246,74 @@
 
 | Rule | Count | % | Description |
 |---|---|---|---|
-| AW-SER-003 | 183 | 17% | Dynamic import with variable argument |
-| AW-MEM-001 | 136 | 13% | No tenant isolation in vector store |
-| AW-MEM-003 | 107 | 10% | Memory backend has no access control |
-| AW-SER-001 | 102 | 9% | Unsafe deserialization |
-| AW-TOOL-004 | 98 | 9% | Tool has no description |
-| AW-SEC-001 | 85 | 8% | Hardcoded API key/secret in agent config |
-| AW-RAG-001 | 73 | 7% | Retrieved context without delimiters |
-| AW-SEC-003 | 54 | 5% | Agent context logged at DEBUG level |
-| AW-RAG-003 | 49 | 5% | Unencrypted local vector store |
-| AW-MEM-005 | 36 | 3% | No sanitization on retrieved memory |
-| AW-TOOL-002 | 28 | 3% | Tool accepts arbitrary code execution |
-| AW-RAG-004 | 21 | 2% | Vector store exposed without auth |
-| AW-CFG-hardcoded-secret | 21 | 2% | AW-CFG-hardcoded-secret |
-| AW-MEM-004 | 15 | 1% | Injection patterns in retrieval path |
-| AW-TOOL-001 | 11 | 1% | Destructive tool without approval gate |
-| AW-TOOL-003 | 11 | 1% | High-risk tool lacks scope check |
-| AW-CFG-docker-no-auth | 10 | 1% | AW-CFG-docker-no-auth |
-| AW-MEM-002 | 9 | 1% | Shared collection without retrieval filter |
-| AW-AGT-001 | 8 | 1% | Sub-agent inherits full parent tool set |
-| AW-MCP-001 | 8 | 1% | MCP server without authentication |
-| AW-AGT-004 | 6 | 1% | LLM output stored to memory without validation |
+| AW-TOOL-002 | 2103 | 44% | Tool accepts arbitrary code execution |
+| AW-TOOL-004 | 1037 | 22% | Tool has no description |
+| AW-MEM-003 | 365 | 8% | Memory backend has no access control |
+| AW-SER-003 | 183 | 4% | Dynamic import with variable argument |
+| AW-TOOL-001 | 159 | 3% | Destructive tool without approval gate |
+| AW-TOOL-003 | 159 | 3% | High-risk tool lacks scope check |
+| AW-MEM-001 | 145 | 3% | No tenant isolation in vector store |
+| AW-SER-001 | 102 | 2% | Unsafe deserialization |
+| AW-RAG-001 | 98 | 2% | Retrieved context without delimiters |
+| AW-SEC-001 | 85 | 2% | Hardcoded API key/secret in agent config |
+| AW-RAG-003 | 56 | 1% | Unencrypted local vector store |
+| AW-SEC-003 | 54 | 1% | Agent context logged at DEBUG level |
+| AW-MEM-005 | 45 | 1% | No sanitization on retrieved memory |
+| AW-RAG-004 | 41 | 1% | Vector store exposed without auth |
+| AW-CFG-hardcoded-secret | 21 | 0% | AW-CFG-hardcoded-secret |
+| AW-AGT-004 | 19 | 0% | LLM output stored to memory without validation |
+| AW-MEM-004 | 15 | 0% | Injection patterns in retrieval path |
+| AW-RAG-002 | 12 | 0% | Ingestion from untrusted source |
+| AW-CFG-docker-no-auth | 10 | 0% | AW-CFG-docker-no-auth |
+| AW-MEM-002 | 9 | 0% | Shared collection without retrieval filter |
+| AW-AGT-001 | 8 | 0% | Sub-agent inherits full parent tool set |
+| AW-MCP-001 | 8 | 0% | MCP server without authentication |
 | AW-SER-002 | 5 | 0% | Unpinned agent framework dependency |
 | AW-MCP-002 | 2 | 0% | Static token in MCP config |
 | AW-CFG-no-tls | 1 | 0% | AW-CFG-no-tls |
-| AW-RAG-002 | 1 | 0% | Ingestion from untrusted source |
 | AW-CFG-debug-mode | 1 | 0% | AW-CFG-debug-mode |
+| AW-AGT-003 | 1 | 0% | Agent has read+write+delete without approval |
 
 ---
 
 ## 13. False Positive Estimation
 
-Based on automated path-based heuristic analysis of 2,001 findings (2026-03-21). Previous manual triage (2026-03-20) used as calibration where available.
+Based on manual triage of 98 findings against real source code (2026-03-20).
 
-| Rule | Count | Est FP | FP% | Status vs Mar 20 | Notes |
-|---|---|---|---|---|---|
-| AW-MEM-001 | 217 | 0 | 0.0% | Was 100% → **fixed** | Evidence-based classification eliminated all FP |
-| AW-MEM-003 | 270 | 3 | 1.1% | New rule volume | Redis cache paths |
-| AW-SEC-001 | 203 | 8 | 3.9% | Stable | Cookbook/example demo keys |
-| AW-CFG-hardcoded-secret | 53 | 3 | 5.7% | Was 75% → **fixed** | Template/placeholder suppression working |
-| AW-SEC-003 | 84 | 10 | 11.9% | Was 53% → **improved** | Content-ref check working, CLI/debug remain |
-| AW-SER-003 | 234 | 39 | 16.7% | Was 47% → **improved** | Dict-lookup done; registry/loader/plugin patterns remain |
-| AW-SER-001 | 141 | 0 | 0.0% | Stable | |
-| AW-RAG-001 | 145 | 0 | 0.0% | New rule | |
-| AW-TOOL-004 | 156 | 0 | 0.0% | Stable | Objectively verifiable |
-| AW-RAG-003 | 88 | 0 | 0.0% | Stable | |
-| AW-RAG-004 | 50 | 1 | 2.0% | Stable | |
-| All others | 360 | 0 | 0.0% | Stable | |
+| Rule | Count | Sampled | TP | FP | FP Rate | Est. FP in Benchmark | Mitigation |
+|---|---|---|---|---|---|---|---|
+| AW-TOOL-002 | 2103 | — | — | — | ~15% (est.) | ~315 | Not triaged |
+| AW-TOOL-004 | 1037 | — | — | — | ~15% (est.) | ~155 | Not triaged |
+| AW-MEM-003 | 365 | — | — | — | ~15% (est.) | ~54 | Not triaged |
+| AW-SER-003 | 183 | 30 | 16 | 14 | 47% | ~85 | Suppress dict-lookup imports, variable indirection |
+| AW-TOOL-001 | 159 | — | — | — | ~15% (est.) | ~23 | Not triaged |
+| AW-TOOL-003 | 159 | — | — | — | ~15% (est.) | ~23 | Not triaged |
+| AW-MEM-001 | 145 | 13 | 0 | 13 | 100% | ~145 | Skip library code, require multi-tenant evidence |
+| AW-SER-001 | 102 | — | — | — | ~15% (est.) | ~15 | Not triaged |
+| AW-RAG-001 | 98 | — | — | — | ~15% (est.) | ~14 | Not triaged |
+| AW-SEC-001 | 85 | — | — | — | ~15% (est.) | ~12 | Not triaged |
+| AW-RAG-003 | 56 | — | — | — | ~15% (est.) | ~8 | Not triaged |
+| AW-SEC-003 | 54 | 30 | 14 | 16 | 53% | ~28 | Require content reference, not metadata access |
+| AW-MEM-005 | 45 | 9 | 2 | 7 | 78% | ~35 | Require retrieval-to-sink path |
+| AW-RAG-004 | 41 | — | — | — | ~15% (est.) | ~6 | Not triaged |
+| AW-CFG-hardcoded-secret | 21 | 16 | 4 | 12 | 75% | ~15 | Skip templates, placeholders, non-secret keys |
+| AW-AGT-004 | 19 | — | — | — | ~15% (est.) | ~2 | Not triaged |
+| AW-MEM-004 | 15 | — | — | — | ~15% (est.) | ~2 | Not triaged |
+| AW-RAG-002 | 12 | — | — | — | ~15% (est.) | ~1 | Not triaged |
+| AW-CFG-docker-no-auth | 10 | — | — | — | ~15% (est.) | ~1 | Not triaged |
+| AW-MEM-002 | 9 | — | — | — | ~15% (est.) | ~1 | Not triaged |
+| AW-AGT-001 | 8 | — | — | — | ~15% (est.) | ~1 | Not triaged |
+| AW-MCP-001 | 8 | — | — | — | ~15% (est.) | ~1 | Not triaged |
+| AW-SER-002 | 5 | — | — | — | ~15% (est.) | ~0 | Not triaged |
+| AW-MCP-002 | 2 | — | — | — | ~15% (est.) | ~0 | Not triaged |
+| AW-CFG-no-tls | 1 | — | — | — | ~15% (est.) | ~0 | Not triaged |
+| AW-CFG-debug-mode | 1 | — | — | — | ~15% (est.) | ~0 | Not triaged |
+| AW-AGT-003 | 1 | — | — | — | ~15% (est.) | ~0 | Not triaged |
 
-**Estimated totals:** 2,001 findings → ~1,937 true positives, ~64 false positives (**3.2% est. FP rate**)
+**Estimated totals:** 4744 findings → ~3802 true positives, ~942 false positives (19% est. FP rate)
 
-*FP rates estimated via automated path-based heuristics (test/example/cookbook/library/registry patterns). See Section 17 for detailed evaluation methodology and per-project breakdown.*
+*FP rates for triaged rules are based on manual verification of real source code.
+Untriaged rules use 15% conservative estimate. Actual FP rate may vary.*
 
 ---
 
@@ -317,17 +334,17 @@ Based on automated path-based heuristic analysis of 2,001 findings (2026-03-21).
 
 | Attack Vector | Description | Projects Affected | Hits | Example Evidence |
 |---|---|---|---|---|
-| **AW-ATK-AGT-001** | Tool Poisoning / Unsafe Tool Access | CrewAI, Google Agent Dev Kit, LangChain (mono), Langchain-Chatchat, Langflow, PyGPT, langchain-chatbot, langchain-multi-agent | 58 | `agents_registry.py:140` (AW-AGT-001) |
-| **AW-ATK-AGT-004** | Cross-Agent Memory Contamination | LangChain (mono), create-llama, langchain-RAG-chroma | 6 | `vectorstore.py:107` (AW-AGT-004) |
+| **AW-ATK-AGT-001** | Tool Poisoning / Unsafe Tool Access | AdalFlow, AgentGPT, AgentOps, Agno (Phidata), Aider, AutoGPT, AutoGen, AutoRAG, Awesome LLM Apps, BabyAGI (+65 more) | 2430 | `agents_registry.py:140` (AW-AGT-001) |
+| **AW-ATK-AGT-004** | Cross-Agent Memory Contamination | AdalFlow, Awesome LLM Apps, LangChain (mono), create-llama, langchain-RAG-chroma | 19 | `vectorstore.py:107` (AW-AGT-004) |
 | **AW-ATK-CFG-001** | Unsafe Reset Enabled | LanceDB | 1 | `docker-compose.yml:9` (AW-CFG-debug-mode) |
-| **AW-ATK-CFG-003** | No TLS / No Auth / Exposed Ports | AutoRAG, Cognee, Cognita, CrewAI, DocsGPT, Google Agent Dev Kit, LangChain (mono), LangGraph, Langflow, Libre Chat (+11 more) | 40 | `vector_store_component.py:112` (AW-RAG-004) |
+| **AW-ATK-CFG-003** | No TLS / No Auth / Exposed Ports | AgentOps, Agno (Phidata), AutoGen, AutoRAG, Awesome LLM Apps, CAMEL, Cognee, Cognita, CrewAI, Dify (+18 more) | 60 | `vector_store_component.py:112` (AW-RAG-004) |
 | **AW-ATK-CFG-004** | Hardcoded API Keys | AdalFlow, AgentOps, Agno (Phidata), AutoGPT, AutoGen, Awesome LLM Apps, CAMEL, Chainlit, ChromaDB, CrewAI (+23 more) | 108 | `settings.py:452` (AW-SEC-001) |
-| **AW-ATK-INJ-001** | Stored Prompt Injection | Aider, Cognita, DocsGPT, GPT-Researcher, Google Agent Dev Kit, Graphiti (Zep), LangChain (mono), Langchain-Chatchat, Langflow, Libre Chat (+19 more) | 109 | `file_chat.py:66` (AW-RAG-001) |
-| **AW-ATK-MEM-001** | Cross-Tenant Retrieval (No Filter) | Aider, DocsGPT, GPT-Researcher, Google Agent Dev Kit, LangChain (mono), LangChain Extract, Langchain-Chatchat, Langflow, LlamaHub, LlamaParse (+17 more) | 136 | `milvus_kb_service.py:100` (AW-MEM-001) |
+| **AW-ATK-INJ-001** | Stored Prompt Injection | Agno (Phidata), Aider, Awesome LLM Apps, Cognita, DB-GPT, Dify, DocsGPT, GPT-Researcher, Google Agent Dev Kit, GraphRAG (Microsoft) (+24 more) | 143 | `file_chat.py:66` (AW-RAG-001) |
+| **AW-ATK-MEM-001** | Cross-Tenant Retrieval (No Filter) | Agno (Phidata), Aider, Awesome LLM Apps, DocsGPT, GPT-Researcher, Google Agent Dev Kit, LangChain (mono), LangChain Extract, Langchain-Chatchat, Langflow (+19 more) | 145 | `milvus_kb_service.py:100` (AW-MEM-001) |
 | **AW-ATK-MEM-002** | Weak Tenant Isolation (Static Filter) | DocsGPT, LangChain (mono), Langchain-Chatchat, Langflow, OpenGPTs, UFO (Microsoft) | 9 | `ensemble.py:27` (AW-MEM-002) |
-| **AW-ATK-MEM-003** | Namespace/Collection Confusion | Aider, Cognee, DocsGPT, LangChain (mono), Langchain-Chatchat, Langflow, Letta (MemGPT), LlamaHub, Mem0/Embedchain, MetaGPT (+12 more) | 107 | `chromadb_kb_service.py:67` (AW-MEM-003) |
+| **AW-ATK-MEM-003** | Namespace/Collection Confusion | AdalFlow, AgentGPT, Agno (Phidata), Aider, AutoGPT, AutoGen, AutoRAG, Awesome LLM Apps, CAMEL, Canopy (Pinecone) (+39 more) | 365 | `chromadb_kb_service.py:67` (AW-MEM-003) |
 | **AW-ATK-MEM-004** | Partition Bypass via Direct API | LangChain (mono), LlamaHub, Multi-Agent Concierge, RAG-chatbot-langchain, create-llama, langchain-chatbot | 15 | `vectorstore_token_buffer_memory.py:120` (AW-MEM-004) |
-| **AW-ATK-POI-005** | Document Loader Exploitation | SEC Insights | 1 | `engine.py:162` (AW-RAG-002) |
+| **AW-ATK-POI-005** | Document Loader Exploitation | Agno (Phidata), Awesome LLM Apps, Dify, SEC Insights | 12 | `qwen_local_rag_agent.py:234` (AW-RAG-002) |
 
 ### Vectors Not Detected (26 / 35)
 
@@ -367,93 +384,93 @@ Based on automated path-based heuristic analysis of 2,001 findings (2026-03-21).
 | Project | AGT-001 | CFG-001 | CFG-003 | CFG-004 | INJ-001 | MEM-001 | MEM-002 | MEM-003 | MEM-004 | Total |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Langchain-Chatchat | **3** | · | · | **6** | **13** | **15** | **2** | **3** | · | 42 |
-| PrivateGPT | · | · | **2** | **1** | · | · | · | · | · | 3 |
+| PrivateGPT | · | · | **2** | **1** | · | · | · | **2** | · | 5 |
 | Quivr | · | · | · | · | **2** | **2** | · | · | · | 4 |
-| LocalGPT | · | · | · | · | · | · | · | · | · | 0 |
+| LocalGPT | **14** | · | · | · | · | · | · | · | · | 14 |
 | DocsGPT | · | · | **1** | **5** | **4** | **4** | **1** | **1** | · | 16 |
 | GPT-Researcher | · | · | · | · | **2** | **2** | · | · | · | 4 |
 | Onyx/Danswer | · | · | **1** | **1** | **1** | · | · | **1** | · | 4 |
-| DB-GPT | · | · | · | · | · | · | · | · | · | 0 |
+| DB-GPT | **150** | · | · | · | **8** | · | · | **3** | · | 161 |
 | Chat-LangChain | · | · | · | · | · | · | · | · | · | 0 |
 | RasaGPT | · | · | · | · | · | · | · | · | · | 0 |
 | Langflow | **2** | · | **4** | **2** | **13** | **21** | **1** | **11** | · | 54 |
 | Flowise | · | · | · | · | · | · | · | · | · | 0 |
-| Open Interpreter | · | · | · | · | · | · | · | · | · | 0 |
-| Chainlit | · | · | · | **1** | · | · | · | · | · | 1 |
+| Open Interpreter | **44** | · | · | · | · | · | · | · | · | 44 |
+| Chainlit | **4** | · | · | **1** | · | · | · | · | · | 5 |
 | Mem0/Embedchain | · | · | **2** | · | **3** | **2** | · | **2** | · | 9 |
-| LLM App (Pathway) | · | · | · | · | · | · | · | · | · | 0 |
-| Haystack | · | · | · | · | · | · | · | · | · | 0 |
+| LLM App (Pathway) | **10** | · | · | · | · | · | · | · | · | 10 |
+| Haystack | **33** | · | · | · | · | · | · | · | · | 33 |
 | SuperAgent | · | · | · | · | · | · | · | · | · | 0 |
-| AgentGPT | · | · | · | · | · | · | · | · | · | 0 |
-| AutoGPT | · | · | · | **4** | · | · | · | · | · | 4 |
-| LangGraph | · | · | **1** | **1** | · | · | · | · | · | 2 |
-| LangSmith SDK | · | · | · | **1** | · | · | · | · | · | 1 |
+| AgentGPT | **6** | · | · | · | · | · | · | **2** | · | 8 |
+| AutoGPT | **45** | · | · | **4** | · | · | · | **1** | · | 50 |
+| LangGraph | **12** | · | **1** | **1** | · | · | · | · | · | 14 |
+| LangSmith SDK | **17** | · | · | **1** | · | · | · | · | · | 18 |
 | LangChain (mono) | **3** | · | **2** | · | **3** | **17** | **3** | **1** | **1** | 30 |
 | OpenGPTs | · | · | **1** | · | · | · | **1** | · | · | 2 |
-| LangServe | · | · | · | · | · | · | · | · | · | 0 |
+| LangServe | **1** | · | · | · | · | · | · | · | · | 1 |
 | LangChain Extract | · | · | · | · | · | **1** | · | · | · | 1 |
-| Awesome LLM Apps | · | · | · | **3** | · | · | · | · | · | 3 |
+| Awesome LLM Apps | **175** | · | **3** | **3** | **17** | **8** | · | **14** | · | 220 |
 | LlamaIndex | — | — | — | — | — | — | — | — | — | — |
 | RAGS (LlamaIndex) | · | · | · | · | **1** | **1** | · | · | · | 2 |
-| LlamaParse | · | · | · | · | · | **1** | · | · | · | 1 |
+| LlamaParse | **12** | · | · | · | · | **1** | · | · | · | 13 |
 | create-llama | · | · | · | · | **3** | **2** | · | **11** | **6** | 22 |
-| SEC Insights | · | · | · | · | · | · | · | **1** | · | 1 |
-| CrewAI | **40** | · | **1** | **4** | · | · | · | · | · | 45 |
-| AutoGen | · | · | · | **3** | · | · | · | · | · | 3 |
-| MetaGPT | · | · | **1** | · | **9** | **7** | · | **8** | · | 25 |
-| ChatDev | · | · | · | · | · | · | · | · | · | 0 |
-| CAMEL | · | · | · | **5** | · | · | · | · | · | 5 |
-| BabyAGI | · | · | · | · | · | · | · | · | · | 0 |
-| OpenAI Swarm | · | · | · | · | · | · | · | · | · | 0 |
-| Swarms | · | · | · | · | · | · | · | · | · | 0 |
-| TaskWeaver | · | · | · | · | · | **2** | · | · | · | 2 |
-| RAGFlow | · | · | **1** | **18** | · | · | · | · | · | 19 |
-| Kotaemon | · | · | · | · | · | · | · | · | · | 0 |
-| LightRAG | · | · | **1** | · | · | · | · | · | · | 1 |
-| FastGPT | · | · | · | **1** | · | · | · | · | · | 1 |
-| QAnything | · | · | · | · | **2** | · | · | · | · | 2 |
-| R2R | · | · | · | · | · | · | · | · | · | 0 |
-| FlashRAG | · | · | · | · | · | · | · | · | · | 0 |
-| AutoRAG | · | · | **1** | · | · | · | · | · | · | 1 |
-| Canopy (Pinecone) | · | · | · | · | · | · | · | · | · | 0 |
-| Verba (Weaviate) | · | · | · | · | · | · | · | · | · | 0 |
-| Vanna | · | · | **1** | · | **5** | **10** | · | **5** | · | 21 |
-| Cognita | · | · | **4** | · | **1** | · | · | · | · | 5 |
-| ChatGPT Retrieval Plugin | · | · | · | · | · | · | · | · | · | 0 |
-| txtai | · | · | · | · | · | · | · | · | · | 0 |
-| ChromaDB | · | · | · | **1** | · | · | · | · | · | 1 |
+| SEC Insights | **2** | · | · | · | · | · | · | **1** | · | 3 |
+| CrewAI | **40** | · | **1** | **4** | · | · | · | **32** | · | 77 |
+| AutoGen | **37** | · | **1** | **3** | · | · | · | **4** | · | 45 |
+| MetaGPT | **103** | · | **1** | · | **9** | **7** | · | **8** | · | 128 |
+| ChatDev | **12** | · | · | · | · | · | · | **2** | · | 14 |
+| CAMEL | **71** | · | **3** | **5** | · | · | · | **8** | · | 87 |
+| BabyAGI | **3** | · | · | · | · | · | · | · | · | 3 |
+| OpenAI Swarm | **1** | · | · | · | · | · | · | · | · | 1 |
+| Swarms | **209** | · | · | · | · | · | · | · | · | 209 |
+| TaskWeaver | **6** | · | · | · | · | **2** | · | · | · | 8 |
+| RAGFlow | **60** | · | **2** | **18** | · | · | · | · | · | 80 |
+| Kotaemon | · | · | · | · | · | · | · | **2** | · | 2 |
+| LightRAG | **80** | · | **1** | · | · | · | · | **5** | · | 86 |
+| FastGPT | **2** | · | · | **1** | · | · | · | · | · | 3 |
+| QAnything | **17** | · | · | · | **2** | · | · | **3** | · | 22 |
+| R2R | **3** | · | · | · | · | · | · | · | · | 3 |
+| FlashRAG | **10** | · | · | · | · | · | · | **3** | · | 13 |
+| AutoRAG | **9** | · | **1** | · | · | · | · | **6** | · | 16 |
+| Canopy (Pinecone) | **1** | · | · | · | · | · | · | **4** | · | 5 |
+| Verba (Weaviate) | **2** | · | **1** | · | · | · | · | **5** | · | 8 |
+| Vanna | **5** | · | **1** | · | **5** | **10** | · | **5** | · | 26 |
+| Cognita | · | · | **4** | · | **1** | · | · | **6** | · | 11 |
+| ChatGPT Retrieval Plugin | **2** | · | · | · | · | · | · | **6** | · | 8 |
+| txtai | **10** | · | · | · | · | · | · | **3** | · | 13 |
+| ChromaDB | **1** | · | · | **1** | · | · | · | **111** | · | 113 |
 | Milvus Bootcamp | · | · | **3** | · | · | **1** | · | **1** | · | 5 |
-| Qdrant Examples | · | · | · | · | · | · | · | · | · | 0 |
-| LanceDB | · | **1** | · | · | · | · | · | · | · | 1 |
-| Cognee | · | · | **4** | · | · | · | · | **2** | · | 6 |
-| Graphiti (Zep) | · | · | · | · | **6** | · | · | · | · | 6 |
+| Qdrant Examples | **2** | · | · | · | · | · | · | **3** | · | 5 |
+| LanceDB | **146** | **1** | · | · | · | · | · | · | · | 147 |
+| Cognee | **42** | · | **4** | · | · | · | · | **2** | · | 48 |
+| Graphiti (Zep) | **331** | · | · | · | **6** | · | · | · | · | 337 |
 | Letta (MemGPT) | · | · | · | **1** | · | · | · | **1** | · | 2 |
-| GraphRAG (Microsoft) | · | · | · | · | · | · | · | · | · | 0 |
-| nano-graphrag | · | · | · | **2** | · | · | · | · | · | 2 |
+| GraphRAG (Microsoft) | **12** | · | · | · | **5** | · | · | · | · | 17 |
+| nano-graphrag | **15** | · | · | **2** | · | · | · | · | · | 17 |
 | Zep | · | · | · | · | · | · | · | · | · | 0 |
 | Open WebUI | · | · | **5** | · | **1** | · | · | **1** | · | 7 |
 | LibreChat | · | · | · | · | · | · | · | · | · | 0 |
-| Khoj | · | · | · | **1** | · | · | · | · | · | 1 |
+| Khoj | **4** | · | · | **1** | · | · | · | · | · | 5 |
 | AnythingLLM | · | · | · | · | · | · | · | · | · | 0 |
-| PyGPT | **2** | · | · | **5** | **1** | **3** | · | · | · | 11 |
-| Jan | · | · | · | · | · | · | · | · | · | 0 |
-| OpenHands (OpenDevin) | · | · | · | · | · | · | · | · | · | 0 |
-| SWE-agent | · | · | · | · | · | · | · | · | · | 0 |
-| Aider | · | · | · | · | **2** | **2** | · | **1** | · | 5 |
-| Devika | · | · | · | **1** | · | · | · | · | · | 1 |
-| GPT-Engineer | · | · | · | · | · | · | · | · | · | 0 |
-| GPT-Pilot | · | · | · | **5** | · | · | · | · | · | 5 |
-| Dify | · | · | · | **1** | · | · | · | · | · | 1 |
-| Agno (Phidata) | · | · | · | **8** | · | · | · | · | · | 8 |
-| Pydantic AI | · | · | · | · | · | · | · | · | · | 0 |
-| smolagents (HF) | · | · | · | · | · | · | · | · | · | 0 |
-| Semantic Kernel | · | · | **2** | **9** | · | · | · | · | · | 11 |
-| OpenAI Agents SDK | · | · | · | · | · | · | · | · | · | 0 |
-| DSPy | · | · | · | · | · | · | · | · | · | 0 |
+| PyGPT | **2** | · | · | **5** | **1** | **3** | · | **2** | · | 13 |
+| Jan | **6** | · | · | · | · | · | · | · | · | 6 |
+| OpenHands (OpenDevin) | **30** | · | · | · | · | · | · | · | · | 30 |
+| SWE-agent | **24** | · | · | · | · | · | · | · | · | 24 |
+| Aider | **19** | · | · | · | **2** | **2** | · | **1** | · | 24 |
+| Devika | **1** | · | · | **1** | · | · | · | · | · | 2 |
+| GPT-Engineer | **11** | · | · | · | · | · | · | · | · | 11 |
+| GPT-Pilot | **4** | · | · | **5** | · | · | · | · | · | 9 |
+| Dify | **38** | · | **4** | **1** | **1** | · | · | **6** | · | 50 |
+| Agno (Phidata) | **165** | · | **3** | **8** | **3** | **1** | · | **9** | · | 189 |
+| Pydantic AI | **33** | · | · | · | · | · | · | · | · | 33 |
+| smolagents (HF) | **11** | · | · | · | · | · | · | · | · | 11 |
+| Semantic Kernel | **24** | · | **5** | **9** | · | · | · | **12** | · | 50 |
+| OpenAI Agents SDK | **18** | · | · | · | · | · | · | · | · | 18 |
+| DSPy | · | · | · | · | · | · | · | **2** | · | 2 |
 | Google Agent Dev Kit | **4** | · | **1** | **5** | **3** | **1** | · | · | · | 14 |
-| UFO (Microsoft) | · | · | · | · | **1** | **1** | **1** | · | · | 3 |
-| AgentOps | · | · | · | **7** | · | · | · | · | · | 7 |
-| ModelScope Agent | · | · | · | **1** | · | · | · | **2** | · | 3 |
+| UFO (Microsoft) | **25** | · | · | · | **1** | **1** | **1** | · | · | 28 |
+| AgentOps | **14** | · | **1** | **7** | · | · | · | · | · | 22 |
+| ModelScope Agent | **57** | · | · | **1** | · | · | · | **2** | · | 60 |
 | memory-agent | · | · | · | · | · | · | · | · | · | 0 |
 | rag-research-agent-template | · | · | · | · | **1** | · | · | · | · | 1 |
 | langchain-chatbot | **1** | · | · | · | **2** | **2** | · | · | **4** | 9 |
@@ -464,124 +481,124 @@ Based on automated path-based heuristic analysis of 2,001 findings (2026-03-21).
 | chat-with-pdf | · | · | · | · | · | · | · | · | · | 0 |
 | langchain-multi-agent | **3** | · | · | · | **1** | **1** | · | · | · | 5 |
 | objectbox-rag | · | · | · | · | · | · | · | · | · | 0 |
-| AdalFlow | · | · | · | **1** | · | · | · | · | · | 1 |
+| AdalFlow | **93** | · | · | **1** | · | · | · | **2** | · | 96 |
 | Hindsight | — | — | — | — | — | — | — | — | — | — |
 | Vector Admin | · | · | · | · | · | · | · | · | · | 0 |
 | HF Agents Course | · | · | · | · | · | · | · | · | · | 0 |
-| Libre Chat | · | · | **1** | · | **1** | · | · | · | · | 2 |
+| Libre Chat | **1** | · | **1** | · | **1** | · | · | · | · | 3 |
 | LangGraph BigTool | · | · | · | · | · | · | · | · | · | 0 |
-| RAG-Anything | · | · | · | · | · | · | · | · | · | 0 |
-| OASIS (CAMEL) | · | · | · | **1** | **2** | **1** | · | **1** | · | 5 |
-| SWE-bench | · | · | · | · | · | · | · | · | · | 0 |
-| LlamaDeploy | · | · | · | **1** | · | · | · | · | · | 1 |
+| RAG-Anything | **8** | · | · | · | · | · | · | · | · | 8 |
+| OASIS (CAMEL) | **18** | · | · | **1** | **2** | **1** | · | **1** | · | 23 |
+| SWE-bench | **17** | · | · | · | · | · | · | · | · | 17 |
+| LlamaDeploy | **15** | · | · | **1** | · | · | · | · | · | 16 |
 | LlamaIndex.TS | · | · | · | **1** | · | · | · | · | · | 1 |
-| LlamaAgents | · | · | · | **1** | · | · | · | · | · | 1 |
+| LlamaAgents | **15** | · | · | **1** | · | · | · | · | · | 16 |
 | LlamaHub | · | · | · | · | **21** | **30** | · | **50** | **1** | 102 |
 | LlamaLab | · | · | · | · | · | · | · | · | · | 0 |
-| Multi-Agent Concierge | · | · | · | · | · | · | · | **1** | **1** | 2 |
-| PR Manager (LlamaIndex) | · | · | · | · | · | · | · | · | · | 0 |
-| LazyLLM | · | · | **1** | **7** | · | · | · | · | · | 8 |
-| ThinkRAG | · | · | · | · | · | · | · | **4** | **2** | 6 |
+| Multi-Agent Concierge | **1** | · | · | · | · | · | · | **1** | **1** | 3 |
+| PR Manager (LlamaIndex) | **3** | · | · | · | · | · | · | · | · | 3 |
+| LazyLLM | **36** | · | **1** | **7** | · | · | · | · | · | 44 |
+| ThinkRAG | **4** | · | · | · | · | · | · | **4** | **2** | 10 |
 | Delphic | · | · | · | · | · | · | · | · | · | 0 |
-| local_llama | · | · | · | · | · | · | · | · | · | 0 |
+| local_llama | **4** | · | · | · | · | · | · | · | · | 4 |
 | Awesome-RAG (lucifertrj) | · | · | · | **1** | **2** | **2** | · | **2** | · | 7 |
-| VeritasGraph | · | · | · | **1** | · | · | · | · | · | 1 |
-| CorpusOS | · | · | · | · | **4** | **1** | **2** | · | · | 7 |
+| VeritasGraph | **4** | · | · | **1** | · | · | · | · | · | 5 |
+| CorpusOS | **23** | · | · | · | **4** | **1** | **2** | · | · | 30 |
 | Hello Wordsmith | · | · | · | · | · | **1** | · | **2** | · | 3 |
 | PapersChat | · | · | **1** | · | · | · | · | **3** | · | 4 |
 | LlamaIndex Omakase RAG | · | · | **1** | **1** | · | · | · | · | · | 2 |
 | local-rag-llamaindex | · | · | **4** | · | · | · | · | **3** | · | 7 |
 | XRAG | · | · | · | · | **3** | **4** | · | **8** | · | 15 |
-| flexible-graphrag | · | · | **2** | · | **3** | **3** | · | **2** | · | 10 |
+| flexible-graphrag | **16** | · | **2** | · | **3** | **3** | · | **2** | · | 26 |
 | Vector Cookbook (Timescale) | · | · | · | · | **4** | · | · | · | · | 4 |
-| DocMind AI | · | · | **11** | **3** | **1** | **1** | · | · | · | 16 |
+| DocMind AI | · | · | **11** | **3** | **1** | **1** | · | **14** | · | 30 |
 | RAGArch | · | · | **1** | · | · | · | · | **3** | · | 4 |
 | RAG-LlamaIndex (Pinecone) | · | · | · | · | · | · | · | **10** | · | 10 |
-| RAG Job Search Assistant | · | · | · | · | · | · | · | **1** | · | 1 |
+| RAG Job Search Assistant | **1** | · | · | · | · | · | · | **1** | · | 2 |
 | ingest-anything | **1** | · | · | · | · | · | · | **3** | · | 4 |
-| OpenInference (Arize) | · | · | · | · | **1** | · | · | · | · | 1 |
+| OpenInference (Arize) | **5** | · | · | · | **1** | · | · | · | · | 6 |
 | MCPAdapt | · | · | · | · | · | · | · | · | · | 0 |
-| PlanExe | · | · | **3** | **15** | · | · | · | · | · | 18 |
+| PlanExe | **35** | · | **3** | **15** | · | · | · | · | · | 53 |
 | LlamaIndex Docs Agent | · | · | · | · | **2** | **1** | · | **1** | · | 4 |
-| LlamaIndex Trip Planner | · | · | · | · | · | · | · | · | · | 0 |
+| LlamaIndex Trip Planner | **1** | · | · | · | · | · | · | · | · | 1 |
 | User-Centric RAG (LlamaIndex+Qdrant) | · | · | · | · | · | · | · | **2** | **2** | 4 |
-| AgentServe | · | · | · | · | · | · | · | · | · | 0 |
+| AgentServe | **1** | · | · | · | · | · | · | · | · | 1 |
 | Agentic RAG (LlamaIndex) | · | · | · | · | **2** | **2** | · | **5** | · | 9 |
 | Agent-as-a-Service | · | · | · | · | · | · | · | **1** | · | 1 |
-| Workflows ACP | · | · | · | · | · | · | · | · | · | 0 |
+| Workflows ACP | **12** | · | · | · | · | · | · | · | · | 12 |
 | Agentic AI Chatbot (LlamaIndex) | · | · | · | · | · | · | · | · | · | 0 |
-| Llama-4 Researcher | · | · | · | · | · | · | · | · | · | 0 |
-| e-Library Agent | · | · | **1** | · | · | · | · | **1** | · | 2 |
+| Llama-4 Researcher | **1** | · | · | · | · | · | · | · | · | 1 |
+| e-Library Agent | **2** | · | **1** | · | · | · | · | **1** | · | 4 |
 | ragcoon | **4** | · | **1** | · | · | · | · | **3** | · | 8 |
 | diRAGnosis | · | · | **1** | · | **9** | **10** | · | **8** | · | 28 |
-| Agentic PRD Generation | · | · | **1** | · | · | · | · | · | · | 1 |
+| Agentic PRD Generation | **1** | · | **1** | · | · | · | · | · | · | 2 |
 | LlamaIndexChat | · | · | · | · | · | · | · | **1** | · | 1 |
 | LlamaIndex Ollama Chainlit | · | · | · | · | · | · | · | **3** | · | 3 |
-| RAGIndex | · | · | **1** | · | · | · | · | · | · | 1 |
+| RAGIndex | **2** | · | **1** | · | · | · | · | · | · | 3 |
 | RAG Application (LlamaIndex) | · | · | · | · | · | · | · | · | · | 0 |
 | LlamaIndex-with-Llama2 | · | · | · | · | · | · | · | · | · | 0 |
 | SQL Agent LlamaIndex | · | · | · | · | · | · | · | · | · | 0 |
 | LlamaIndex Knowledge Graph | · | · | · | · | · | · | · | · | · | 0 |
 | LlamaIndex Agent (Swastik) | **2** | · | · | · | · | · | · | **1** | · | 3 |
 | Azure LlamaIndex Sample | · | · | · | · | · | · | · | **1** | · | 1 |
-| Brainiac | · | · | · | · | · | · | · | · | · | 0 |
-| RAG-TUI | · | · | · | · | · | · | · | · | · | 0 |
+| Brainiac | **1** | · | · | · | · | · | · | · | · | 1 |
+| RAG-TUI | **6** | · | · | · | · | · | · | · | · | 6 |
 | Chat-RAG | · | · | · | · | · | · | · | **3** | · | 3 |
-| ToK | · | · | · | · | · | · | · | **8** | **8** | 16 |
+| ToK | **2** | · | · | · | · | · | · | **8** | **8** | 18 |
 | Multimodal Semantic RAG | · | · | · | · | **2** | **2** | · | **1** | · | 5 |
-| M2M Vector Search | · | · | · | · | · | · | · | · | · | 0 |
-| RAG Performance | · | · | · | · | · | · | · | **1** | · | 1 |
+| M2M Vector Search | **1** | · | · | · | · | · | · | · | · | 1 |
+| RAG Performance | **3** | · | · | · | · | · | · | **1** | · | 4 |
 | RAG Firewall | · | · | · | **3** | **1** | **1** | · | · | · | 5 |
 | RAG Framework Evaluation | · | · | · | · | **3** | **1** | · | **1** | · | 5 |
 | RAG Ingest | · | · | · | · | · | · | · | **3** | · | 3 |
-| GPTStonks | **1** | · | · | · | · | · | · | **3** | · | 4 |
+| GPTStonks | **8** | · | · | · | · | · | · | **3** | · | 11 |
 | Quackling | · | · | · | · | · | · | · | · | · | 0 |
-| GUT | · | · | · | · | · | · | · | · | · | 0 |
+| GUT | **7** | · | · | · | · | · | · | · | · | 7 |
 | AI Equity Research Analyst | · | · | · | · | · | · | · | · | · | 0 |
-| Opik (Comet) | · | · | · | · | · | · | · | **1** | · | 1 |
-| GPTCache | · | · | **1** | · | · | · | · | **1** | · | 2 |
-| All-in-RAG | · | · | **2** | · | **10** | **4** | **3** | · | · | 19 |
-| Gerev | · | · | · | · | · | · | · | · | · | 0 |
-| PyGPT (LlamaIndex) | **2** | · | · | **5** | **1** | **3** | · | · | · | 11 |
-| Judgeval | · | · | · | · | · | · | · | · | · | 0 |
+| Opik (Comet) | **4** | · | · | · | · | · | · | **1** | · | 5 |
+| GPTCache | **9** | · | **1** | · | · | · | · | **1** | · | 11 |
+| All-in-RAG | **11** | · | **2** | · | **10** | **4** | **3** | **8** | · | 38 |
+| Gerev | · | · | · | · | · | · | · | **1** | · | 1 |
+| PyGPT (LlamaIndex) | **2** | · | · | **5** | **1** | **3** | · | **2** | · | 13 |
+| Judgeval | **7** | · | · | · | · | · | · | · | · | 7 |
 | AutoLLM | · | · | · | · | · | · | · | **3** | · | 3 |
-| RepoAgent | · | · | · | · | · | · | · | **2** | · | 2 |
+| RepoAgent | **4** | · | · | · | · | · | · | **2** | · | 6 |
 | RAG Chatbot (datvodinh) | · | · | **1** | · | · | · | · | **3** | · | 4 |
-| GraphRAG Toolkit (AWS) | · | · | · | · | · | · | · | · | · | 0 |
+| GraphRAG Toolkit (AWS) | **7** | · | · | · | · | · | · | **1** | · | 8 |
 | Agent-Wiz | · | · | · | · | · | · | · | · | · | 0 |
 | Agentic AI Systems | **3** | · | · | **13** | **17** | **15** | **8** | **4** | **1** | 61 |
 | RESTai | · | · | **1** | · | · | · | · | **2** | · | 3 |
-| SlideSpeak | · | · | · | · | · | · | · | **2** | · | 2 |
-| Whisk | · | · | · | · | · | · | · | · | · | 0 |
+| SlideSpeak | **2** | · | · | · | · | · | · | **2** | · | 4 |
+| Whisk | **7** | · | · | · | · | · | · | · | · | 7 |
 | Airgapped Offline RAG | · | · | · | · | **1** | **1** | · | · | · | 2 |
-| FastAPI Agents | · | · | · | · | · | · | · | · | · | 0 |
+| FastAPI Agents | **7** | · | · | · | · | · | · | · | · | 7 |
 | BentoML RAG Tutorials | · | · | · | **2** | · | · | · | **6** | · | 8 |
-| Reliable RAG | · | · | **1** | · | · | · | · | · | · | 1 |
+| Reliable RAG | · | · | **1** | · | · | · | · | **2** | · | 3 |
 | LLM Ollama LlamaIndex Bootstrap | · | · | · | · | · | · | · | **1** | · | 1 |
-| AI Playground (rokbenko) | · | · | **1** | **1** | **2** | · | · | · | · | 4 |
+| AI Playground (rokbenko) | · | · | **1** | **1** | **2** | · | · | **2** | · | 6 |
 | Applied AI RAG Assistant | **3** | · | · | · | **4** | **6** | · | **1** | **2** | 16 |
 | DSPy RAG + LlamaIndex | · | · | · | **2** | · | · | · | **1** | · | 3 |
-| ATO Chatbot | · | · | **2** | · | **1** | **2** | · | **5** | · | 10 |
+| ATO Chatbot | **1** | · | **2** | · | **1** | **2** | · | **5** | · | 11 |
 | Ragtag Tiger | · | · | · | · | · | · | · | **1** | · | 1 |
-| LlamaIndex Zoom Assistant | · | · | · | · | · | · | · | · | · | 0 |
+| LlamaIndex Zoom Assistant | **1** | · | · | · | · | · | · | · | · | 1 |
 | LlamaIndex Retrieval API | · | · | · | · | · | · | · | **2** | · | 2 |
 | Multimodal RAG Plugin | · | · | · | · | · | · | · | · | · | 0 |
 | ChatGPT Custom Knowledge | · | · | · | · | · | · | · | · | · | 0 |
 | chatPDF | · | · | · | · | · | · | · | · | · | 0 |
-| Smart LLM Loader | · | · | · | · | · | · | · | · | · | 0 |
+| Smart LLM Loader | **2** | · | · | · | · | · | · | · | · | 2 |
 | ChatGPT Long-Term Memory | · | · | · | · | · | · | · | **1** | · | 1 |
 | LlamaIndex Examples (alphasecio) | · | · | · | · | · | · | · | **1** | · | 1 |
 | Agentic Playground | **1** | · | · | · | · | · | · | · | · | 1 |
 | IntelliWeb GPT | · | · | · | **2** | · | · | · | **1** | · | 3 |
-| LlamaIndex Supervisor | · | · | · | · | · | · | · | · | · | 0 |
-| Contextual Retrieval (Anthropic) | · | · | · | · | **1** | **2** | · | **3** | · | 6 |
+| LlamaIndex Supervisor | **1** | · | · | · | · | · | · | · | · | 1 |
+| Contextual Retrieval (Anthropic) | **1** | · | · | · | **1** | **2** | · | **3** | · | 7 |
 | Streaming LLM Chat | · | · | · | · | · | · | · | **2** | **1** | 3 |
-| Docs-n-Data Knowledge App | · | · | · | · | · | · | · | · | · | 0 |
+| Docs-n-Data Knowledge App | **1** | · | · | · | · | · | · | **2** | · | 3 |
 | LlamaIndex Flask Demo | · | · | · | · | · | · | · | · | · | 0 |
-| AgenticAI Coach | · | · | · | · | · | · | · | · | · | 0 |
+| AgenticAI Coach | **13** | · | · | · | · | · | · | **1** | · | 14 |
 | GemInsights | · | · | · | · | · | · | · | · | · | 0 |
 | LLM RAG | · | · | · | · | · | · | · | **2** | **1** | 3 |
-| QuickDigest | · | · | · | · | · | · | · | **1** | · | 1 |
+| QuickDigest | **3** | · | · | · | · | · | · | **1** | · | 4 |
 | AItrika | · | · | · | · | · | · | · | **7** | · | 7 |
 | LangChain RAG DevKit | **2** | · | · | · | **4** | **3** | · | **2** | **3** | 14 |
 | RAG AI Voice Assistant | · | · | **1** | · | · | · | · | **3** | **1** | 5 |
@@ -590,118 +607,118 @@ Based on automated path-based heuristic analysis of 2,001 findings (2026-03-21).
 | RAG KnowledgeLLM Bot | · | · | · | · | · | · | · | **1** | · | 1 |
 | PyQt LlamaIndex | · | · | · | · | · | · | · | **1** | · | 1 |
 | Doppalf | · | · | · | **2** | · | · | · | **2** | · | 4 |
-| Bot-the-Defect | · | · | · | · | · | · | · | **2** | **2** | 4 |
+| Bot-the-Defect | **2** | · | · | · | · | · | · | **2** | **2** | 6 |
 | EduRAG Network Assistant | · | · | · | · | **4** | **4** | · | **3** | · | 11 |
-| LlamaIndex Agent Workflow Browse | · | · | · | · | · | · | · | · | · | 0 |
+| LlamaIndex Agent Workflow Browse | **1** | · | · | · | · | · | · | · | · | 1 |
 | LlamaIndex Chatbot Advanced | · | · | · | · | · | · | · | **3** | · | 3 |
-| LEANN | · | · | · | · | · | · | · | · | · | 0 |
+| LEANN | **22** | · | · | · | · | · | · | **1** | · | 23 |
 | LlamaIndex RAG (romilandc) | · | · | **1** | · | · | · | · | **2** | · | 3 |
 | MCP Toolbox SDK (Google) | · | · | · | · | · | · | · | · | · | 0 |
-| PromptPilot | · | · | · | · | · | · | · | · | · | 0 |
-| Jetson Orin Nano RAG Kit | · | · | · | **2** | · | · | · | · | · | 2 |
+| PromptPilot | **1** | · | · | · | · | · | · | · | · | 1 |
+| Jetson Orin Nano RAG Kit | **17** | · | · | **2** | · | · | · | · | · | 19 |
 | CrewAI Examples | · | · | · | · | · | · | · | · | · | 0 |
-| CrewAI Tools | · | · | · | **1** | · | · | · | · | · | 1 |
+| CrewAI Tools | **37** | · | · | **1** | · | · | · | **3** | · | 41 |
 | Awesome CrewAI | · | · | · | · | · | · | · | · | · | 0 |
-| AutoGroq | · | · | · | · | · | · | · | · | · | 0 |
-| MCP Memory Service | · | · | **3** | **5** | · | · | · | · | · | 8 |
-| CrewAI Studio | · | · | · | · | · | · | · | · | · | 0 |
+| AutoGroq | **1** | · | · | · | · | · | · | · | · | 1 |
+| MCP Memory Service | **32** | · | **3** | **5** | · | · | · | · | · | 40 |
+| CrewAI Studio | **2** | · | · | · | · | · | · | · | · | 2 |
 | Full Stack AI Agent Template | · | **7** | **1** | · | · | · | · | · | · | 8 |
-| Viral Clips Crew | · | · | · | · | · | · | · | · | · | 0 |
-| AIWriteX | · | · | · | · | · | · | · | · | · | 0 |
-| Tiger (Upsonic) | · | · | · | · | · | · | · | · | · | 0 |
+| Viral Clips Crew | **2** | · | · | · | · | · | · | · | · | 2 |
+| AIWriteX | **4** | · | · | · | · | · | · | · | · | 4 |
+| Tiger (Upsonic) | **7** | · | · | · | · | · | · | · | · | 7 |
 | Easy Investment Agent | · | · | · | · | · | · | · | · | · | 0 |
 | Claude Data Analysis | · | · | · | · | · | · | · | · | · | 0 |
 | Devyan | · | · | · | · | · | · | · | · | · | 0 |
 | OpenPlexity Pages | · | · | · | · | · | · | · | · | · | 0 |
-| CrewAI Test (NanGePlus) | · | · | · | **24** | · | · | · | · | · | 24 |
-| CrewAI GUI Qt | · | · | · | · | · | · | · | · | · | 0 |
-| Wavefront | · | · | **1** | **5** | · | · | · | · | · | 6 |
+| CrewAI Test (NanGePlus) | · | · | · | **24** | · | · | · | **2** | · | 26 |
+| CrewAI GUI Qt | **1** | · | · | · | · | · | · | · | · | 1 |
+| Wavefront | **9** | · | **1** | **5** | · | · | · | · | · | 15 |
 | CrewAI UI Business Launch | · | · | · | **1** | · | · | · | · | · | 1 |
-| Open Extract | · | · | **1** | · | · | · | · | · | · | 1 |
+| Open Extract | **2** | · | **1** | · | · | · | · | · | · | 3 |
 | CrewAI Gmail Automation | · | · | · | · | · | · | · | · | · | 0 |
-| Value | · | · | **1** | **2** | · | · | · | · | · | 3 |
+| Value | **2** | · | **1** | **2** | · | · | · | · | · | 5 |
 | Resume Optimization Crew | · | · | · | · | · | · | · | · | · | 0 |
 | CrewAI Stock Analysis | · | · | · | · | · | · | · | · | · | 0 |
-| Geo AI Agent | · | · | · | · | · | · | · | · | · | 0 |
-| Trip Planner Agent | · | · | · | · | · | · | · | · | · | 0 |
+| Geo AI Agent | **1** | · | · | · | · | · | · | · | · | 1 |
+| Trip Planner Agent | **1** | · | · | · | · | · | · | · | · | 1 |
 | Paper Summarizer | · | · | · | **1** | · | · | · | · | · | 1 |
 | Real Estate AI Agent | · | · | · | · | · | · | · | · | · | 0 |
 | CrewAI Flows FullStack | · | · | · | **4** | · | · | · | · | · | 4 |
-| Agent Audit | · | · | · | **26** | · | · | · | · | · | 26 |
-| Mengram | · | · | **2** | · | **2** | · | · | · | · | 4 |
+| Agent Audit | **1** | · | · | **26** | · | · | · | · | · | 27 |
+| Mengram | **9** | · | **2** | · | **2** | · | · | · | · | 13 |
 | Watsonx CrewAI | · | · | · | · | · | · | · | · | · | 0 |
 | FenixAI Trading Bot | · | · | **1** | · | · | · | · | · | · | 1 |
 | Jambo | · | · | · | · | · | · | · | · | · | 0 |
-| Aitino | · | · | · | · | · | · | · | · | · | 0 |
-| Awesome AI Agents HUB | · | · | · | · | · | · | · | · | · | 0 |
+| Aitino | **4** | · | · | · | · | · | · | · | · | 4 |
+| Awesome AI Agents HUB | **2** | · | · | · | · | · | · | · | · | 2 |
 | Workshop AI Agent | **7** | · | · | · | **5** | **3** | **4** | **2** | · | 21 |
-| Spotify Playlist (CrewAI) | · | · | · | · | · | · | · | · | · | 0 |
-| CrewAI Sheets UI | · | · | · | · | · | · | · | · | · | 0 |
-| AI Agents with CrewAI | · | · | · | · | · | · | · | · | · | 0 |
+| Spotify Playlist (CrewAI) | **1** | · | · | · | · | · | · | · | · | 1 |
+| CrewAI Sheets UI | **1** | · | · | · | · | · | · | · | · | 1 |
+| AI Agents with CrewAI | **2** | · | · | · | · | · | · | · | · | 2 |
 | AI Agile Team | · | · | · | · | · | · | · | · | · | 0 |
 | AI Agents (whyash) | — | — | — | — | — | — | — | — | — | — |
 | CrewAI Streamlit Demo | · | · | · | · | · | · | · | · | · | 0 |
-| Agent OS | · | · | **4** | **4** | · | · | · | · | · | 8 |
+| Agent OS | **23** | · | **4** | **4** | · | · | · | · | · | 31 |
 | Eval View | **2** | · | · | **4** | · | · | · | · | · | 6 |
 | Multi-Agents System from Scratch | · | · | · | · | · | · | · | · | · | 0 |
-| RAG Boilerplate | · | · | **1** | · | · | **3** | · | · | · | 4 |
+| RAG Boilerplate | **3** | · | **1** | · | · | **3** | · | **4** | · | 11 |
 | YouTube Yapper Trapper | · | · | · | **1** | · | · | · | · | · | 1 |
 | RoboCrew | **6** | · | · | · | · | · | · | · | · | 6 |
-| AISquare Studio QA | · | · | · | · | · | · | · | · | · | 0 |
+| AISquare Studio QA | **13** | · | · | · | · | · | · | · | · | 13 |
 | VN Stock Advisor | · | · | · | · | · | · | · | · | · | 0 |
 | ComfyUI-CrewAI | · | · | · | · | · | · | · | · | · | 0 |
-| TravelPlanner CrewAI | · | · | · | · | · | · | · | · | · | 0 |
-| Multi-Agent RAG Template | · | · | · | · | · | · | · | · | · | 0 |
-| Investment Agent (LangGraph+CrewAI) | · | · | · | · | · | · | · | · | · | 0 |
-| AI Agent Crew (Bitcoin) | **3** | · | · | · | **1** | **1** | · | · | · | 5 |
-| AI Trading Crew | · | · | · | · | · | · | · | · | · | 0 |
+| TravelPlanner CrewAI | **1** | · | · | · | · | · | · | · | · | 1 |
+| Multi-Agent RAG Template | · | · | · | · | · | · | · | **1** | · | 1 |
+| Investment Agent (LangGraph+CrewAI) | **4** | · | · | · | · | · | · | · | · | 4 |
+| AI Agent Crew (Bitcoin) | **3** | · | · | · | **2** | **2** | · | **1** | · | 8 |
+| AI Trading Crew | **5** | · | · | · | · | · | · | · | · | 5 |
 | Multi-AI-Agent Systems (CrewAI) | · | · | · | · | · | · | · | · | · | 0 |
 | Multi-AI-Agent Systems (ksm) | · | · | · | · | · | · | · | · | · | 0 |
-| CrewAI MCP | · | · | · | · | · | · | · | · | · | 0 |
-| Email Agent | · | · | · | · | · | · | · | · | · | 0 |
+| CrewAI MCP | **6** | · | · | · | · | · | · | · | · | 6 |
+| Email Agent | **42** | · | · | · | · | · | · | · | · | 42 |
 | Jira Tiger | · | · | · | · | · | · | · | · | · | 0 |
-| KAI | — | — | — | — | — | — | — | — | — | — |
+| KAI | **1** | · | · | · | · | · | · | · | · | 1 |
 | CrewAI Essay Writer | · | · | · | · | · | · | · | · | · | 0 |
 | LLM Agents Example | **4** | · | · | **1** | · | · | · | · | · | 5 |
 | Crew Llamafile | · | · | · | · | · | · | · | · | · | 0 |
 | Crew News | · | · | · | · | · | · | · | · | · | 0 |
 | CrewAI Multi-Agent (Financial) | · | · | · | · | **1** | **1** | · | · | · | 2 |
 | AI News Researcher & Blog Writer | · | · | · | · | · | · | · | · | · | 0 |
-| Multiagent Debugger | **1** | · | · | · | · | · | · | · | · | 1 |
+| Multiagent Debugger | **4** | · | · | · | · | · | · | · | · | 4 |
 | Personal Brand Team | · | · | · | · | · | · | · | · | · | 0 |
 | AgentFacts | · | · | · | · | · | · | · | · | · | 0 |
-| AI Book Writer | · | · | · | **2** | · | · | · | · | · | 2 |
+| AI Book Writer | **1** | · | · | **2** | · | · | · | · | · | 3 |
 | Smart Marketing Assistant | **1** | · | · | · | · | · | · | · | · | 1 |
-| Operagents | · | · | · | · | · | · | · | · | · | 0 |
-| ContextLoom | · | · | · | · | · | · | · | · | · | 0 |
+| Operagents | **3** | · | · | · | · | · | · | · | · | 3 |
+| ContextLoom | **3** | · | · | · | · | · | · | · | · | 3 |
 | Multi-Agent Travel Advisor | · | · | · | · | **2** | **2** | · | **1** | · | 5 |
-| CrewAI Qdrant Obsidian | · | · | · | · | · | · | · | · | · | 0 |
+| CrewAI Qdrant Obsidian | · | · | · | · | · | · | · | **1** | · | 1 |
 | Multi-Agent AI Newsletter | · | · | · | · | · | · | · | · | · | 0 |
 | PMO CrewAI | · | · | · | · | · | · | · | · | · | 0 |
-| CV Agents | · | · | · | · | · | · | · | · | · | 0 |
+| CV Agents | **2** | · | · | · | · | · | · | · | · | 2 |
 | Smart Nutritional App | · | · | · | · | · | · | · | · | · | 0 |
-| Crewlit | · | · | · | · | · | · | · | · | · | 0 |
+| Crewlit | **1** | · | · | · | · | · | · | · | · | 1 |
 | RAG-based AI Agents | · | · | · | · | · | · | · | · | · | 0 |
-| Healthcare Assistant | · | · | · | · | **1** | · | · | · | · | 1 |
-| Agent Kernel | · | · | · | **1** | · | · | · | · | · | 1 |
+| Healthcare Assistant | **2** | · | · | · | **1** | · | · | · | · | 3 |
+| Agent Kernel | **24** | · | · | **1** | · | · | · | · | · | 25 |
 | CrewAI Stock Trader | · | · | · | · | · | · | · | · | · | 0 |
 | Compliance Assistant (AWS) | · | · | · | **1** | · | · | · | · | · | 1 |
-| Kalibr SDK | · | · | · | · | · | · | · | · | · | 0 |
+| Kalibr SDK | **5** | · | · | · | · | · | · | · | · | 5 |
 | Coral AI | · | · | · | · | · | · | · | · | · | 0 |
-| Agentic Stock Analysis Crew | · | · | · | · | · | · | · | · | · | 0 |
+| Agentic Stock Analysis Crew | **1** | · | · | · | · | · | · | · | · | 1 |
 | Newsletter Agent | · | · | · | · | · | · | · | · | · | 0 |
 | Yaitec Hub Templates | **1** | · | · | · | **2** | · | · | · | · | 3 |
-| Agentic AI Projects | · | · | · | · | · | · | · | · | · | 0 |
-| BentoCrewAI | · | · | · | · | · | · | · | · | · | 0 |
+| Agentic AI Projects | **8** | · | · | · | · | · | · | · | · | 8 |
+| BentoCrewAI | **1** | · | · | · | · | · | · | · | · | 1 |
 | CrewAI Agentic Jira | · | · | · | · | · | · | · | · | · | 0 |
 | News AI Agents (Gemini) | · | · | · | · | · | · | · | · | · | 0 |
 | Python Coding Agent | **2** | · | · | · | · | · | · | · | · | 2 |
 | Market Research Agent | · | · | · | · | · | · | · | · | · | 0 |
 | Mistral Backlinker | · | · | · | · | · | · | · | · | · | 0 |
 | TaskForce | **1** | · | · | · | **1** | **1** | · | · | · | 3 |
-| Graphlit Tools | · | · | · | · | · | · | · | · | · | 0 |
-| InsAIts | · | · | **1** | **5** | · | · | · | · | · | 6 |
-| LangCrew | · | · | · | **1** | · | · | · | · | · | 1 |
+| Graphlit Tools | **4** | · | · | · | · | · | · | · | · | 4 |
+| InsAIts | **5** | · | **1** | **5** | · | · | · | · | · | 11 |
+| LangCrew | **22** | · | · | **1** | · | · | · | · | · | 23 |
 | PagePod | · | · | · | · | · | · | · | · | · | 0 |
 | Doctor Assist (CrewAI) | · | · | · | · | · | · | · | · | · | 0 |
 | CrewAI Projects (hmnajam) | **1** | · | · | **1** | · | · | · | · | · | 2 |
@@ -709,8 +726,8 @@ Based on automated path-based heuristic analysis of 2,001 findings (2026-03-21).
 | CrewAI Multi-Agent Debate | · | · | · | · | · | · | · | · | · | 0 |
 | MultiAgent CrewAI (Indicium) | · | · | · | · | · | · | · | · | · | 0 |
 | Investor Crew | · | · | · | · | · | · | · | · | · | 0 |
-| AIForge | · | · | · | · | · | · | · | · | · | 0 |
-| Prompt Maker | · | · | · | · | · | · | · | · | · | 0 |
+| AIForge | **18** | · | · | · | · | · | · | · | · | 18 |
+| Prompt Maker | **3** | · | · | · | · | · | · | · | · | 3 |
 | Awesome CrewAI (zinyando) | · | · | · | · | · | · | · | · | · | 0 |
 | 500 AI Agents Projects | · | · | · | · | · | · | · | · | · | 0 |
 | CrewAI Lab | · | · | · | · | · | · | · | · | · | 0 |
@@ -733,118 +750,3 @@ pip install -e ".[dev]"
 |---|---|---|
 | `MAX_PARALLEL` | 4 | Parallel git clone jobs |
 | `SCAN_TIMEOUT` | 300 | Per-project scan timeout (seconds) |
-
----
-
-## 17. Finding Quality Evaluation
-
-*Automated evaluation performed 2026-03-21 against 2,001 findings from 344 scanned projects.*
-
-### Comparison with Previous Run (2026-03-20)
-
-| Metric | Mar 20 (v0.1.0) | Mar 21 (v0.1.0) | Change |
-|---|---|---|---|
-| Projects registered | 107 | 349 | +242 |
-| Projects scanned | 107 | 344 | +237 |
-| Projects with findings | ~30 (28%) | 247 (72%) | +217 |
-| Total findings | 1,280 | 1,081 (report) | -15.5% (after dedup) |
-| CRITICAL | 147 | 68 | **-54%** |
-| HIGH | 526 | 493 | -6% |
-| Scan timeouts | unknown | 0 | Clean |
-
-### False Positive Rate by Rule
-
-Estimated via automated path-based heuristics (test/example/cookbook/library paths, registry/loader patterns).
-
-| Rule | Count | Est FP | FP% | Confidence |
-|---|---|---|---|---|
-| AW-MEM-001 | 217 | 0 | **0.0%** | High — was 100% FP before evidence-based classification |
-| AW-MEM-003 | 270 | 3 | 1.1% | Medium |
-| AW-SEC-001 | 203 | 8 | 3.9% | Medium — cookbook/example demo API keys |
-| AW-CFG-hardcoded-secret | 53 | 3 | 5.7% | Medium — .env.ci files, non-secret key names |
-| AW-SEC-003 | 84 | 10 | 11.9% | Medium — CLI/debug logging false positives |
-| **AW-SER-003** | **234** | **39** | **16.7%** | **High — registry/loader/plugin/utils patterns dominate** |
-| AW-SER-001 | 141 | 0 | 0.0% | Medium |
-| AW-RAG-001 | 145 | 0 | 0.0% | Medium |
-| AW-TOOL-004 | 156 | 0 | 0.0% | High — tool without description is objectively verifiable |
-| All other rules | 498 | 1 | 0.2% | Medium |
-| **OVERALL** | **2,001** | **64** | **3.2%** | |
-
-### CRITICAL Finding Distribution
-
-All 68 CRITICAL findings are concentrated in projects with confirmed multi-tenant web application patterns:
-
-| Project | CRIT | Total | Top Rules | Assessment |
-|---|---|---|---|---|
-| Langflow | 19 | 97 | MEM-001(21), RAG-001(11) | **TP** — multi-tenant web app with shared vector stores |
-| Agentic AI Systems | 14 | 83 | MEM-001(15), RAG-001(14) | **TP** — web-facing RAG pipelines |
-| LlamaHub | 14 | 108 | MEM-003(50), MEM-001(30) | **Needs review** — library code with many store integrations |
-| Langchain-Chatchat | 12 | 50 | MEM-001(15), RAG-001(10) | **TP** — multi-tenant knowledge base platform |
-| Vanna | 10 | 25 | MEM-001(10), MEM-003(5) | **TP** — shared SQL/vector store without isolation |
-| Others (15 projects) | 12 | — | Mixed | Mostly genuine, small counts |
-
-Zero CRITICAL in framework/library projects (CrewAI, AutoGen, MetaGPT, CAMEL, LangGraph) — correct behavior.
-
-### SER-003 FP Hotspots
-
-SER-003 (dynamic import with variable argument) remains the highest FP-rate rule. Projects where SER-003 dominates findings:
-
-| Project | SER-003 | Total | SER-003 % | Pattern |
-|---|---|---|---|---|
-| Open Interpreter | 5 | 6 | 83% | Plugin loader — **FP** |
-| aiforge-crewai | 7 | 9 | 78% | Extension loader — **FP** |
-| LangGraph | 7 | 10 | 70% | Core import utils — **FP** |
-| restai | 10 | 18 | 56% | Backend registry — **FP** |
-| AutoGen | 5 | 10 | 50% | Module loader — **FP** |
-| ModelScope Agent | 5 | 11 | 45% | Plugin system — **FP** |
-| Google ADK | 13 | 32 | 41% | Mixed — some TP, some FP |
-| DB-GPT | 7 | 18 | 39% | Plugin/component loader — **FP** |
-
-**Root cause:** These projects use well-constrained dynamic imports (registry lookups, plugin loaders with dotted prefixes, try/except guards) that are safe patterns. Four AST-local suppression heuristics would eliminate most:
-
-1. **f-string with constant prefix**: `f"myapp.backends.{name}"` — namespace-constrained
-2. **Config attribute access**: `settings.BACKEND_CLASS` — config-driven, not user input
-3. **try/except ImportError guard**: guarded imports that handle failure gracefully
-4. **Constant `.format()` pattern**: `"module.{}".format(name)` — equivalent to f-string
-
-### Zero-Finding Projects
-
-97 of 344 projects (28.2%) produced zero findings. Breakdown:
-
-| Category | Count | Reason |
-|---|---|---|
-| JavaScript/TypeScript only | ~30 | Flowise, AnythingLLM, Jan, LibreChat — no Python to scan |
-| No vector store / memory usage | ~25 | OpenAI Swarm, BabyAGI, ChatDev — pure agent logic |
-| Very small projects (<5 files) | ~20 | Minimal code, nothing to flag |
-| Clean implementations | ~15 | Canopy, Zep, GraphRAG — proper isolation in place |
-| Not cloned / scan error | 5 | Clone failures |
-
-Zero-finding rate for **vector-store projects**: estimated ~12% (vs OKR target of <10%).
-
-### Key Improvements Since Last Triage
-
-1. **MEM-001 FP: 100% → 0%** — Evidence-based classification (`IsolationEvidence` + `classify_isolation()`) correctly suppresses library code, single-user tools, per-collection isolation, and non-retrieval operations. Only multi-tenant web apps with shared collections get CRITICAL.
-
-2. **SEC-003 FP: 53% → 12%** — Content-reference check skips `len()`, `.attr`, method calls wrapping context variables.
-
-3. **CFG-hardcoded-secret FP: 75% → 6%** — Template files, placeholder prefixes, and non-secret key names are now excluded.
-
-4. **Detection coverage: 28% → 72%** — LlamaIndex and CrewAI adapters, vectorstore_direct detection, and expanded project registry.
-
-5. **CRITICAL precision: ~50% → ~95%** — CRITICAL findings now only fire when evidence confirms: shared collection + no filter + HTTP entry point.
-
-### Remaining Work
-
-| Priority | Issue | Impact | Fix |
-|---|---|---|---|
-| P1 | SER-003 FP at 16.7% | 39 false positives | 4 AST-local suppression heuristics (~40 LOC) |
-| P2 | SEC-003 FP at 11.9% | 10 false positives | Tighter content-reference detection |
-| P2 | Zero-finding rate 28% | Includes expected JS-only projects | Filter to Python-only for metric |
-| P3 | Report vs JSON count mismatch | 1,081 vs 2,001 | Investigate dedup/filter logic |
-| P3 | LlamaIndex timeout | Largest project not scanned | Increase timeout or optimize scanner |
-
-### Verdict
-
-**Overall estimated FP rate: 3.2%** — well under the 15% OKR target (KR1.5). The scanner produces actionable findings with high precision across 27 rules and 349 real-world projects. The primary remaining FP source (SER-003 at 16.7%) has a clear fix path that does not require interprocedural taint analysis.
-
-*Note: FP estimates are automated and conservative (path-based heuristics only). Manual triage of a random 100-finding sample is recommended before v1.0 release to validate these rates.*

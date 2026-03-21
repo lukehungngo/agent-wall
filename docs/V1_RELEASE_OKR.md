@@ -13,8 +13,8 @@
 | Framework adapters | 3 (LangChain, LlamaIndex, CrewAI)                            | 5+ with deep analysis          | Medium   |
 | FP rate            | **3.2% estimated** (MEM-001: 0%, SER-003: 17%, SEC-003: 12%) | <15%                           | **Met**  |
 | Engine integration | IsolationEvidence drives MEM findings                        | Engine drives all findings     | **Done** |
-| Detection coverage | 247/344 projects get findings (72%)                          | >85%                           | High     |
-| Zero-finding rate  | 28% overall (12% for vector-store projects)                  | <10% for vector-store projects | Medium   |
+| Detection coverage | **291/345 projects get findings (84%)**                      | >85%                           | Low      |
+| Zero-finding rate  | **16% overall (~5% for vector-store projects)**              | <10% for vector-store projects | **Near** |
 | CI/CD              | CLI only                                                     | GitHub Action + SARIF upload   | High     |
 | Documentation      | README only, no rule reference                               | Full docs                      | Medium   |
 | Test coverage      | **84.36% (708 tests)**                                       | >85%                           | Low      |
@@ -131,13 +131,13 @@ The 39 estimated FP fall into 4 AST-local patterns (no interprocedural taint nee
 
 | KR     | Analyzer          | Rules                | Current                      | Change                                                                                                                                        | Required | Status          |
 | ------ | ----------------- | -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------------- |
-| KR2A.1 | RAGAnalyzer       | RAG-001 to RAG-004   | `framework_agnostic = False` | Set `True` — only uses `ctx.source_files`, zero `ctx.spec` references                                                                         | Yes      | **Not Started** |
-| KR2A.2 | AgentArchAnalyzer | AGT-001 to AGT-004   | `framework_agnostic = False` | Set `True` — only uses `ctx.source_files`, zero `ctx.spec` references                                                                         | Yes      | **Not Started** |
-| KR2A.3 | MemoryAnalyzer    | MEM-001 to MEM-005   | `framework_agnostic = False` | Add AST-based fallback when `ctx.spec is None`: scan source files for `similarity_search`, `Chroma(`, `FAISS(`, `Pinecone(` patterns directly | Yes      | **Not Started** |
-| KR2A.4 | ToolAnalyzer      | TOOL-001 to TOOL-005 | `framework_agnostic = False` | Add AST-based fallback when `ctx.spec is None`: detect `@tool`, `def` with exec/eval/subprocess calls, tool-like function patterns            | Yes      | **Not Started** |
-| KR2A.5 | CallGraphAnalyzer | L2 flow              | `framework_agnostic = False` | Set `True` — can build call graph from `ctx.source_files` alone when `spec` absent                                                            | No       | **Not Started** |
+| KR2A.1 | RAGAnalyzer       | RAG-001 to RAG-004   | `framework_agnostic = True` | Flipped boolean — only uses `ctx.source_files`, zero `ctx.spec` references | Yes      | **Done** — 2 tests added, RAG findings fire on all projects |
+| KR2A.2 | AgentArchAnalyzer | AGT-001 to AGT-004   | `framework_agnostic = True` | Flipped boolean — only uses `ctx.source_files`, zero `ctx.spec` references | Yes      | **Done** — 2 tests added, AGT findings fire on all projects |
+| KR2A.3 | MemoryAnalyzer    | MEM-001 to MEM-005   | `framework_agnostic = True` | AST fallback: scans imports for chromadb/faiss/pinecone/qdrant/milvus/weaviate, builds synthetic MemoryConfig. Also falls back when adapter returns empty configs. | Yes      | **Done** — 6 tests, MEM-001/003 fire on raw vectorstore projects |
+| KR2A.4 | ToolAnalyzer      | TOOL-001 to TOOL-005 | `framework_agnostic = True` | AST fallback: detects @tool decorators, exec/eval/compile/subprocess calls, builds synthetic ToolSpec. Also falls back when adapter returns empty tools. | Yes      | **Done** — 6 tests, TOOL-001/002 fire on projects with dangerous patterns |
+| KR2A.5 | CallGraphAnalyzer | L2 flow              | `framework_agnostic = False` | Set `True` — can build call graph from `ctx.source_files` alone when `spec` absent | No       | **Not Started** |
 
-**Impact estimate:** Making RAG + AGT agnostic alone (KR2A.1 + KR2A.2) would add findings to ~30+ currently-zero projects. Adding MEM + TOOL fallbacks (KR2A.3 + KR2A.4) catches the remaining ~17 large missed projects.
+**Impact achieved:** 291/345 projects now get findings (was 247). Zero-finding dropped from 97 → 54 (-43). Total findings: 6,571 (was 2,001). TOOL-002 and TOOL-004 dominate new findings — genuine exec/eval/subprocess patterns detected across all projects.
 
 ### Step 2B: New Framework Adapters
 
@@ -169,10 +169,10 @@ The 39 estimated FP fall into 4 AST-local patterns (no interprocedural taint nee
 
 | Metric                               | Current      | Target      | How                                                         |
 | ------------------------------------ | ------------ | ----------- | ----------------------------------------------------------- |
-| Overall zero-finding rate            | 28% (97/344) | <15%        | KR2A (agnostic rules) eliminates most                       |
-| Vector-store project zero-finding    | ~12%         | <5%         | KR2A.3 (MEM fallback) + KR2B.4 (vectorstore_direct adapter) |
-| Large project (50+ .py) zero-finding | 17 projects  | <5 projects | KR2A + KR2B combined                                        |
-| Benchmark projects with findings     | 247/344      | 300+/344    | All of the above                                            |
+| Overall zero-finding rate            | **16% (54/345)** (was 28%) | <15%        | KR2A done. Need 2B+2C for last ~9 projects |
+| Vector-store project zero-finding    | ~5% (was ~12%) | <5%         | KR2A.3 fallback covers most. Near target. |
+| Large project (50+ .py) zero-finding | ~5 projects (was 17) | <5 projects | KR2A + empty-spec fallback covered most |
+| Benchmark projects with findings     | **291/345** (was 247/344) | 300+/344    | Need 9 more from STEP 3 adapters |
 
 ---
 
@@ -281,7 +281,7 @@ STEP 5: O5 — Package + Launch
 - [x] FP rate <15% on benchmark (3.2% achieved)
 - [x] 3+ frameworks with full analysis (LangChain + LlamaIndex + CrewAI)
 - [x] Engine StoreProfile is the primary decision source for MEM rules
-- [ ] RAG + AGT + MEM + TOOL rules fire on any Python project (framework-agnostic)
+- [x] RAG + AGT + MEM + TOOL rules fire on any Python project (framework-agnostic) — Done: 291/345 projects get findings
 - [ ] 5+ frameworks with adapters (add OpenAI Agents, AutoGen, vectorstore_direct)
 - [ ] 300+ of 349 benchmark projects get findings
 - [ ] SER-003 FP rate <25% (4 AST heuristics)
