@@ -149,6 +149,11 @@ def scan(
 
         ag_adapter = AutoGenAdapter()
         spec = ag_adapter.parse(target)
+    elif detected == "vectorstore_direct":
+        from agentwall.adapters.vectorstore_direct import VectorStoreDirectAdapter
+
+        vs_adapter = VectorStoreDirectAdapter()
+        spec = vs_adapter.parse(target)
     else:
         scan_warnings.append(
             f"Unsupported or undetected framework: {detected!r}. "
