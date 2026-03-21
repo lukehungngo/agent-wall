@@ -36,3 +36,11 @@ jobs:
 
       - name: Test (pytest)
         run: uv run pytest --cov
+
+      - name: Build package
+        run: uv run hatch build
+
+      - name: Verify package
+        run: |
+          pip install dist/*.whl
+          agentwall --help
