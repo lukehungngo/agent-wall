@@ -177,3 +177,43 @@ Auto-generated from `src/agentwall/rules.py`.
 - **Category:** agent
 - **Description:** LLM output is stored directly into agent memory or a vector store without validation. This enables memory poisoning (MemoryGraft) attacks.
 - **Fix:** Validate or sanitize LLM output before persisting to memory.
+
+## Configuration Rules (AW-CFG-*)
+
+*These rules are emitted by the L4 ConfigAuditor from infrastructure config files (docker-compose.yml, .env, etc.).*
+
+### AW-CFG-hardcoded-secret: Hardcoded secret in configuration
+- **Severity:** HIGH
+- **Category:** config
+- **Description:** A password, API key, or secret is hardcoded in a configuration file (docker-compose.yml, .env, etc.) rather than using environment variable references.
+- **Fix:** Use environment variable references (`${SECRET}`) instead of hardcoded values. Store secrets in a secrets manager.
+
+### AW-CFG-docker-no-auth: Docker service without authentication
+- **Severity:** HIGH
+- **Category:** config
+- **Description:** A vector database or service container is configured without authentication (no password, no API key, no auth token).
+- **Fix:** Enable authentication on all database and service containers. Use environment variables for credentials.
+
+### AW-CFG-auth-disabled: Authentication explicitly disabled
+- **Severity:** HIGH
+- **Category:** config
+- **Description:** Authentication is explicitly disabled in a service configuration (e.g., `auth_enabled: false`, `ANONYMOUS_ACCESS=true`).
+- **Fix:** Enable authentication. Remove or set auth flags to true/enabled.
+
+### AW-CFG-debug-mode: Debug mode enabled in production config
+- **Severity:** MEDIUM
+- **Category:** config
+- **Description:** Debug mode is enabled in a configuration file, which may expose sensitive information in error messages or logs.
+- **Fix:** Disable debug mode in production configurations.
+
+### AW-CFG-no-tls: Service without TLS/SSL encryption
+- **Severity:** MEDIUM
+- **Category:** config
+- **Description:** A service is configured without TLS/SSL encryption, exposing data in transit.
+- **Fix:** Enable TLS/SSL for all services handling sensitive data.
+
+### AW-CFG-no-password: Empty or missing service password
+- **Severity:** MEDIUM
+- **Category:** config
+- **Description:** A service password is empty, unset, or set to a default value.
+- **Fix:** Set a strong, unique password for each service.

@@ -25,6 +25,15 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Test before publish
+        run: uv run pytest -q --tb=short
+
+      - name: Lint before publish
+        run: uv run ruff check src/ tests/
+
       - name: Install hatch
         run: pip install hatch
 
