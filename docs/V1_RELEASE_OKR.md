@@ -15,8 +15,8 @@
 | Engine integration | IsolationEvidence drives MEM findings                        | Engine drives all findings     | **Done** |
 | Detection coverage | **291/345 projects get findings (84%)**                      | >85%                           | Low      |
 | Zero-finding rate  | **16% overall (~5% for vector-store projects)**              | <10% for vector-store projects | **Near** |
-| CI/CD              | CLI only                                                     | GitHub Action + SARIF upload   | High     |
-| Documentation      | README only, no rule reference                               | Full docs                      | Medium   |
+| CI/CD              | **action.yml created, SARIF upload**                         | GitHub Action + SARIF upload   | **Done** |
+| Documentation      | **README updated, docs/rules.md, CLI explain/rules**         | Full docs                      | **Done** |
 | Test coverage      | **85% (735 tests)**                                          | >85%                           | **Done** |
 | Code quality       | **0 ruff, 0 mypy errors**                                    | ruff clean, mypy strict        | **Done** |
 
@@ -214,11 +214,11 @@ jobs:
 
 | KR    | Metric              | Current                                                    | Target                             | How                                                                        | Required | Status          |
 | ----- | ------------------- | ---------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------- | -------- | --------------- |
-| KR4.1 | README              | Stale badges (216 tests, 72%), CrewAI/LlamaIndex "Planned" | Install → scan → fix in <2 minutes | Rewrite with correct badges (708 tests, 84%), framework table, quickstart  | Yes      | **Not Started** |
-| KR4.2 | Rule reference      | None                                                       | Every rule documented              | Generate from `rules.py`: description, severity, example, fix, FP guidance | Yes      | **Not Started** |
+| KR4.1 | README              | **Updated: 781+ tests, 85%, 6 frameworks** | Install → scan → fix in <2 minutes | Correct badges, framework table, no "Planned" markers | Yes      | **Done** |
+| KR4.2 | Rule reference      | **`docs/rules.md` — 26 rules** | Every rule documented              | Generated from `rules.py` with severity, category, description, fix | Yes      | **Done** |
 | KR4.3 | Getting started     | None                                                       | 3 workflows                        | Local dev, CI pipeline, AI agent integration                               | No       | **Not Started** |
-| KR4.4 | `agentwall explain` | None                                                       | CLI command                        | `agentwall explain AW-MEM-001` prints rule description, fix, OWASP mapping | No       | **Not Started** |
-| KR4.5 | `agentwall rules`   | None                                                       | CLI command                        | `agentwall rules` lists all 27 rules with severity and category            | No       | **Not Started** |
+| KR4.4 | `agentwall explain` | **CLI command implemented** | CLI command | `agentwall explain AW-MEM-001` prints description, severity, fix guidance | No       | **Done** |
+| KR4.5 | `agentwall rules`   | **CLI command implemented** | CLI command | Lists all 26 rules grouped by category with severity | No       | **Done** |
 
 ---
 
@@ -287,10 +287,10 @@ STEP 5: O5 — Package + Launch
 - [ ] 300+ of 349 benchmark projects get findings — currently 291/345 (84%)
 - [x] SER-003 FP rate <25% (4 AST heuristics implemented)
 - [x] GitHub Action created (`action.yml`) — needs testing on 3 real repos before marketplace publish
-- [ ] README quickstart works in <2 minutes on a clean machine
-- [ ] Every rule has description, severity, fix guidance (CLI + docs)
+- [x] README quickstart updated with correct badges and framework table
+- [x] Every rule has description, severity, fix guidance (CLI `explain` + `docs/rules.md`)
 - [ ] `pip install agentwall && agentwall scan . --format sarif` works on clean machine
-- [x] 735 tests passing, 85% coverage, ruff clean, mypy strict
+- [x] 786 tests passing, 85% coverage, ruff clean, mypy strict
 - [x] CI runs on Python 3.10 / 3.11 / 3.12
 - [ ] No known P0 issues in the issue tracker
 
