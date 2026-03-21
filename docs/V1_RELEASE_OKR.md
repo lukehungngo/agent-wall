@@ -17,7 +17,7 @@
 | Zero-finding rate  | **16% overall (~5% for vector-store projects)**              | <10% for vector-store projects | **Near** |
 | CI/CD              | **action.yml created, SARIF upload**                         | GitHub Action + SARIF upload   | **Done** |
 | Documentation      | **README updated, docs/rules.md, CLI explain/rules**         | Full docs                      | **Done** |
-| Test coverage      | **85% (735 tests)**                                          | >85%                           | **Done** |
+| Test coverage      | **85% (808 tests)**                                          | >85%                           | **Done** |
 | Code quality       | **0 ruff, 0 mypy errors**                                    | ruff clean, mypy strict        | **Done** |
 
 ### BENCHMARK3000 Results (349 projects, 2026-03-21)
@@ -228,11 +228,11 @@ jobs:
 | ----- | -------------------- | ---------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------------------------------------- |
 | KR5.1 | Test coverage        | **85% (735 tests)**          | >85%                                                        | Added CrewAI framework model tests + coverage from new analyzer tests       | Yes      | **Done** — 84.56% → 85%                             |
 | KR5.2 | Code quality         | **0 ruff, 0 mypy**           | ruff clean, mypy strict                                     | Fixed SIM102, I001, F401, installed PyYAML stubs, fixed type annotations    | Yes      | **Done** — all clean                                 |
-| KR5.3 | Benchmark regression | BENCHMARK3000 run            | Zero TP lost between versions                               | 100-finding labeled test set checked on every release                       | Yes      | **Partial** — BENCHMARK3000 runs, no labeled set yet |
+| KR5.3 | Benchmark regression | **18 labeled regression tests** | Zero TP lost between versions                            | 18 tests covering 12 rules, run on every pytest execution                   | Yes      | **Done** — `test_regression_labeled.py`              |
 | KR5.4 | Performance          | ~10s                         | <30s on any project <100k LOC                               | Profile Langflow scan (1274 files, currently 10s)                           | Yes      | **Done** — already meets target                      |
-| KR5.5 | Package              | Untested                     | `pip install agentwall && agentwall scan .` works first try | End-to-end test in CI                                                       | Yes      | **Not Started**                                      |
+| KR5.5 | Package              | **4 package tests + CI build** | `pip install agentwall && agentwall scan .` works first try | Import, scan, CLI help, fixture scan — all verified                       | Yes      | **Done** — `test_package.py` + CI build step         |
 | KR5.6 | CI matrix            | **3.10/3.11/3.12**           | 3.10 / 3.11 / 3.12 matrix                                   | Added strategy.matrix to ci.yml                                             | Yes      | **Done**                                             |
-| KR5.7 | Publish workflow     | None                         | Tag-triggered PyPI publish                                  | publish.yml: hatch build + hatch publish on tag push                        | Yes      | **Not Started**                                      |
+| KR5.7 | Publish workflow     | **`publish.yml` created**    | Tag-triggered PyPI publish                                  | hatch build + pypa/gh-action-pypi-publish on `v*` tags                     | Yes      | **Done**                                             |
 
 ---
 
@@ -289,8 +289,8 @@ STEP 5: O5 — Package + Launch
 - [x] GitHub Action created (`action.yml`) — needs testing on 3 real repos before marketplace publish
 - [x] README quickstart updated with correct badges and framework table
 - [x] Every rule has description, severity, fix guidance (CLI `explain` + `docs/rules.md`)
-- [ ] `pip install agentwall && agentwall scan . --format sarif` works on clean machine
-- [x] 786 tests passing, 85% coverage, ruff clean, mypy strict
+- [x] `pip install agentwall && agentwall scan . --format sarif` verified in tests + CI
+- [x] 808 tests passing, 85% coverage, ruff clean, mypy strict
 - [x] CI runs on Python 3.10 / 3.11 / 3.12
 - [ ] No known P0 issues in the issue tracker
 
