@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AgentWall Benchmark 3000 — comprehensive scan of 300+ AI agent projects
+# AgentWall Benchmark 3000 — comprehensive scan of 326 AI agent projects
 # Usage: ./scripts/benchmark3000.sh [targets_dir] [results_dir]
 # macOS: brew install bash coreutils && /opt/homebrew/bin/bash scripts/benchmark3000.sh
 #
@@ -95,8 +95,9 @@ reg rasagpt "https://github.com/paulpierre/RasaGPT.git" \
     "RasaGPT" "~2.4k" "tier1-langchain"
 reg langflow "https://github.com/langflow-ai/langflow.git" \
     "Langflow" "~48k" "tier1-langchain"
-reg flowise "https://github.com/FlowiseAI/Flowise.git" \
-    "Flowise" "~35k" "tier1-langchain"
+# REMOVED: JS-only project
+# reg flowise "https://github.com/FlowiseAI/Flowise.git" \
+#     "Flowise" "~35k" "tier1-langchain"
 reg open-interpreter "https://github.com/OpenInterpreter/open-interpreter.git" \
     "Open Interpreter" "~58k" "tier1-langchain"
 reg chainlit "https://github.com/Chainlit/chainlit.git" \
@@ -226,12 +227,14 @@ reg zep "https://github.com/getzep/zep.git" \
 
 reg open-webui "https://github.com/open-webui/open-webui.git" \
     "Open WebUI" "~124k" "chatbot-assistant"
-reg librechat "https://github.com/danny-avila/LibreChat.git" \
-    "LibreChat" "~30k" "chatbot-assistant"
+# REMOVED: tiny, no AI
+# reg librechat "https://github.com/danny-avila/LibreChat.git" \
+#     "LibreChat" "~30k" "chatbot-assistant"
 reg khoj "https://github.com/khoj-ai/khoj.git" \
     "Khoj" "~33k" "chatbot-assistant"
-reg anything-llm "https://github.com/Mintplex-Labs/anything-llm.git" \
-    "AnythingLLM" "~35k" "chatbot-assistant"
+# REMOVED: JS-only project
+# reg anything-llm "https://github.com/Mintplex-Labs/anything-llm.git" \
+#     "AnythingLLM" "~35k" "chatbot-assistant"
 reg py-gpt "https://github.com/szczyglis-dev/py-gpt.git" \
     "PyGPT" "~3k" "chatbot-assistant"
 reg jan "https://github.com/janhq/jan.git" \
@@ -426,14 +429,18 @@ reg llamaindex-ollama-chainlit "https://github.com/rauni-iitr/llamaindex_ollama_
     "LlamaIndex Ollama Chainlit" "~20" "llamaindex-chatbot"
 reg ragindex "https://github.com/rigvedrs/RAGIndex.git" \
     "RAGIndex" "~12" "llamaindex-chatbot"
-reg rag-application-llamaindex "https://github.com/VaradDeshmukh97/rag-application-with-llamaindex.git" \
-    "RAG Application (LlamaIndex)" "~10" "llamaindex-chatbot"
-reg llamaindex-with-llama2 "https://github.com/prashant022/LlamaIndex-with-Llama2.git" \
-    "LlamaIndex-with-Llama2" "~20" "llamaindex-chatbot"
-reg sql-agent-llamaindex "https://github.com/m13v/sql_agent_llamaindex.git" \
-    "SQL Agent LlamaIndex" "~15" "llamaindex-chatbot"
-reg llamaindex-knowledge-graph "https://github.com/hasanmehmood/llamaindex-knowledge-graph.git" \
-    "LlamaIndex Knowledge Graph" "~15" "llamaindex-chatbot"
+# REMOVED: tiny with AI (<3 .py files)
+# reg rag-application-llamaindex "https://github.com/VaradDeshmukh97/rag-application-with-llamaindex.git" \
+#     "RAG Application (LlamaIndex)" "~10" "llamaindex-chatbot"
+# REMOVED: tiny, no AI
+# reg llamaindex-with-llama2 "https://github.com/prashant022/LlamaIndex-with-Llama2.git" \
+#     "LlamaIndex-with-Llama2" "~20" "llamaindex-chatbot"
+# REMOVED: tiny, no AI
+# reg sql-agent-llamaindex "https://github.com/m13v/sql_agent_llamaindex.git" \
+#     "SQL Agent LlamaIndex" "~15" "llamaindex-chatbot"
+# REMOVED: tiny, no AI
+# reg llamaindex-knowledge-graph "https://github.com/hasanmehmood/llamaindex-knowledge-graph.git" \
+#     "LlamaIndex Knowledge Graph" "~15" "llamaindex-chatbot"
 reg llamaindex-agent-swastik "https://github.com/swastikmaiti/LlamaIndex-Agent.git" \
     "LlamaIndex Agent (Swastik)" "~10" "llamaindex-chatbot"
 reg azure-llamaindex "https://github.com/Azure-Samples/llama-index-python.git" \
@@ -529,12 +536,14 @@ reg llama-index-zoom "https://github.com/TuanaCelik/llama_index_zoom_assistant.g
     "LlamaIndex Zoom Assistant" "~15" "llamaindex-small"
 reg llamaindex-retrieval-api "https://github.com/Haste171/llamaindex-retrieval-api.git" \
     "LlamaIndex Retrieval API" "~14" "llamaindex-small"
-reg multimodal-rag-plugin "https://github.com/jacobmarks/fiftyone-multimodal-rag-plugin.git" \
-    "Multimodal RAG Plugin" "~21" "llamaindex-small"
+# REMOVED: tiny with AI (<3 .py files)
+# reg multimodal-rag-plugin "https://github.com/jacobmarks/fiftyone-multimodal-rag-plugin.git" \
+#     "Multimodal RAG Plugin" "~21" "llamaindex-small"
 reg chatgpt-custom-knowledge "https://github.com/robindekoster/chatgpt-custom-knowledge-chatbot.git" \
     "ChatGPT Custom Knowledge" "~136" "llamaindex-small"
-reg chatpdf-llamaindex "https://github.com/gabacode/chatPDF.git" \
-    "chatPDF" "~101" "llamaindex-small"
+# REMOVED: tiny with AI (<3 .py files)
+# reg chatpdf-llamaindex "https://github.com/gabacode/chatPDF.git" \
+#     "chatPDF" "~101" "llamaindex-small"
 reg smart-llm-loader "https://github.com/drmingler/smart-llm-loader.git" \
     "Smart LLM Loader" "~75" "llamaindex-small"
 reg chatgpt-longterm-memory "https://github.com/ElmiraGhorbani/chatgpt-long-term-memory.git" \
@@ -553,8 +562,9 @@ reg streaming-llm-chat "https://github.com/mickymultani/Streaming-LLM-Chat.git" 
     "Streaming LLM Chat" "~25" "llamaindex-small"
 reg docs-n-data "https://github.com/asehmi/docs-n-data-knowledge-app.git" \
     "Docs-n-Data Knowledge App" "~24" "llamaindex-small"
-reg llamaindex-flask-demo "https://github.com/mewmix/llama-index-flask-demo.git" \
-    "LlamaIndex Flask Demo" "~22" "llamaindex-small"
+# REMOVED: tiny with AI (<3 .py files)
+# reg llamaindex-flask-demo "https://github.com/mewmix/llama-index-flask-demo.git" \
+#     "LlamaIndex Flask Demo" "~22" "llamaindex-small"
 reg agenticaicoach-li "https://github.com/Agentic-AI-Coach/AgenticAICoach.git" \
     "AgenticAI Coach" "~22" "llamaindex-small"
 reg geminsights "https://github.com/izam-mohammed/GemInsights.git" \
@@ -604,8 +614,9 @@ reg crewai-examples "https://github.com/crewAIInc/crewAI-examples.git" \
     "CrewAI Examples" "~3k" "crewai"
 reg crewai-tools "https://github.com/crewAIInc/crewAI-tools.git" \
     "CrewAI Tools" "~1.4k" "crewai"
-reg awesome-crewai "https://github.com/crewAIInc/awesome-crewai.git" \
-    "Awesome CrewAI" "~500" "crewai"
+# REMOVED: tiny, no AI
+# reg awesome-crewai "https://github.com/crewAIInc/awesome-crewai.git" \
+#     "Awesome CrewAI" "~500" "crewai"
 
 # ── CrewAI: High-Star Applications ──────────────────────────────────────
 
@@ -625,8 +636,9 @@ reg upsonic-tiger "https://github.com/Upsonic/Tiger.git" \
     "Tiger (Upsonic)" "~465" "crewai-app"
 reg easy-investment-agent "https://github.com/liangdabiao/easy_investment_Agent_crewai.git" \
     "Easy Investment Agent" "~383" "crewai-app"
-reg claude-data-analysis "https://github.com/liangdabiao/claude-data-analysis.git" \
-    "Claude Data Analysis" "~346" "crewai-app"
+# REMOVED: tiny, no AI
+# reg claude-data-analysis "https://github.com/liangdabiao/claude-data-analysis.git" \
+#     "Claude Data Analysis" "~346" "crewai-app"
 reg devyan "https://github.com/theyashwanthsai/Devyan.git" \
     "Devyan" "~290" "crewai-app"
 reg openplexity-pages "https://github.com/alexfazio/OpenPlexity-Pages.git" \
@@ -658,20 +670,23 @@ reg trip-planner-agent "https://github.com/tonykipkemboi/trip_planner_agent.git"
     "Trip Planner Agent" "~139" "crewai-workflow"
 reg paper-summarizer "https://github.com/zhangleino1/paper-summarizer.git" \
     "Paper Summarizer" "~126" "crewai-workflow"
-reg real-estate-ai-agent "https://github.com/brightdata/real-estate-ai-agent.git" \
-    "Real Estate AI Agent" "~121" "crewai-workflow"
+# REMOVED: tiny with AI (<3 .py files)
+# reg real-estate-ai-agent "https://github.com/brightdata/real-estate-ai-agent.git" \
+#     "Real Estate AI Agent" "~121" "crewai-workflow"
 reg crewai-flows-fullstack "https://github.com/NanGePlus/CrewAIFlowsFullStack.git" \
     "CrewAI Flows FullStack" "~119" "crewai-workflow"
 reg agent-audit "https://github.com/HeadyZhang/agent-audit.git" \
     "Agent Audit" "~117" "crewai-workflow"
 reg mengram "https://github.com/alibaizhanov/mengram.git" \
     "Mengram" "~112" "crewai-workflow"
-reg nicknochnack-watsonx "https://github.com/nicknochnack/WatsonxCrewAI.git" \
-    "Watsonx CrewAI" "~100" "crewai-workflow"
+# REMOVED: tiny with AI (<3 .py files)
+# reg nicknochnack-watsonx "https://github.com/nicknochnack/WatsonxCrewAI.git" \
+#     "Watsonx CrewAI" "~100" "crewai-workflow"
 reg fenixai-tradingbot "https://github.com/Ganador1/FenixAI_tradingBot.git" \
     "FenixAI Trading Bot" "~99" "crewai-workflow"
-reg jambo-crewai "https://github.com/HideyoshiNakazone/jambo.git" \
-    "Jambo" "~93" "crewai-workflow"
+# REMOVED: no AI patterns
+# reg jambo-crewai "https://github.com/HideyoshiNakazone/jambo.git" \
+#     "Jambo" "~93" "crewai-workflow"
 reg aitino "https://github.com/startino/aitino.git" \
     "Aitino" "~91" "crewai-workflow"
 reg awesome-ai-agents-hub "https://github.com/OneDuckyBoy/Awesome-AI-Agents-HUB-for-CrewAI.git" \
@@ -687,8 +702,9 @@ reg crewai-sheets-ui "https://github.com/yuriwa/crewai-sheets-ui.git" \
     "CrewAI Sheets UI" "~76" "crewai-multiagent"
 reg custom-build-crewai "https://github.com/custom-build-robots/ai-agents-with-CrewAI.git" \
     "AI Agents with CrewAI" "~73" "crewai-multiagent"
-reg ai-agile-team "https://github.com/jeanjerome/ai-agile-team.git" \
-    "AI Agile Team" "~70" "crewai-multiagent"
+# REMOVED: tiny with AI (<3 .py files)
+# reg ai-agile-team "https://github.com/jeanjerome/ai-agile-team.git" \
+#     "AI Agile Team" "~70" "crewai-multiagent"
 reg ai-agents-whyash "https://github.com/whyashthakker/ai-agents.git" \
     "AI Agents (whyash)" "~69" "crewai-multiagent"
 reg crewai-streamlit-demo "https://github.com/tonykipkemboi/crewai-streamlit-demo.git" \
@@ -721,10 +737,12 @@ reg aibtcdev-crew "https://github.com/aibtcdev/ai-agent-crew.git" \
     "AI Agent Crew (Bitcoin)" "~47" "crewai-multiagent"
 reg philippe-aitrading "https://github.com/philippe-ostiguy/AITradingCrew.git" \
     "AI Trading Crew" "~47" "crewai-multiagent"
-reg akj-multi-ai-crewai "https://github.com/akj2018/Multi-AI-Agent-Systems-with-crewAI.git" \
-    "Multi-AI-Agent Systems (CrewAI)" "~50" "crewai-multiagent"
-reg ksm-multi-ai-crewai "https://github.com/ksm26/Multi-AI-Agent-Systems-with-crewAI.git" \
-    "Multi-AI-Agent Systems (ksm)" "~30" "crewai-multiagent"
+# REMOVED: tiny, no AI
+# reg akj-multi-ai-crewai "https://github.com/akj2018/Multi-AI-Agent-Systems-with-crewAI.git" \
+#     "Multi-AI-Agent Systems (CrewAI)" "~50" "crewai-multiagent"
+# REMOVED: tiny, no AI
+# reg ksm-multi-ai-crewai "https://github.com/ksm26/Multi-AI-Agent-Systems-with-crewAI.git" \
+#     "Multi-AI-Agent Systems (ksm)" "~30" "crewai-multiagent"
 
 # ── CrewAI: Small/Niche ─────────────────────────────────────────────────
 
@@ -768,16 +786,18 @@ reg qdrant-crewai-obsidian "https://github.com/qdrant/webinar-crewai-qdrant-obsi
     "CrewAI Qdrant Obsidian" "~29" "crewai-small"
 reg multi-agent-newsletter "https://github.com/felixggj/multi-agent-ai-newsletter.git" \
     "Multi-Agent AI Newsletter" "~28" "crewai-small"
-reg ai-in-pm-pmo "https://github.com/ai-in-pm/PMO-CrewAI.git" \
-    "PMO CrewAI" "~28" "crewai-small"
+# REMOVED: tiny with AI (<3 .py files)
+# reg ai-in-pm-pmo "https://github.com/ai-in-pm/PMO-CrewAI.git" \
+#     "PMO CrewAI" "~28" "crewai-small"
 reg cv-agents "https://github.com/0xrushi/cv-agents.git" \
     "CV Agents" "~27" "crewai-small"
 reg smart-nutritional "https://github.com/HaileyTQuach/Smart-Nutritional-App.git" \
     "Smart Nutritional App" "~26" "crewai-small"
 reg alexnodeland-crewlit "https://github.com/alexnodeland/crewlit.git" \
     "Crewlit" "~26" "crewai-small"
-reg maryam-rag-agents "https://github.com/Maryam-Nasseri/RAG-based-AI-Agents.git" \
-    "RAG-based AI Agents" "~25" "crewai-small"
+# REMOVED: tiny with AI (<3 .py files)
+# reg maryam-rag-agents "https://github.com/Maryam-Nasseri/RAG-based-AI-Agents.git" \
+#     "RAG-based AI Agents" "~25" "crewai-small"
 reg healthcare-assistant "https://github.com/Dharm3438/Healthcare-Assistant.git" \
     "Healthcare Assistant" "~25" "crewai-small"
 reg yaalalabs-agent-kernel "https://github.com/yaalalabs/agent-kernel.git" \
@@ -836,12 +856,15 @@ reg aiforge-crewai "https://github.com/iniwap/AIForge.git" \
     "AIForge" "~48" "crewai-small"
 reg prompt-maker "https://github.com/adamjen/Prompt_Maker.git" \
     "Prompt Maker" "~46" "crewai-small"
-reg zinyando-awesome-crewai "https://github.com/zinyando/awesome-crewai.git" \
-    "Awesome CrewAI (zinyando)" "~15" "crewai-small"
-reg 500-ai-agents "https://github.com/ashishpatel26/500-AI-Agents-Projects.git" \
-    "500 AI Agents Projects" "~100" "crewai-small"
-reg harehimself-crewai-lab "https://github.com/harehimself/crewai-lab.git" \
-    "CrewAI Lab" "~9" "crewai-small"
+# REMOVED: tiny, no AI
+# reg zinyando-awesome-crewai "https://github.com/zinyando/awesome-crewai.git" \
+#     "Awesome CrewAI (zinyando)" "~15" "crewai-small"
+# REMOVED: tiny, no AI
+# reg 500-ai-agents "https://github.com/ashishpatel26/500-AI-Agents-Projects.git" \
+#     "500 AI Agents Projects" "~100" "crewai-small"
+# REMOVED: tiny with AI (<3 .py files)
+# reg harehimself-crewai-lab "https://github.com/harehimself/crewai-lab.git" \
+#     "CrewAI Lab" "~9" "crewai-small"
 reg billy-crewai-research "https://github.com/billy-enrizky/crewai-research-assistant.git" \
     "CrewAI Research Assistant" "~8" "crewai-small"
 
