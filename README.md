@@ -25,7 +25,7 @@
   <img src="https://img.shields.io/badge/pypi-v0.1.0-blue?style=flat-square" alt="PyPI version">
   <img src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue?style=flat-square" alt="Python versions">
   <a href="https://github.com/lukehungngo/agentwall/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
-  <img src="https://img.shields.io/badge/tests-781%2B%20passing-brightgreen?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/tests-808%2B%20passing-brightgreen?style=flat-square" alt="Tests">
   <img src="https://img.shields.io/badge/coverage-85%25-brightgreen?style=flat-square" alt="Coverage">
 </p>
 
@@ -394,7 +394,7 @@ AgentWall covers 10 of the 28 cataloged attack vectors through static analysis. 
 
 ### Where We Are Today (v0.x) ✅
 
-Core static scanner with 6 framework adapters (LangChain, CrewAI, AutoGen, LlamaIndex, OpenAI Agents SDK, direct vectorstore). 9 analysis layers (L0–L8), 26 detection rules across 7 categories, 5 output formats (terminal, JSON, SARIF, agent-json, patch). 781+ tests at 85% coverage, benchmark across 20 real-world projects (12/20 have confirmed issues). Inter-procedural call graph, config auditing, Semgrep rules, LLM confidence scoring — all shipped. CLI commands: `scan`, `verify`, `rules`, `explain`.
+Core static scanner with 6 framework adapters (LangChain, CrewAI, AutoGen, LlamaIndex, OpenAI Agents SDK, direct vectorstore). 9 analysis layers (L0–L8), 26 detection rules across 7 categories, 5 output formats (terminal, JSON, SARIF, agent-json, patch). 808+ tests at 85% coverage, benchmark across 20 real-world projects (12/20 have confirmed issues). Inter-procedural call graph, config auditing, Semgrep rules, LLM confidence scoring — all shipped. CLI commands: `scan`, `verify`, `rules`, `explain`.
 
 **The v0.x releases establish the foundation. What follows is the full vision for AgentWall as the definitive security layer for every AI agent ever shipped.**
 

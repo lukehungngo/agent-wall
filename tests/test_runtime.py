@@ -29,7 +29,7 @@ class TestRuntimeReport:
         assert len(findings) == 1
         assert findings[0].rule_id == "AW-MEM-001"
         assert findings[0].layer == "L7"
-        assert findings[0].severity.value == "critical"
+        assert findings[0].severity.value == "high"
 
     def test_multiple_violations(self) -> None:
         violations = [

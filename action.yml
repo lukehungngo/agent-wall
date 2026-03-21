@@ -65,11 +65,15 @@ runs:
       run: pip install agentwall
     - name: Run scan
       shell: bash
+      env:
+        SCAN_PATH: ${{ inputs.path }}
+        SCAN_FORMAT: ${{ inputs.format }}
+        SCAN_FAIL_ON: ${{ inputs.fail-on }}
       run: |
-        agentwall scan ${{ inputs.path }} \
-          --format ${{ inputs.format }} \
-          --fail-on ${{ inputs.fail-on }} \
-          --output agentwall-results.${{ inputs.format == 'sarif' && 'sarif' || 'json' }}
+        agentwall scan "$SCAN_PATH" \
+          --format "$SCAN_FORMAT" \
+          --fail-on "$SCAN_FAIL_ON" \
+          --output "agentwall-results.${SCAN_FORMAT}"
       continue-on-error: true
     - name: Upload SARIF
       if: inputs.upload-sarif == 'true' && inputs.format == 'sarif'

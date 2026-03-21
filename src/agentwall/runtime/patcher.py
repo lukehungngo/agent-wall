@@ -75,12 +75,12 @@ class RuntimeReport:
                 Finding(
                     rule_id="AW-MEM-001",
                     title=f"Runtime: unfiltered {v.method}() call",
-                    severity=Severity.CRITICAL,
+                    severity=Severity.HIGH,
                     category=Category.MEMORY,
                     description=(
                         f"At runtime, {v.method}() was called without a filter kwarg "
-                        f"at {v.file}:{v.line}. This is a confirmed cross-tenant "
-                        "data leakage vector."
+                        f"at {v.file}:{v.line}. Unfiltered retrieval detected — "
+                        "verify multi-tenant context before escalating to CRITICAL."
                     ),
                     file=Path(v.file) if v.file != "<unknown>" else None,
                     line=v.line if v.line > 0 else None,

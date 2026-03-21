@@ -261,7 +261,7 @@ class TaintAnalyzer:
                     Finding(
                         rule_id="AW-MEM-001",
                         title="User identity does not reach retrieval filter",
-                        severity=Severity.CRITICAL,
+                        severity=Severity.HIGH,
                         category=Category.MEMORY,
                         description=(
                             f"User identity from '{flow.source.name}' "
@@ -286,7 +286,7 @@ class TaintAnalyzer:
                         Finding(
                             rule_id="AW-MEM-001",
                             title="User identity available but no filter sink found",
-                            severity=Severity.CRITICAL,
+                            severity=Severity.HIGH,
                             category=Category.MEMORY,
                             description=(
                                 "User identity sources detected but no retrieval filter "
